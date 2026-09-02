@@ -295,6 +295,13 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
 .pf-avatar{width:84px;height:84px;border-radius:50%;object-fit:cover;background:#fff;box-shadow:0 8px 22px rgba(124,58,237,.3);padding:3px;cursor:pointer;display:block}
 .pf-avatar-edit{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);background:rgba(20,18,40,.8);color:#fff;font-size:10px;border-radius:999px;padding:1px 8px;white-space:nowrap;pointer-events:none}
 
+
+.pp{max-height:340px;overflow:auto}
+.pp img{height:170px}
+.pthumb{height:150px}
+.clog-more{display:none}
+#clog-toggle{width:100%;margin-top:4px}
+
 </style>
 </head>
 <body>
@@ -598,6 +605,32 @@ var CAMPUSES={
   ]}
 };
 
+
+/* ===== 桌面文案 + 高清照片（古镇口西区） ===== */
+var GZCOPY={
+ 'gz-library':{desc:'求是图书馆建筑面积4.9万平方米，阅览座位约3500座，建筑6层。外墙整体铝板幕墙+玻璃幕墙，折叠型竖向分隔，像一本书徐徐展开；室内东西打通视线通廊，向东看海、向西望山，中庭垂拔空间弧线贯通到顶、屋面采光窗，三层有观海平台。一层展览展示区、阶梯学习区、密集书库；二层电子阅览区、特色阅览区、新书展示区；三层休读区、阅览区、悦享空间；四层五层休读区、阅览区、研讨区；六层行政办公与研讨、数字创意空间等。',tip:'观海平台是拍照绝佳机位。',photos:['images/desk/求是图书馆.jpg','images/desk/求是图书馆1.jpg']},
+ 'gz-weizhen':{desc:'惟真楼建筑面积2.8万平方米，主要包括石油工业训练中心和机电工程学院，含教学科研实验室200多间及学院办公用房。其中石油工业训练中心1.7万平方米、机电工程学院1.1万平方米。建筑南侧5层、北侧7层；石油工业训练中心首层为2400平方米科研实验区，设单独出入口。',tip:'与惟实楼以廊架相连，惟真四层向东连惟实五层。',photos:['images/desk/惟真楼.jpg','images/desk/惟真楼1.jpg']},
+ 'gz-weishi':{desc:'惟实楼建筑面积6.8万平方米，南侧6层、北侧U字形部分7层，主要包括化学化工学院、材料科学与工程学院、石大山能新能源学院、海洋与空间信息学院及公共教学空间，含教学实验室280多间，东侧为学院办公用房。惟真、惟实两楼间有廊架联系，体块方正、穿插感强，兼具理工严谨与建筑美育。',photos:['images/desk/惟实楼.jpg','images/desk/惟实楼1.jpg']},
+ 'gz-teaching':{desc:'卓越教学楼建筑面积7万平方米（地上5.5万、地下1.5万），地上5层，总座位约1.64万、教室204间，全楼风机盘管+新风空调，是学校目前规模最大的教学楼。分A、B两栋错落衔接，A栋1、3层分别连通B栋3、5层，顶部层层退台，交通流线像莫比乌斯环般贯通循环，寓意孜孜不倦的求学精神。含弧型教室、全景教室、研讨型教室、美育教室、多媒体机房、大阶梯教室等；B栋东侧1-4层为教师办公室。',tip:'教室类型多，先看清楼号楼层再出发。',photos:['images/desk/卓越教学楼.jpg','images/desk/卓越教学楼1.jpg']},
+ 'gz-ling':{desc:'灵山湾餐厅建筑面积1.1万平方米，共四层，1-3层大厅总座位约1600个。除就餐外还含超市、打印、美容美发等服务功能；三层设教工餐厅与包间。就餐区宽敞明亮、看海景观好，主要服务研究生一号楼及部分教师。',photos:['images/desk/灵山湾餐厅.jpg','images/desk/灵山湾餐厅1.jpg']},
+ 'gz-zhu':{desc:'珠山餐厅总建筑面积2万平方米，餐厅约1.38万平方米、3层、3070座（一层888、二层1006、三层1176），内设风味餐厅，满足本科生就餐需求。另含4层活动中心0.6万平方米：千人大演艺厅、合唱舞蹈排练室、学生会、新媒体工作室、创客中心与心理咨询室。',tip:'紧邻宿舍与教学楼，动线方便。',photos:['images/desk/珠山餐厅.jpg','images/desk/珠山餐厅1.jpg']},
+ 'gz-track':{desc:'红旗操场分体育场与运动场。体育场造型流线动感，看台共2866人（普通2800、贵宾66）；室外为标准田径场，草坪与胶粒材质国内领先，可承办国内大学生田径及足球比赛，另有1块105m×68m人造草坪足球场，兼顾跳高跳远铅球等多项功能。',photos:['images/desk/红旗操场.jpg','images/desk/红旗操场1.jpg']},
+ 'gz-gym':{desc:'运动场建筑面积1.2万平方米，分南北两个运动大厅：南厅4个篮球场、10个羽毛球场地、12个乒乓球场地（PVC地面）；北厅2个排球场地、10个羽毛球场地、8个乒乓球场地（双层硬木地板）。另设瑜伽室、舞蹈室、体测室；屋面为篮球、五人制足球、排球、网球、轮滑场地。',tip:'风雨无阻的锻炼去处。',photos:['images/desk/运动场.jpg','images/desk/运动场1.jpg']},
+ 'gz-dorm14':{desc:'本科生宿舍为1-8号楼，总建筑面积11万平方米、本科床位9248张。1-7号楼8层（8号楼因高差7层）；1、3、5、7号楼与2、4、6、8号楼两排相对，形成四组内庭院。宿舍四人间、上床下桌、单机空调，卫生间配两个洗手盆、一个淋浴、一个蹲便；每栋楼有修读活动室。',photos:['images/desk/本科生宿舍 (1).jpg']},
+ 'gz-dorm58':{desc:'本科生宿舍区（学5-学8）为西区宿舍群一部分，总建筑面积11万平方米、床位9248张；四人间上床下桌，配空调与独立卫生间，宿舍区随地势东高西低，与教职工生活区衔接。',photos:['images/desk/本科生宿舍 (2).jpg']},
+ 'gz-grad':{desc:'研究生9号公寓建筑面积2.4万平方米、床位1225张、建筑9层。一层为宿舍、自习室、研究生排练室、活动室、简易厨房；2-9层为宿舍。2人寝宽敞布局、独立卫浴，全屋定制成套家具、专属书架，采光通风好，每间装配空调，适合沉浸式科研学习。',photos:['images/desk/研究生9号公寓 (1).jpg','images/desk/研究生9号公寓 (2).jpg']},
+ 'gz-teacher':{desc:'教师公寓建筑面积8.8万平方米（地上6.6万、地下2.2万），共737套，分高低两区，车位460个。户型含180㎡（33户）、104㎡（304户）及供临时休息的50㎡户型（400户），服务高层次人才引进。',photos:['images/desk/教师公寓.jpg']},
+ 'gz-hospital':{desc:'校医院建筑面积0.35万平方米、共三层，设内科、外科、口腔科、影像科、检验科、理疗科、妇科、眼科、感染科等科室，配注射室、护理室、输液室、雾化治疗室、接种室、观察室、抢救室，满足在校师生就医需求。',photos:['images/desk/校医院.jpg']}
+};
+Object.keys(GZCOPY).forEach(function(id){
+  var l=CAMPUSES.gz.lands.find(function(x){return x.id===id;});
+  if(!l)return;
+  var g=GZCOPY[id];
+  if(g.desc)l.desc=g.desc;
+  if(g.tip)l.tip=g.tip;
+  l.photos=(g.photos||[]).concat(l.photos||[]);
+});
+
 var EAST=[
  {name:'胜华大厦',icon:'🏢',tag:'综合',desc:'东区综合建筑，教学与办公。'},
  {name:'国工楼',icon:'🏭',tag:'科研',desc:'国家级工程平台。'},
@@ -636,8 +669,30 @@ var PHOTOS_TD=[
 ];
 for(var i=1;i<=24;i++){PHOTOS_TD.push({src:'images/td-scene-'+(i<10?'0'+i:i)+'.jpg',cap:'唐岛湾 · 校园实景',srcLabel:'观海新闻'});}
 
+
+var DESK_GZ=[
+ ['求是图书馆.jpg','求是图书馆'],['求是图书馆1.jpg','求是图书馆'],
+ ['卓越教学楼.jpg','卓越教学楼'],['卓越教学楼1.jpg','卓越教学楼'],
+ ['惟真楼.jpg','惟真楼'],['惟真楼1.jpg','惟真楼'],['惟实楼.jpg','惟实楼'],['惟实楼1.jpg','惟实楼'],
+ ['灵山湾餐厅.jpg','灵山湾餐厅'],['灵山湾餐厅1.jpg','灵山湾餐厅'],['珠山餐厅.jpg','珠山餐厅'],['珠山餐厅1.jpg','珠山餐厅'],
+ ['红旗操场.jpg','红旗操场'],['红旗操场1.jpg','红旗操场'],['运动场.jpg','风雨操场'],['运动场1.jpg','风雨操场'],
+ ['本科生宿舍 (1).jpg','本科生宿舍'],['本科生宿舍 (2).jpg','本科生宿舍'],
+ ['研究生9号公寓 (1).jpg','研究生9号公寓'],['研究生9号公寓 (2).jpg','研究生9号公寓'],
+ ['教师公寓.jpg','教师公寓'],['校医院.jpg','校医院'],
+ ['大门.jpg','古镇口校区大门'],['大门1.jpg','古镇口校区大门'],
+ ['西区地图.jpg','古镇口西区 · 地图'],['东区地图.jpg','古镇口东区 · 地图'],
+ ['DSC03309 (1).jpg','古镇口西区 · 实拍'],['DSC03309 (2).jpg','古镇口西区 · 实拍'],['DSC03309 (3).jpg','古镇口西区 · 实拍'],
+ ['微信图片_20260902134314_142_1.jpg','古镇口西区 · 实拍']
+];
+DESK_GZ.forEach(function(d){PHOTOS_GZ.push({src:'images/desk/'+d[0],cap:d[1],srcLabel:'桌面高清'});});
+
 var VERSIONS=[
- {ver:'v1.17.0',date:'2026-09-02',title:'真实课表 + 头像上传',changes:[
+ {ver:'v1.18.0',date:'2026-09-02',title:'西区文案与高清照片接入',changes:[
+    {t:'new',text:'桌面高清照片全部接入西区（每地标多图展示于弹窗/详情/相册）'},
+    {t:'opt',text:'桌面文案全文写入对应地点介绍；二维码替换为学校官号/学生会'},
+    {t:'opt',text:'更新日志改为折叠区域，可展开查看全部'}
+  ]},
+  {ver:'v1.17.0',date:'2026-09-02',title:'真实课表 + 头像上传',changes:[
     {t:'opt',text:'我的课程改为真实课表视图（周一到周日 × 节次），选课带排课时间'},
     {t:'new',text:'个人中心支持上传本地图片更换头像'}
   ]},
@@ -747,7 +802,8 @@ function drawContext(){
 }
 function pinHTML(l,sel){var c=CATS[l.cat];return '<div class="pin'+(sel?' sel':'')+'"><span class="lbl">'+l.name+'</span><div class="dot" style="--c:'+c.color+'"><span>'+(l.icon||c.icon)+'</span></div></div>';}
 function iconFor(l,sel){return L.divIcon({className:'',html:pinHTML(l,sel),iconSize:[96,74],iconAnchor:[48,68],popupAnchor:[0,-64]});}
-function popupHTML(l){var c=CATS[l.cat];var img=l.photo?('<img src="'+l.photo+'" alt="">'):'<div style="height:6px"></div>';return '<div class="pp">'+img+'<div class="bd"><h4>'+(l.icon||c.icon)+' '+l.name+'</h4><p>'+l.desc+'</p>'+(l.tip?'<div class="tip">💡 '+l.tip+'</div>':'')+'</div></div>';}
+function popupHTML(l){var c=CATS[l.cat];var ps=(l.photos||[]).slice();if(l.photo&&ps.indexOf(l.photo)<0)ps.unshift(l.photo);var imgs=ps.map(function(s){return '<img src="'+s+'" alt="">';}).join('')||'<div style="height:6px"></div>';return '<div class="pp">'+imgs+'<div class="bd"><h4>'+(l.icon||c.icon)+' '+l.name+'</h4><p>'+l.desc+'</p>'+(l.tip?'<div class="tip">💡 '+l.tip+'</div>':'')+'</div></div>';}
+function phHTML(l){var ps=(l.photos||[]).slice();if(l.photo&&ps.indexOf(l.photo)<0)ps.unshift(l.photo);return ps.map(function(s){return '<img class="pthumb" src="'+s+'" alt="">';}).join('');}
 function popupWidth(){return window.innerWidth<768?250:290;}
 function buildMarkers(){
   markerLayer.clearLayers();
@@ -764,7 +820,7 @@ function select(id){
   buildMarkers();var m=markers[id];
   if(m){map.panTo(m.getLatLng(),{animate:true,duration:.4});m.openPopup();}
   renderList();renderDetail();
-  if(route){var idx=route.steps.indexOf(id);if(idx>-1){step=idx;renderRoutePanel();}}
+
 }
 /* ---------- 校区切换 ---------- */
 function renderCampusSwitch(){
@@ -808,7 +864,7 @@ function renderList(){
 function renderDetail(){
   if(!selected){$('detail').innerHTML='<h3>📍 选择地点</h3><p>点击图钉或列表查看详情；可切换校区、使用校内导航。</p>';return;}
   var l=landById(selected);if(!l)return;var c=CATS[l.cat];
-  $('detail').innerHTML='<h3>'+(l.icon||c.icon)+' '+l.name+' <span class="cat-tag" style="background:'+c.color+'">'+c.label+'</span></h3>'+(l.photo?'<img class="pthumb" src="'+l.photo+'" alt="">':'')+'<p>'+l.desc+'</p>'+(l.tip?'<div class="tip">💡 '+l.tip+'</div>':'');
+  $('detail').innerHTML='<h3>'+(l.icon||c.icon)+' '+l.name+' <span class="cat-tag" style="background:'+c.color+'">'+c.label+'</span></h3>'+phHTML(l)+'<p>'+l.desc+'</p>'+(l.tip?'<div class="tip">💡 '+l.tip+'</div>':'');
 }
 function renderChips(){
   var counts={};LANDS.forEach(function(l){counts[l.cat]=(counts[l.cat]||0)+1;});
@@ -945,62 +1001,80 @@ function renderCards(elId,items){$(elId).innerHTML=items.map(function(c){return 
 renderCards('gkEast',EAST);renderCards('dyList',DONGYING);
 var CTAG={new:['new','新增'],opt:['opt','优化'],fix:['fix','修复']};
 function renderChangelog(){
-  $('changelog-list').innerHTML=VERSIONS.map(function(v){
+  var html=VERSIONS.map(function(v){
     var ch=v.changes.map(function(x){var t=CTAG[x.t]||CTAG.opt;return '<div class="clog-change"><span class="clog-tag '+t[0]+'">'+t[1]+'</span><span>'+x.text+'</span></div>';}).join('');
     return '<div class="clog-item"><div class="clog-card"><div class="clog-head"><span class="clog-ver">'+v.ver+'</span><span class="clog-date">'+v.date+'</span><span class="clog-title">'+v.title+'</span>'+(v.commit?'<span class="clog-commit">'+v.commit+'</span>':'')+'</div>'+ch+'</div></div>';
   }).join('');
+  $('changelog-list').innerHTML=html+'<button class="btn" id="clog-toggle">⬇ 展开全部历史（共 '+VERSIONS.length+' 条）</button>';
+  var items=$('changelog-list').querySelectorAll('.clog-item');
+  for(var i=3;i<items.length;i++)items[i].classList.add('clog-more');
+  $('clog-toggle').addEventListener('click',function(){
+    var more=$('changelog-list').querySelectorAll('.clog-more');
+    if(more.length){for(var i=0;i<more.length;i++)more[i].style.display='';this.textContent='⬆ 收起';}
+    else{for(var i=0;i<items.length;i++){if(i>=3)items[i].style.display='none';}this.textContent='⬇ 展开全部历史（共 '+VERSIONS.length+' 条）';}
+  });
 }
-/* ---------- 工具 ---------- */
-function toast(msg){var t=$('toast');t.textContent=msg;t.classList.add('show');clearTimeout(t._tm);t._tm=setTimeout(function(){t.classList.remove('show');},2600);}
-function showModal(id){$(id).classList.add('show');}
-function hideModal(id){$(id).classList.remove('show');}
-document.querySelectorAll('.modal-backdrop').forEach(function(md){md.addEventListener('click',function(e){if(e.target===md)md.classList.remove('show');});});
-$('locate-btn').addEventListener('click',locate);
-$('reset-btn').addEventListener('click',function(){map.flyTo([CENTER.lat,CENTER.lng],CAMPUSES[cur].zoom,{duration:.7});});
-$('full-btn').addEventListener('click',function(){if(!document.fullscreenElement){if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen();}else{if(document.exitFullscreen)document.exitFullscreen();}});
-document.addEventListener('fullscreenchange',function(){setTimeout(function(){map.invalidateSize();},120);});
-/* ---------- 高德 ---------- */
+
+/* ================= 高德官方地图 ================= */
 var DEFAULT_AMAP_KEY='02059fef8b27fc848c9a726deeb7a8a9';
 var AMAP_KEY=(function(){try{return localStorage.getItem('amapKey')||DEFAULT_AMAP_KEY;}catch(e){return DEFAULT_AMAP_KEY;}})();
-function amapKeyState(){var src=(function(){try{return localStorage.getItem('amapKey')||'';}catch(e){return '';}})();$('amap-key-state').textContent=src?('当前使用已保存 Key（'+src.slice(0,6)+'…）'):('已内置默认 Key（'+DEFAULT_AMAP_KEY.slice(0,6)+'…）');}
-$('settings-btn').addEventListener('click',function(){showModal('settings-modal');$('amap-key-input').value=AMAP_KEY;amapKeyState();});
-$('settings-close').addEventListener('click',function(){hideModal('settings-modal');});
-$('amap-save').addEventListener('click',function(){var k=($('amap-key-input').value||'').trim();if(!k){toast('请输入 Key');return;}AMAP_KEY=k;try{localStorage.setItem('amapKey',k);}catch(e){}hideModal('settings-modal');toast('Key 已保存');});
-$('amap-clear').addEventListener('click',function(){AMAP_KEY=DEFAULT_AMAP_KEY;$('amap-key-input').value='';try{localStorage.removeItem('amapKey');}catch(e){}amapKeyState();toast('已恢复默认 Key');});
+function amapKeyState(){var src='';try{src=localStorage.getItem('amapKey')||'';}catch(e){}var el=$('amap-key-state');if(el)el.textContent=src?('已保存 Key（'+src.slice(0,6)+'…）'):('默认 Key（'+DEFAULT_AMAP_KEY.slice(0,6)+'…）');}
+(function(){
+  var sb=$('settings-btn');if(sb)sb.addEventListener('click',function(){showModal('settings-modal');var inp=$('amap-key-input');if(inp)inp.value=AMAP_KEY;amapKeyState();});
+  var sc=$('settings-close');if(sc)sc.addEventListener('click',function(){hideModal('settings-modal');});
+  var sv=$('amap-save');if(sv)sv.addEventListener('click',function(){var k=($('amap-key-input').value||'').trim();if(!k){toast('请输入Key');return;}AMAP_KEY=k;try{localStorage.setItem('amapKey',k);}catch(e){}hideModal('settings-modal');toast('Key已保存');});
+  var cl=$('amap-clear');if(cl)cl.addEventListener('click',function(){AMAP_KEY=DEFAULT_AMAP_KEY;var inp=$('amap-key-input');if(inp)inp.value='';try{localStorage.removeItem('amapKey');}catch(e){}amapKeyState();toast('已恢复默认Key');});
+})();
 function loadAmapScript(cb){
   if(window.AMap){cb();return;}
   document.querySelectorAll('script[src*="webapi.amap.com"]').forEach(function(s){s.parentNode.removeChild(s);});
   window.AMap=undefined;
   var s=document.createElement('script');s.src='https://webapi.amap.com/maps?v=2.0&key='+encodeURIComponent(AMAP_KEY);
-  s.onload=cb;s.onerror=function(){toast('高德脚本加载失败，请检查 Key');$('amap-state').textContent='加载失败：请确认 Key 有效';};
+  s.onload=cb;s.onerror=function(){toast('高德脚本加载失败，请检查Key');var st=$('amap-state');if(st)st.textContent='加载失败：请确认Key有效';};
   document.head.appendChild(s);
 }
-$('amap-btn').addEventListener('click',function(){showModal('amap-modal');$('amap-state').textContent='正在加载高德官方地图…';loadAmapScript(function(){initAmap();});});
-$('amap-close').addEventListener('click',function(){hideModal('amap-modal');});
+(function(){
+  var ab=$('amap-btn');if(ab)ab.addEventListener('click',function(){showModal('amap-modal');var st=$('amap-state');if(st)st.textContent='正在加载高德官方地图…';loadAmapScript(function(){initAmap();});});
+  var ac=$('amap-close');if(ac)ac.addEventListener('click',function(){hideModal('amap-modal');});
+})();
 function initAmap(){
   try{
     if(window.__amapMap)window.__amapMap.destroy();
     var m=new AMap.Map('amap-container',{zoom:CAMPUSES[cur].zoom,center:[CENTER.lng,CENTER.lat],mapStyle:'amap://styles/normal'});
     LANDS.forEach(function(l){
-      var c=CATS[l.cat];var p=[ll(l.dx,l.dy)[1],ll(l.dx,l.dy)[0]];
-      var mk=new AMap.Marker({position:p,title:l.name,content:'<div style="background:'+c.color+';color:#fff;border-radius:999px;padding:4px 12px;font-size:12.5px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.35);border:1.5px solid #fff">'+(l.icon||c.icon)+' '+l.name+'</div>',offset:new AMap.Pixel(0,-8)});
-      mk.on('click',function(){var info=new AMap.InfoWindow({content:'<div style="padding:6px 8px;max-width:220px"><b>'+(l.icon||c.icon)+' '+l.name+'</b><br><span style="font-size:12px;color:#555">'+l.desc+'</span></div>'});info.open(m,p);});
+      var cc=CATS[l.cat];var p=[ll(l.dx,l.dy)[1],ll(l.dx,l.dy)[0]];
+      var mk=new AMap.Marker({position:p,title:l.name,content:'<div style="background:'+cc.color+';color:#fff;border-radius:999px;padding:4px 12px;font-size:12.5px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.35);border:1.5px solid #fff">'+(l.icon||cc.icon)+' '+l.name+'</div>',offset:new AMap.Pixel(0,-8)});
+      mk.on('click',function(){var info=new AMap.InfoWindow({content:'<div style="padding:6px 8px;max-width:220px"><b>'+(l.icon||cc.icon)+' '+l.name+'</b><br><span style="font-size:12px;color:#555">'+l.desc+'</span></div>'});info.open(m,p);});
       mk.setMap(m);
     });
-    window.__amapMap=m;$('amap-state').textContent='高德官方矢量地图已加载 ✅（'+CAMPUSES[cur].name+'，地标为约略定位）';
-  }catch(e){$('amap-state').textContent='初始化失败：'+e.message;}
+    window.__amapMap=m;var st=$('amap-state');if(st)st.textContent='高德官方矢量地图已加载 ✅（'+CAMPUSES[cur].name+'）';
+  }catch(e){var st=$('amap-state');if(st)st.textContent='初始化失败：'+e.message;}
 }
-/* ---------- 主题 ---------- */
-(function(){
-  var root=document.documentElement,btn=$('theme-btn');
-  function apply(t){root.classList.toggle('dark',t==='dark');if(btn)btn.textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('theme',t);}catch(e){}}
-  var saved='';try{saved=localStorage.getItem('theme')||'';}catch(e){}
-  apply(saved==='dark'?'dark':'light');
-  if(btn)btn.addEventListener('click',function(){apply(root.classList.contains('dark')?'light':'dark');});
-})();
-/* ---------- 锚点导航 ---------- */
+
+
+/* ===== 工具（补齐） ===== */
+function toast(msg){var t=$('toast');if(!t)return;t.textContent=msg;t.classList.add('show');clearTimeout(t._tm);t._tm=setTimeout(function(){t.classList.remove('show');},2600);}
+function showModal(id){var e=$(id);if(e)e.classList.add('show');}
+function hideModal(id){var e=$(id);if(e)e.classList.remove('show');}
+document.querySelectorAll('.modal-backdrop').forEach(function(md){md.addEventListener('click',function(e){if(e.target===md)md.classList.remove('show');});});
+if(!window.__toolBound){window.__toolBound=1;
+  var lb=$('locate-btn');if(lb)lb.addEventListener('click',locate);
+  var rb=$('reset-btn');if(rb)rb.addEventListener('click',function(){map.flyTo([CENTER.lat,CENTER.lng],CAMPUSES[cur].zoom,{duration:.7});});
+  var fb=$('full-btn');if(fb)fb.addEventListener('click',function(){if(!document.fullscreenElement){if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen();}else if(document.exitFullscreen)document.exitFullscreen();});
+  document.addEventListener('fullscreenchange',function(){setTimeout(function(){map.invalidateSize();},120);});
+}
+/* ===== 主题（补齐） ===== */
+if(!window.__themeBound){window.__themeBound=1;
+  (function(){var root=document.documentElement,btn=$('theme-btn');
+    function apply(t){root.classList.toggle('dark',t==='dark');if(btn)btn.textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('theme',t);}catch(e){}}
+    var saved='';try{saved=localStorage.getItem('theme')||'';}catch(e){}
+    apply(saved==='dark'?'dark':'light');
+    if(btn)btn.addEventListener('click',function(){apply(root.classList.contains('dark')?'light':'dark');});
+  })();
+}
+/* ===== 锚点导航（补齐） ===== */
 var navBtns=document.querySelectorAll('.tab,.app-nav button');
-navBtns.forEach(function(t){t.addEventListener('click',function(){$(t.getAttribute('data-target')).scrollIntoView({behavior:'smooth',block:'start'});});});
+navBtns.forEach(function(t){t.addEventListener('click',function(){var el=$(t.getAttribute('data-target'));if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});});
 function onScroll(){
   var y=window.scrollY,pos=y+110,current='map';
   ['map','colleges','courses','profile','photos','campuses','follow','changelog'].forEach(function(id){var el=$(id);if(el&&el.offsetTop<=pos)current=id;});
