@@ -1,0 +1,17 @@
+{
+  "name": "中国石油大学（华东）古镇口校区导览",
+  "short_name": "石大西区导览",
+  "description": "古镇口校区西区校园导览：卫星地图、地标导航、推荐路线、实景相册、更新日志",
+  "lang": "zh-CN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b0d12",
+  "theme_color": "#0b0d12",
+  "icons": [
+    { "src": "./images/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "./images/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "./images/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

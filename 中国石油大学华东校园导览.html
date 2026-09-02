@@ -1,0 +1,1082 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>中国石油大学（华东）· 古镇口校区西区导览</title>
+<link rel="icon" type="image/png" href="images/emblem.png">
+<meta name="theme-color" content="#0b0d12">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="石大西区导览">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="images/icon-180.png">
+<link rel="apple-touch-startup-image" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3)" href="images/splash-1170x2532.png">
+<link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="images/splash-1290x2796.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="images/splash-750x1334.png">
+<link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="images/splash-1125x2436.png">
+<link rel="stylesheet" href="lib/leaflet.css">
+<style>
+:root{
+  --accent:#ff5a6e;--accent-deep:#ff3b52;--gold:#f2b23d;
+  --text:#e9edf4;--text2:#a6aebb;--text3:#7d8794;
+  --bg:#0b0d12;--glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.09);--glass3:rgba(255,255,255,.14);
+  --line:rgba(255,255,255,.12);--radius:16px;
+  --shadow:0 10px 34px rgba(0,0,0,.45);--shadow-lg:0 20px 54px rgba(0,0,0,.55);
+  --blur:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth;scroll-padding-top:74px}
+body{font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",system-ui,sans-serif;color:var(--text);background:var(--bg);line-height:1.7}
+.page-bg{position:fixed;inset:0;z-index:-1;background:url("images/gz-library.jpg") center 40%/cover no-repeat;filter:blur(12px) brightness(.38) saturate(1.1);transform:scale(1.06)}
+.container{max-width:1280px;margin:0 auto;padding:0 22px}
+/* ===== Hero ===== */
+.hero{position:relative;color:#fff;overflow:hidden;background:#0b0d12}
+.hero-bg{position:absolute;inset:0;background:url("images/gz-library.jpg") center 40%/cover no-repeat;filter:saturate(1.05)}
+.hero::before{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,13,.84) 0%,rgba(8,9,13,.5) 45%,rgba(8,9,13,.82) 100%)}
+.hero::after{display:none}
+.hero-inner{position:relative;z-index:2;width:100%;padding:44px 0 50px}
+.brand{display:flex;align-items:center;gap:16px}
+.logo{width:68px;height:68px;border-radius:50%;background:rgba(255,255,255,.95);box-shadow:0 10px 26px rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none;border:2px solid rgba(255,255,255,.6)}
+.logo img{width:100%;height:100%;object-fit:contain;display:block}
+.hero h1{font-size:32px;letter-spacing:2px;line-height:1.3;color:#fff;text-shadow:0 2px 16px rgba(0,0,0,.45);font-weight:800}
+.hero .sub{font-size:13.5px;margin-top:4px;letter-spacing:5px;color:#ffd9de}
+.hero .lead{color:#e8dde0;max-width:660px;margin-top:12px;font-size:14.5px;opacity:.92}
+/* 搜索 */
+.hero-search{position:relative;max-width:640px;margin-top:24px}
+.hero-search .mag{position:absolute;left:17px;top:50%;transform:translateY(-50%);font-size:18px;z-index:2;pointer-events:none;color:#ffd9de}
+.hero-search input{width:100%;padding:15px 20px 15px 48px;border-radius:16px;border:1.5px solid rgba(255,255,255,.22);background:rgba(255,255,255,.1);backdrop-filter:blur(12px);font-size:16px;color:#fff;outline:none;box-shadow:0 12px 34px rgba(0,0,0,.3);transition:.2s;font-family:inherit}
+.hero-search input::placeholder{color:rgba(255,255,255,.55)}
+.hero-search input:focus{border-color:var(--gold);background:rgba(255,255,255,.14)}
+.suggest{position:absolute;top:calc(100% + 8px);left:0;right:0;background:rgba(20,23,31,.95);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.12);border-radius:14px;box-shadow:0 18px 44px rgba(0,0,0,.5);overflow:hidden;z-index:1500;max-height:370px;overflow-y:auto}
+.suggest .srow{display:flex;align-items:center;gap:12px;padding:11px 15px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.08);transition:.12s}
+.suggest .srow:last-child{border-bottom:none}
+.suggest .srow:hover,.suggest .srow:active{background:rgba(255,90,110,.12)}
+.suggest .sico{width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:17px;flex:none}
+.suggest .sname{font-size:14px;font-weight:700;color:#fff}
+.suggest .scat{font-size:11.5px;color:var(--text2)}
+.suggest .sempty{padding:14px 16px;color:var(--text2);font-size:13px}
+.quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+.quick .qchip{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;border-radius:999px;padding:7px 15px;font-size:13px;cursor:pointer;transition:.15s;font-family:inherit;backdrop-filter:blur(8px)}
+.quick .qchip:hover{background:rgba(255,255,255,.18)}
+.quick .qchip.on{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:700}
+.stats{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.stat{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:8px 15px;font-size:13px;backdrop-filter:blur(8px);color:#fff}
+.stat b{font-size:15px;margin-right:6px;color:var(--gold)}
+/* ===== Anchor nav ===== */
+.tabs{position:sticky;top:0;z-index:900;background:rgba(13,15,20,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,.1);box-shadow:0 4px 18px rgba(0,0,0,.3)}
+.tabs-inner{display:flex;gap:8px;overflow-x:auto;padding:12px 0;scrollbar-width:none}
+.tabs-inner::-webkit-scrollbar{display:none}
+.tab{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.06);color:var(--text2);border-radius:999px;padding:9px 20px;cursor:pointer;font-size:14.5px;white-space:nowrap;transition:.2s;font-family:inherit;font-weight:600;backdrop-filter:blur(8px)}
+.tab:hover{border-color:var(--accent);color:#fff}
+.tab.active{background:linear-gradient(135deg,var(--accent-deep),#ff8a5c);border-color:transparent;color:#fff;box-shadow:0 6px 18px rgba(255,59,82,.4)}
+/* ===== Sections ===== */
+section{padding:44px 0 28px}
+.section-head{display:flex;align-items:baseline;gap:14px;margin-bottom:16px;flex-wrap:wrap}
+.section-head h2{font-size:26px;color:#fff;position:relative;padding-left:16px;line-height:1.4}
+.section-head h2::before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:5px;border-radius:3px;background:linear-gradient(180deg,var(--accent),var(--gold))}
+.section-head p{color:var(--text2);font-size:14px}
+.banner{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);color:#e6d7bc;border-radius:12px;padding:12px 16px;font-size:13.5px;margin-bottom:16px;backdrop-filter:blur(10px)}
+.banner.blue{background:rgba(80,120,255,.08);border-color:rgba(120,160,255,.18);color:#c9d8ff}
+.guide{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;align-items:start}
+.map-card,.side{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--shadow)}
+.map-card{padding:14px;position:sticky;top:76px}
+#map-gz{height:640px;border-radius:12px;z-index:0}
+.map-toolbar{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.map-toolbar .hint{font-size:12px;color:var(--text2);margin-right:auto}
+.map-toolbar .hint b{color:var(--accent)}
+.mbtn{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:var(--text);border-radius:10px;padding:7px 13px;font-size:12.5px;cursor:pointer;transition:.15s;font-family:inherit;font-weight:600;display:inline-flex;align-items:center;gap:4px;backdrop-filter:blur(8px)}
+.mbtn:hover{border-color:var(--accent);color:#fff}
+.mbtn.primary{background:var(--accent);border-color:transparent;color:#fff}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.legend span{font-size:12px;color:var(--text2);background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);padding:3px 10px;border-radius:999px;display:inline-flex;align-items:center;gap:4px;backdrop-filter:blur(6px)}
+.note{font-size:12px;color:var(--text2);margin-top:12px;background:rgba(242,178,61,.07);border:1px solid rgba(242,178,61,.18);padding:9px 11px;border-radius:10px}
+/* ===== Side ===== */
+.side{padding:16px}
+.search{width:100%;padding:11px 15px;border:1.5px solid rgba(255,255,255,.14);border-radius:11px;font-size:14px;margin-bottom:11px;font-family:inherit;outline:none;transition:.15s;background:rgba(255,255,255,.06);color:#fff}
+.search::placeholder{color:var(--text3)}
+.search:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,90,110,.15)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px}
+.chip{font-size:12px;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);cursor:pointer;background:rgba(255,255,255,.05);color:var(--text2);transition:.15s;font-family:inherit;backdrop-filter:blur(6px)}
+.chip:hover{border-color:var(--accent);color:#fff}
+.chip.on{background:var(--accent);color:#fff;border-color:transparent}
+.chip.special{background:rgba(80,130,255,.14);border-color:rgba(120,160,255,.3);color:#b9ccff}
+.chip.special.on{background:#3b6ef5;border-color:transparent;color:#fff}
+.list{display:flex;flex-direction:column;gap:8px;max-height:430px;overflow:auto;padding-right:4px}
+.item{display:flex;gap:11px;align-items:center;padding:9px 11px;border:1px solid rgba(255,255,255,.1);border-radius:12px;cursor:pointer;transition:.15s;background:rgba(255,255,255,.04)}
+.item:hover{border-color:rgba(255,90,110,.5);transform:translateY(-1px);background:rgba(255,255,255,.07)}
+.item.sel{background:rgba(255,90,110,.14);border-color:var(--accent);box-shadow:0 0 0 1px var(--accent) inset}
+.item .ico{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex:none;color:#fff;box-shadow:0 3px 8px rgba(0,0,0,.25)}
+.item .nm{font-size:14px;font-weight:700;line-height:1.3;color:#fff}
+.item .ct{font-size:11.5px;color:var(--text2)}
+.item .dist{margin-left:auto;font-size:11px;color:#b9ccff;background:rgba(80,130,255,.16);border-radius:999px;padding:1px 8px;white-space:nowrap}
+.detail{margin-top:14px;border-top:1px dashed rgba(255,255,255,.14);padding-top:14px;min-height:120px}
+.detail h3{font-size:17px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;color:#fff}
+.detail .cat-tag{font-size:11.5px;color:#fff;border-radius:999px;padding:2px 11px;font-weight:600}
+.detail p{font-size:13.5px;color:var(--text2);margin-top:8px}
+.detail .tip{font-size:12.5px;color:var(--text2);margin-top:10px;background:rgba(255,255,255,.05);border-left:3px solid var(--gold);padding:8px 11px;border-radius:8px}
+.detail .pthumb{width:100%;max-height:210px;object-fit:cover;border-radius:10px;margin-top:10px;box-shadow:var(--shadow)}
+/* ===== Leaflet ===== */
+.pin{position:relative;display:flex;flex-direction:column;align-items:center;filter:drop-shadow(0 3px 5px rgba(0,0,0,.45))}
+.pin .dot{width:34px;height:34px;border-radius:50% 50% 50% 6px;transform:rotate(-45deg);background:var(--c,#ff5a6e);border:2.5px solid #fff;display:flex;align-items:center;justify-content:center;font-size:15px}
+.pin .dot span{transform:rotate(45deg)}
+.pin .lbl{position:absolute;top:-22px;white-space:nowrap;background:rgba(255,255,255,.96);border:1px solid rgba(0,0,0,.08);border-radius:8px;padding:1px 7px;font-size:11px;font-weight:700;color:#22262e;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.pin.sel .dot{box-shadow:0 0 0 5px rgba(255,90,110,.3);border-color:#ffd9de}
+.pin.sel .lbl{background:var(--accent);color:#fff;border-color:transparent}
+.rnum{position:relative;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center;border:2.5px solid #fff;box-shadow:0 3px 8px rgba(0,0,0,.45)}
+.user-dot{position:relative;width:18px;height:18px;border-radius:50%;background:#3b82f6;border:3px solid #fff;box-shadow:0 0 0 6px rgba(59,130,246,.35),0 3px 8px rgba(0,0,0,.4)}
+.ctx-label{background:rgba(20,23,30,.85);color:#fff;border-radius:6px;padding:2px 8px;font-size:11px;white-space:nowrap;font-weight:600;box-shadow:0 2px 6px rgba(0,0,0,.35);border:1px solid rgba(255,255,255,.25)}
+.leaflet-popup-content-wrapper{border-radius:14px;box-shadow:0 12px 34px rgba(0,0,0,.5);background:rgba(20,23,31,.94);backdrop-filter:blur(14px);color:var(--text)}
+.leaflet-popup-content{margin:0;width:280px!important;font-family:inherit}
+.leaflet-popup-close-button{color:#aab2c0!important}
+.pp{overflow:hidden;border-radius:14px}
+.pp img{width:100%;height:150px;object-fit:cover;display:block}
+.pp .bd{padding:12px 14px 14px}
+.pp h4{font-size:15.5px;display:flex;align-items:center;gap:7px;color:#fff}
+.pp .tag{display:inline-block;font-size:11px;color:#fff;border-radius:999px;padding:1px 9px;margin:6px 0 4px;font-weight:600}
+.pp p{font-size:12.5px;color:var(--text2)}
+.pp .tip{font-size:11.5px;color:var(--text2);margin-top:6px;background:rgba(255,255,255,.06);border-left:3px solid var(--gold);padding:6px 9px;border-radius:6px}
+.leaflet-control-zoom a,.leaflet-control-layers{background:rgba(16,18,24,.85)!important;color:#e9edf4!important;border-color:rgba(255,255,255,.18)!important;backdrop-filter:blur(8px)}
+.leaflet-control-layers-expanded{background:rgba(16,18,24,.95)!important;color:#e9edf4}
+.leaflet-control-attribution{background:rgba(10,12,16,.65)!important;color:#9aa3b2!important}
+.leaflet-control-attribution a{color:#c3cbd8!important}
+.leaflet-control-scale-line{background:rgba(10,12,16,.6)!important;color:#d7dee8!important;border-color:rgba(255,255,255,.35)!important}
+/* ===== Routes ===== */
+.routes{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px}
+.route,.steps{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--shadow)}
+.route{padding:16px;cursor:pointer;border-width:1px;transition:.18s}
+.route:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg);background:var(--glass2)}
+.route.on{border-color:var(--accent);box-shadow:0 10px 28px rgba(255,59,82,.25)}
+.route .rt{font-size:16px;font-weight:800;color:#fff}
+.route .meta{font-size:12px;color:var(--text2);margin:4px 0 8px;display:flex;gap:8px;flex-wrap:wrap}
+.route .meta .d{color:#b9ccff;background:rgba(80,130,255,.16);border-radius:999px;padding:1px 9px;font-weight:600}
+.route p{font-size:13px;color:var(--text2)}
+.route ol{margin:10px 0 0 18px;font-size:13px;color:var(--text2)}
+.route li{margin:2px 0}
+.steps{padding:18px;margin-top:18px}
+.steps .hd{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.steps .hd h3{font-size:18px;color:#fff}
+.step-bar{display:flex;gap:6px;overflow-x:auto;padding-bottom:10px}
+.step-pill{flex:none;font-size:12px;padding:5px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.14);color:var(--text2);background:rgba(255,255,255,.05);white-space:nowrap}
+.step-pill.done{border-color:rgba(90,200,120,.35);background:rgba(60,170,90,.15);color:#9fe0b0}
+.step-pill.cur{background:var(--accent);color:#fff;border-color:transparent;font-weight:700}
+.navbtns{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+.btn{border:1px solid rgba(255,255,255,.16);background:rgba(255,255,255,.07);color:var(--text);border-radius:11px;padding:10px 20px;font-size:14px;cursor:pointer;transition:.15s;font-family:inherit;font-weight:600;backdrop-filter:blur(8px)}
+.btn:hover{border-color:var(--accent);color:#fff}
+.btn.primary{background:var(--accent);border-color:transparent;color:#fff;box-shadow:0 6px 16px rgba(255,59,82,.35)}
+.btn.primary:hover{background:var(--accent-deep)}
+.btn.ghost{background:transparent;color:var(--text2)}
+button:disabled{opacity:.45;cursor:not-allowed}
+/* ===== Gallery ===== */
+.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:13px}
+.gphoto{position:relative;border-radius:13px;overflow:hidden;cursor:zoom-in;box-shadow:var(--shadow);background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);backdrop-filter:blur(8px)}
+.gphoto img{width:100%;height:175px;object-fit:cover;display:block;transition:.45s}
+.gphoto:hover img{transform:scale(1.07)}
+.gphoto .gcap{position:absolute;left:0;right:0;bottom:0;padding:22px 11px 9px;background:linear-gradient(transparent,rgba(5,7,10,.85));color:#fff;font-size:12.5px;font-weight:600}
+.gphoto .gsrc{position:absolute;top:7px;right:8px;font-size:10px;color:#fff;background:rgba(0,0,0,.5);padding:2px 7px;border-radius:999px}
+.gphoto .gzoom{position:absolute;top:7px;left:8px;font-size:11px;color:#fff;background:rgba(0,0,0,.5);padding:2px 8px;border-radius:999px;opacity:0;transition:.2s}
+.gphoto:hover .gzoom{opacity:1}
+/* ===== Modal ===== */
+.modal-backdrop{position:fixed;inset:0;z-index:2500;background:rgba(5,7,11,.7);display:none;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(8px)}
+.modal-backdrop.show{display:flex}
+.modal{background:rgba(18,21,29,.94);border:1px solid rgba(255,255,255,.12);border-radius:18px;box-shadow:0 30px 80px rgba(0,0,0,.6);max-width:560px;width:100%;padding:24px;max-height:88vh;overflow:auto;animation:popIn .22s ease;color:var(--text);backdrop-filter:blur(20px)}
+.modal-wide .modal{max-width:960px}
+@keyframes popIn{from{opacity:0;transform:translateY(14px) scale(.98)}to{opacity:1;transform:none}}
+.modal h3{font-size:19px;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:8px;justify-content:space-between}
+.modal .mclose{border:none;background:rgba(255,255,255,.08);width:32px;height:32px;border-radius:9px;font-size:14px;cursor:pointer;color:var(--text2);flex:none}
+.modal .mclose:hover{background:rgba(255,90,110,.25);color:#fff}
+.modal p{font-size:13.5px;color:var(--text2);margin:6px 0}
+.modal ol{margin:8px 0 12px 20px;font-size:13px;color:var(--text2)}
+.modal ol li{margin:3px 0}
+.modal a{color:#7ea6ff}
+.modal input{width:100%;padding:12px 14px;border:1.5px solid rgba(255,255,255,.14);border-radius:11px;font-size:14px;font-family:inherit;outline:none;margin-top:6px;background:rgba(255,255,255,.06);color:#fff}
+.modal input::placeholder{color:var(--text3)}
+.modal input:focus{border-color:var(--accent);box-shadow:0 0 0 3px rgba(255,90,110,.15)}
+.modal-btns{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+#amap-container{width:100%;height:68vh;border-radius:12px;overflow:hidden}
+.amap-key-state{font-size:12.5px;color:var(--text2);margin-top:10px;background:rgba(255,255,255,.05);border-radius:8px;padding:8px 10px}
+/* ===== Toast ===== */
+#toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(20px);background:rgba(20,23,30,.92);border:1px solid rgba(255,255,255,.14);color:#fff;padding:10px 18px;border-radius:999px;font-size:13.5px;z-index:4000;opacity:0;pointer-events:none;transition:.25s;max-width:90vw;text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.4);backdrop-filter:blur(12px)}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+/* ===== Lightbox ===== */
+#lightbox{position:fixed;inset:0;z-index:3000;background:rgba(0,0,0,.92);display:none;align-items:center;justify-content:center;padding:20px;cursor:zoom-out}
+#lightbox img{max-width:94vw;max-height:86vh;border-radius:10px;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+#lightbox .cap{position:absolute;bottom:18px;left:0;right:0;text-align:center;color:#fff;font-size:14px;padding:0 16px;text-shadow:0 1px 6px rgba(0,0,0,.8)}
+/* ===== Footer ===== */
+footer{background:rgba(13,15,20,.7);border-top:1px solid rgba(255,255,255,.1);backdrop-filter:blur(14px);color:#a6aebb;padding:26px 0;margin-top:18px;font-size:12.5px}
+footer p{margin:3px 0}
+/* ===== Responsive ===== */
+@media(max-width:980px){
+  .guide{grid-template-columns:1fr}
+  .map-card{position:static}
+  #map-gz{height:52vh;min-height:360px}
+}
+@media(max-width:768px){
+  .hero-inner{padding:32px 0 38px}
+  .hero h1{font-size:24px;letter-spacing:1px}
+  .hero .sub{font-size:12px;letter-spacing:3px}
+  .logo{width:54px;height:54px;font-size:24px;border-radius:14px}
+  .hero-search{margin-top:20px}
+  .hero-search input{padding:13px 15px 13px 44px;font-size:15px;border-radius:13px}
+  .suggest{max-height:320px}
+  .quick .qchip{padding:8px 13px;font-size:12.5px}
+  section{padding:26px 0 18px}
+  .section-head h2{font-size:21px}
+  .tabs-inner{padding:10px 0}
+  .tab{padding:8px 15px;font-size:13.5px}
+  .list{max-height:none}
+  .item{padding:12px 12px}
+  .chip{padding:7px 13px}
+  .mbtn{padding:9px 12px;font-size:12.5px}
+  .routes{grid-template-columns:1fr}
+  .step-pill{font-size:12px;padding:6px 12px}
+  .btn{padding:11px 22px}
+  .gallery{grid-template-columns:repeat(auto-fill,minmax(46%,1fr));gap:10px}
+  .gphoto img{height:140px}
+  .leaflet-popup-content{width:250px!important}
+  .leaflet-control-zoom{display:none}
+  .modal{padding:18px}
+  #amap-container{height:60vh}
+}
+@media(max-width:768px){
+  .hero-bg{background-position:center 32%}
+}
+/* ===== 更新日志 ===== */
+.changelog{position:relative;margin:6px 0 12px;padding-left:24px}
+.changelog::before{content:"";position:absolute;left:7px;top:10px;bottom:10px;width:2px;background:linear-gradient(180deg,var(--accent),rgba(255,255,255,.1))}
+.clog-item{position:relative;margin-bottom:16px}
+.clog-item::before{content:"";position:absolute;left:-24px;top:16px;width:12px;height:12px;border-radius:50%;background:var(--accent);border:2.5px solid #fff;box-shadow:0 2px 8px rgba(255,59,82,.55)}
+.clog-card{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);padding:16px;backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--shadow)}
+.clog-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:8px}
+.clog-ver{background:linear-gradient(135deg,var(--accent-deep),#ff8a5c);color:#fff;border-radius:999px;padding:2px 12px;font-weight:800;font-size:13px;flex:none}
+.clog-date{font-size:12px;color:var(--text3)}
+.clog-title{font-size:16px;font-weight:700;color:#fff}
+.clog-commit{font-size:11px;color:var(--text3);font-family:Consolas,Menlo,monospace;margin-left:auto}
+.clog-changes{margin-top:4px}
+.clog-change{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--text2);padding:3px 0}
+.clog-tag{flex:none;font-size:11px;border-radius:6px;padding:1px 8px;font-weight:600;margin-top:2px}
+.clog-tag.new{background:rgba(70,190,110,.16);color:#7ce0a0;border:1px solid rgba(70,190,110,.32)}
+.clog-tag.opt{background:rgba(90,140,255,.16);color:#9dbaff;border:1px solid rgba(90,140,255,.32)}
+.clog-tag.fix{background:rgba(255,160,70,.16);color:#ffc88a;border:1px solid rgba(255,160,70,.32)}
+@media(max-width:768px){
+  .clog-title{width:100%;order:3}
+  .clog-commit{margin-left:0}
+}
+
+/* ===== 手机 App 底部导航 ===== */
+.app-nav{display:none}
+@media(max-width:768px){
+  .app-nav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:1200;background:rgba(13,15,20,.88);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid rgba(255,255,255,.1);padding:6px 6px calc(6px + env(safe-area-inset-bottom));justify-content:space-around;box-shadow:0 -6px 24px rgba(0,0,0,.35)}
+  .app-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;border:none;background:transparent;color:var(--text3);font-size:11px;font-family:inherit;padding:5px 0;cursor:pointer;border-radius:10px;transition:.15s;-webkit-tap-highlight-color:transparent}
+  .app-nav button .nav-ico{font-size:20px;line-height:1}
+  .app-nav button.active{color:var(--accent)}
+  .app-nav button.active .nav-ico{transform:translateY(-1px)}
+  .tabs{display:none}
+  body{padding-bottom:76px}
+  #toast{bottom:calc(84px + env(safe-area-inset-bottom))}
+}
+
+</style>
+</head>
+<body>
+<div class="page-bg"></div>
+
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="container hero-inner">
+    <div class="brand">
+      <div class="logo"><img src="images/emblem.png" alt="中国石油大学（华东）校徽"></div>
+      <div>
+        <h1>古镇口校区 · 西区</h1>
+        <div class="sub">中国石油大学（华东）校园导览</div>
+      </div>
+    </div>
+    <p class="lead">从 2026 年全面启用的古镇口西区新校区出发——卫星地图、地标导航、打卡路线与实景照片，一页带你逛遍石大。</p>
+
+    <div class="hero-search">
+      <span class="mag">🔍</span>
+      <input id="global-search" type="search" placeholder="搜索校内地点，如：求是图书馆 / 卓越教学楼 / 餐厅 / 宿舍…" autocomplete="off">
+      <div class="suggest" id="search-suggest" style="display:none"></div>
+    </div>
+    <div class="quick" id="quick-chips"></div>
+
+    <div class="stats">
+      <div class="stat"><b>2026 年秋</b>西区全面启用</div>
+      <div class="stat"><b>约 1.2 万</b>师生容量</div>
+      <div class="stat"><b>向东看海</b>向西望山</div>
+      <div class="stat"><b>16 个</b>导览地标</div>
+    </div>
+    <span class="caption-pill">📚 背景：求是图书馆 · 西区地标</span>
+  </div>
+</header>
+
+<nav class="tabs">
+  <div class="container tabs-inner">
+    <button class="tab active" data-target="map">🗺️ 地图导览</button>
+    <button class="tab" data-target="routes">🧭 推荐路线</button>
+    <button class="tab" data-target="photos">📷 实景相册</button>
+    <button class="tab" data-target="changelog">📋 更新日志</button>
+  </div>
+</nav>
+
+<main class="container">
+
+<!-- ============ 地图导览 ============ -->
+<section id="map">
+  <div class="section-head">
+    <h2>卫星地图 · 地标导览</h2>
+    <p>青岛西海岸新区 · 三沙路以西 / 宅科路以南 / 山川路以东</p>
+  </div>
+  <div class="banner">🏗️ 古镇口校区总占地约 2405 亩，西区 2025 年底竣工交付、2026 年秋全面启用，可容纳约 1.2 万名师生。地图默认卫星影像，可切换街道图层；地标为约略定位，虚线为校区与道路示意，请以实地为准。</div>
+  <div class="guide">
+    <div class="map-card">
+      <div id="map-gz"></div>
+      <div class="map-toolbar">
+        <span class="hint">💡 点击图钉或搜索定位；可用 <b>📍定位</b> 找“离我最近”的地点。</span>
+        <button class="mbtn" id="locate-btn">📍 定位</button>
+        <button class="mbtn" id="reset-btn">↺ 复位</button>
+        <button class="mbtn" id="full-btn">⛶ 全屏</button>
+        <button class="mbtn" id="settings-btn">⚙️ 设置</button><button class="mbtn primary" id="amap-btn">🗺️ 高德官方地图</button>
+      </div>
+      <div class="legend" id="legend-gz"></div>
+      <div class="note">⚠️ 地标坐标基于公开报道整理的约略定位（非测绘数据），卫星影像与实地存在偏差属正常；虚线为校区范围与周边道路示意。接入高德官方 Key 后可启用高德矢量地图与 POI 检索（见右上「高德官方地图」）。</div>
+    </div>
+    <div class="side">
+      <input class="search" id="search-gz" placeholder="🔍 在列表中查找…">
+      <div class="chips" id="chips-gz"></div>
+      <div class="list" id="list-gz"></div>
+      <div class="detail" id="detail-gz"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 推荐路线 ============ -->
+<section id="routes">
+  <div class="section-head">
+    <h2>推荐路线</h2>
+    <p>点击路线卡片，卫星图上会画出路线、标注距离与预计步行时间，并按编号逐站导览</p>
+  </div>
+  <div class="routes" id="routes-gz"></div>
+  <div class="steps" id="rp-gz" style="display:none">
+    <div class="hd">
+      <h3 id="rpTitle-gz"></h3>
+      <button class="btn ghost" id="exit-gz">✕ 退出路线</button>
+    </div>
+    <div class="step-bar" id="stepBar-gz"></div>
+    <div class="detail" id="rpDetail-gz"></div>
+    <div class="navbtns">
+      <button class="btn" id="prev-gz">← 上一步</button>
+      <button class="btn primary" id="next-gz">下一步 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 实景相册 ============ -->
+<section id="photos">
+  <div class="section-head">
+    <h2>西区实景相册</h2>
+    <p>2026 年启用后的实地照片（点击可看大图）</p>
+  </div>
+  <div class="gallery" id="gallery-gz"></div>
+</section>
+
+<!-- ============ 更新日志 ============ -->
+<section id="changelog">
+  <div class="section-head">
+    <h2>更新日志</h2>
+    <p>记录每一次迭代 · 版本 · 日期 · 变更类型</p>
+  </div>
+  <div class="changelog" id="changelog-list"></div>
+</section>
+
+</main>
+
+<footer>
+  <div class="container">
+    <p>本导览为非官方制作，信息整理自学校官网与公开报道（观海新闻、学校新闻网等），仅供新生与访客参考，具体以学校实际安排为准。</p>
+    <p>古镇口校区：青岛西海岸新区 · 西区（三沙路以西 / 宅科路以南 / 山川路以东）</p>
+    <p>地图数据 © OpenStreetMap / Esri / 高德地图 · 照片版权归原作者与媒体所有</p>
+    <p>📱 iPhone：Safari 打开后点「分享 → 添加到主屏幕」即可 App 式使用（全屏 + 图标 + 离线）；安卓可安装「中石大学生助手」APK。</p>
+  </div>
+</footer>
+
+<!-- 高德设置弹窗 -->
+<div class="modal-backdrop" id="settings-modal">
+  <div class="modal">
+    <h3>⚙️ 接入高德官方地图 <button class="mclose" id="settings-close">✕</button></h3>
+    <p>填入高德开放平台的 <b>Web端（JS API）Key</b>，即可启用高德官方矢量地图，并可使用高德 POI 检索定位真实地点。不填也能正常使用当前的卫星/街道地图。</p>
+    <ol>
+      <li>打开 <a href="https://console.amap.com/dev/key/app" target="_blank" rel="noopener">高德开放平台控制台</a>（免费注册，个人即可）</li>
+      <li>「应用管理 → 我的应用 → 创建新应用」</li>
+      <li>在应用下「添加 Key」，服务平台选择 <b>Web端(JS API)</b></li>
+      <li>把生成的 Key 粘贴到下方保存</li>
+    </ol>
+    <input id="amap-key-input" type="text" placeholder="粘贴你的高德 Web端 JS Key（如 1234567890abcdef…）">
+    <div class="amap-key-state" id="amap-key-state"></div>
+    <div class="modal-btns">
+      <button class="btn primary" id="amap-save">💾 保存并启用</button>
+      <button class="btn" id="amap-clear">清除 Key</button>
+    </div>
+  </div>
+</div>
+
+<!-- 高德官方地图弹窗 -->
+<div class="modal-backdrop modal-wide" id="amap-modal">
+  <div class="modal">
+    <h3>🗺️ 高德官方矢量地图 <button class="mclose" id="amap-close">✕</button></h3>
+    <div id="amap-container"></div>
+    <div class="amap-key-state" id="amap-state"></div>
+  </div>
+</div>
+
+<nav class="app-nav" id="app-nav">
+  <button data-target="map"><span class="nav-ico">🗺️</span>地图</button>
+  <button data-target="routes"><span class="nav-ico">🧭</span>路线</button>
+  <button data-target="photos"><span class="nav-ico">📷</span>相册</button>
+  <button data-target="changelog"><span class="nav-ico">📋</span>日志</button>
+</nav>
+<div id="toast"></div>
+<div id="lightbox"><img id="lightbox-img" alt=""><div class="cap" id="lightbox-cap"></div></div>
+
+<script src="lib/leaflet.js"></script>
+<script>
+var $=function(id){return document.getElementById(String(id).replace(/^#/,""));};
+
+var CATS={
+  study:{label:'学习',icon:'🎓',color:'#2563eb'},
+  food:{label:'美食',icon:'🍜',color:'#ea580c'},
+  sport:{label:'运动',icon:'⚽',color:'#16a34a'},
+  life:{label:'生活',icon:'🏠',color:'#7c3aed'},
+  view:{label:'景观',icon:'🌿',color:'#0d9488'},
+  traffic:{label:'交通',icon:'🚇',color:'#64748b'}
+};
+
+var CENTER={lat:35.7699132,lng:120.0276098};
+function ll(dx,dy){
+  var dLat=dy/111320;
+  var dLng=dx/(111320*Math.cos(CENTER.lat*Math.PI/180));
+  return [CENTER.lat+dLat, CENTER.lng+dLng];
+}
+function haversine(a,b){
+  var R=6371000,toR=Math.PI/180;
+  var dlat=(b[0]-a[0])*toR,dlng=(b[1]-a[1])*toR;
+  var la1=a[0]*toR,la2=b[0]*toR;
+  var h=Math.sin(dlat/2)*Math.sin(dlat/2)+Math.cos(la1)*Math.cos(la2)*Math.sin(dlng/2)*Math.sin(dlng/2);
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+function landById(id){return LANDS.find(function(x){return x.id===id;});}
+
+var LANDS=[
+  {id:'gz-northgate',name:'北门',cat:'traffic',dx:0,dy:-330,desc:'西区北侧主入口，紧邻宅科路，是进出校园与接驳公交的主要通道。',tip:'新生报到季北门人流较大，注意听从交通引导。'},
+  {id:'gz-library',name:'求是图书馆',cat:'study',dx:0,dy:-150,photo:'images/gz-library.jpg',desc:'西区地标：建筑面积约 4.9 万㎡、6 层、约 3500 个阅览座位。外墙采用铝板幕墙＋玻璃幕墙，折叠型竖向分隔“像一本书徐徐展开”；室内东西打通视线通廊，向东看海、向西望山，三层设有观海平台。',tip:'观海平台是拍照绝佳机位；中庭弧线垂拔贯通到顶、屋面有采光窗，采光极佳。'},
+  {id:'gz-plaza',name:'中央广场',cat:'view',dx:0,dy:-40,desc:'图书馆与卓越教学楼之间的开敞广场，集会、社团活动与日常休憩的空间。',tip:'傍晚常有同学在此散步、滑板、练轮滑。'},
+  {id:'gz-teaching',name:'卓越教学楼',cat:'study',dx:0,dy:60,photo:'images/gz-teaching.jpg',desc:'学校规模最大的教学楼：建筑面积约 7 万㎡、教室 204 间、总座位约 1.64 万。教室类型包括弧型教室、全景教室、研讨型教室、大阶梯教室、美育教室与多媒体机房等，全楼配备风机盘管加新风空调。',tip:'教室类型多，上课前先看清楼号、楼层与教室类型，避免跑错。'},
+  {id:'gz-weizhen',name:'惟真楼',cat:'study',dx:-260,dy:-10,photo:'images/gz-weizhen-weishi.jpg',desc:'院系实验科研楼之一，承担实验教学与科研任务；与惟实楼以连廊相接，建筑体块方正、穿插感强。',tip:'进入实验室须遵守安全规范。'},
+  {id:'gz-weishi',name:'惟实楼',cat:'study',dx:-260,dy:110,photo:'images/gz-weizhen-weishi.jpg',desc:'实验科研楼群，与惟真楼共同构成西区科研实验区。',tip:'与惟真楼相邻，实验课多集中于此区域。'},
+  {id:'gz-gym',name:'风雨操场（体育馆）',cat:'sport',dx:260,dy:-170,photo:'images/gz-gym.jpg',desc:'室内运动场建筑面积约 1.2 万㎡，分南北两个运动大厅：南厅含 4 个篮球场、10 个羽毛球场地、12 个乒乓球场地，北厅含 2 个排球场、10 个羽毛球场地、8 个乒乓球场地。',tip:'风雨无阻的锻炼去处，球类活动需提前预约场地。'},
+  {id:'gz-track',name:'红旗操场',cat:'sport',dx:260,dy:0,desc:'开阔专业的标准运动场，红色跑道环绕绿茵场，是体育课、运动会与日常锻炼的主场地。',tip:'晚间亮灯，适合夜跑；运动会期间人会很多。'},
+  {id:'gz-ling',name:'灵山湾餐厅',cat:'food',dx:260,dy:150,desc:'西区两大餐厅之一，靠近东侧宿舍区，菜品丰富。',tip:'早餐供应早，赶早课也能吃上热乎饭。'},
+  {id:'gz-zhu',name:'珠山餐厅',cat:'food',dx:0,dy:180,desc:'西区餐厅，紧邻宿舍与教学楼，取餐动线方便。',tip:'午晚餐高峰期可错峰 20 分钟。'},
+  {id:'gz-dorm14',name:'本科生宿舍（学1–学4）',cat:'life',dx:-180,dy:250,desc:'西区本科生宿舍楼群，学 1–学 4 楼。',tip:'西区本科生宿舍共 8 栋、总床位 9248 张，具体以学校分配为准。'},
+  {id:'gz-dorm58',name:'本科生宿舍（学5–学8）',cat:'life',dx:180,dy:250,desc:'西区本科生宿舍楼群，学 5–学 8 楼。',tip:'靠近东侧餐厅与操场，生活动线方便。'},
+  {id:'gz-grad',name:'研究生9号公寓',cat:'life',dx:0,dy:300,desc:'西区研究生公寓，配套齐全。',tip:'研究生入住，实行门禁管理。'},
+  {id:'gz-teacher',name:'教师公寓',cat:'life',dx:-280,dy:330,desc:'西区教师公寓，共 737 套，保障教职工住宿。',tip:'非开放区域，请勿打扰。'},
+  {id:'gz-hospital',name:'校医院',cat:'life',dx:-260,dy:390,photo:'images/gz-hospital.jpg',desc:'西区医疗服务点：建筑面积约 0.35 万㎡、共三层，设内科、外科、口腔科、影像科、检验科等科室及抢救室、观察室等。',tip:'急诊与值班电话见校医院公告。'},
+  {id:'gz-southgate',name:'南门',cat:'traffic',dx:0,dy:380,desc:'西区南侧出入口，紧邻学生生活区。',tip:'出入校园请携带校园卡或有效证件。'}
+];
+
+var ROUTES=[
+  {id:'gz-classic',name:'⛰️ 经典半日游',time:'约 2–3 小时',desc:'从北门进校，打卡“书卷”求是图书馆与中央广场，参观全校最大的卓越教学楼，再看惟真、惟实实验楼，午间珠山餐厅干饭，操场散步后回南门。',steps:['gz-northgate','gz-library','gz-plaza','gz-teaching','gz-weizhen','gz-weishi','gz-zhu','gz-ling','gz-track','gz-gym','gz-dorm14','gz-grad','gz-southgate']},
+  {id:'gz-food',name:'🍜 生活美食线',time:'约 1.5–2 小时',desc:'南门进校直奔珠山、灵山湾两大餐厅，看看宿舍与研究生公寓，路过教师公寓和校医院，最后去红旗操场消消食。',steps:['gz-southgate','gz-zhu','gz-ling','gz-dorm14','gz-dorm58','gz-grad','gz-teacher','gz-hospital','gz-track']},
+  {id:'gz-sport',name:'⚽ 运动休闲线',time:'约 1–1.5 小时',desc:'从风雨操场室内场馆玩起，再到红旗操场跑步，途经两大餐厅补充能量，最后逛逛宿舍区。',steps:['gz-southgate','gz-gym','gz-track','gz-ling','gz-zhu','gz-dorm14','gz-dorm58','gz-grad','gz-hospital']}
+];
+
+var PHOTOS=[
+  {src:'images/gz-aerial.jpg',cap:'古镇口校区西区 · 全景',srcLabel:'观海新闻'},
+  {src:'images/gz-library.jpg',cap:'求是图书馆 · 观海平台',srcLabel:'观海新闻'},
+  {src:'images/gz-teaching.jpg',cap:'卓越教学楼 · 全校最大教学楼',srcLabel:'观海新闻'},
+  {src:'images/gz-weizhen-weishi.jpg',cap:'惟真楼 · 惟实楼',srcLabel:'观海新闻'},
+  {src:'images/gz-gym.jpg',cap:'风雨操场 · 室内运动场',srcLabel:'观海新闻'},
+  {src:'images/gz-hospital.jpg',cap:'校医院',srcLabel:'观海新闻'},
+  {src:'images/gz-news-1.jpg',cap:'古镇口校区西区（建设实拍）',srcLabel:'学校新闻网'},
+  {src:'images/gz-news-2.jpg',cap:'古镇口校区西区（建设实拍）',srcLabel:'学校新闻网'},
+  {src:'images/gz-news-3.jpg',cap:'古镇口校区西区（建设实拍）',srcLabel:'学校新闻网'}
+];
+
+/* ================= 地图 ================= */
+var map=L.map($('map-gz'),{zoomControl:true,attributionControl:true});
+var esri=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',{maxZoom:19,attribution:'Esri, Maxar, Earthstar Geographics'});
+var gdSat=L.tileLayer('https://webst01.is.autonavi.com/appmaptile?style=6&x={x}&y={y}&z={z}',{maxZoom:18,attribution:'高德地图'});
+var gdStreet=L.tileLayer('https://webrd01.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}',{maxZoom:18,attribution:'高德地图'});
+var carto=L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{maxZoom:19,subdomains:'abcd',attribution:'© OpenStreetMap, © CARTO'});
+esri.addTo(map);
+L.control.layers({'卫星影像（Esri）':esri,'高德卫星':gdSat,'高德街道':gdStreet,'浅色街道（OSM）':carto},null,{position:'topright'}).addTo(map);
+L.control.scale({imperial:false,position:'bottomright'}).addTo(map);
+map.setView([CENTER.lat,CENTER.lng],16);
+map.setMinZoom(13);
+map.setMaxBounds(L.latLngBounds(ll(-900,-800),ll(900,800)));
+
+var markerLayer=L.layerGroup().addTo(map);
+var routeLayer=L.layerGroup().addTo(map);
+var ctxLayer=L.layerGroup().addTo(map);
+var markers={};
+var selected=null, route=null, step=0, q='', cat='all';
+var userPos=null, userDot=null, nearMode=false;
+
+/* ---------- 校区范围与周边道路（示意） ---------- */
+function ctxLabel(text,latlng){
+  return L.marker(latlng,{icon:L.divIcon({className:'',html:'<div class="ctx-label">'+text+'</div>',iconSize:[170,28],iconAnchor:[0,0]}),interactive:false});
+}
+function drawContext(){
+  ctxLayer.clearLayers();
+  L.polyline([ll(-480,-410),ll(480,-410)],{color:'#f59e0b',weight:5,opacity:.75,dashArray:'8 8'}).addTo(ctxLayer);
+  L.polyline([ll(-490,-360),ll(-490,380)],{color:'#f59e0b',weight:5,opacity:.75,dashArray:'8 8'}).addTo(ctxLayer);
+  L.polyline([ll(470,-360),ll(470,380)],{color:'#f59e0b',weight:5,opacity:.75,dashArray:'8 8'}).addTo(ctxLayer);
+  ctxLabel('宅科路',ll(0,-418)).addTo(ctxLayer);
+  ctxLabel('三沙路',ll(-497,-20)).addTo(ctxLayer);
+  ctxLabel('山川路',ll(478,-20)).addTo(ctxLayer);
+  var corners=[ll(-450,-370),ll(450,-370),ll(450,370),ll(-450,370)];
+  L.polygon(corners,{color:'#c8102e',weight:2,fillColor:'#c8102e',fillOpacity:.05,dashArray:'5 5'}).addTo(ctxLayer);
+  ctxLabel('古镇口校区 · 西区（示意范围）',ll(0,-382)).addTo(ctxLayer);
+}
+drawContext();
+/* ---------- 图钉与弹窗 ---------- */
+function pinHTML(l,sel){
+  var c=CATS[l.cat];
+  return '<div class="pin'+(sel?' sel':'')+'"><span class="lbl">'+l.name+'</span><div class="dot" style="--c:'+c.color+'"><span>'+c.icon+'</span></div></div>';
+}
+function iconFor(l,sel){
+  return L.divIcon({className:'',html:pinHTML(l,sel),iconSize:[96,74],iconAnchor:[48,68],popupAnchor:[0,-64]});
+}
+function popupHTML(l){
+  var c=CATS[l.cat];
+  var img=l.photo?('<img src="'+l.photo+'" alt="'+l.name+'">'):'<div style="height:6px"></div>';
+  return '<div class="pp">'+img+'<div class="bd"><h4>'+c.icon+' '+l.name+'</h4>'+
+    '<span class="tag" style="background:'+c.color+'">'+c.label+'</span>'+
+    '<p>'+l.desc+'</p><div class="tip">💡 '+l.tip+'</div></div></div>';
+}
+function popupWidth(){return window.innerWidth<768?250:300;}
+function buildMarkers(){
+  markerLayer.clearLayers();
+  LANDS.forEach(function(l){
+    var m=L.marker(ll(l.dx,l.dy),{icon:iconFor(l,selected===l.id)});
+    m.bindPopup(popupHTML(l),{closeButton:true,maxWidth:popupWidth()});
+    m.bindTooltip(l.name,{direction:'top',offset:[0,-66],opacity:.92});
+    m.on('click',function(){select(l.id);});
+    m.addTo(markerLayer);
+    markers[l.id]=m;
+  });
+}
+function select(id){
+  selected=id;
+  var l=landById(id);
+  if(!l)return;
+  buildMarkers();
+  var m=markers[id];
+  if(m){
+    map.panTo(m.getLatLng(),{animate:true,duration:.4});
+    m.openPopup();
+  }
+  renderList();renderDetail();
+  if(route){
+    var idx=route.steps.indexOf(id);
+    if(idx>-1){step=idx;renderRoutePanel();}
+  }
+}
+/* ---------- 列表 / 筛选 / 排序 ---------- */
+function distTo(l){
+  if(!userPos)return null;
+  return haversine(userPos,ll(l.dx,l.dy));
+}
+function filtered(){
+  var ql=q.toLowerCase();
+  var items=LANDS.filter(function(l){
+    var okCat=(cat==='all'||l.cat===cat);
+    var okQ=(!ql||(l.name+l.desc+l.tip+CATS[l.cat].label).toLowerCase().indexOf(ql)>-1);
+    return okCat&&okQ;
+  });
+  if(nearMode&&userPos){
+    items=items.slice().sort(function(a,b){return distTo(a)-distTo(b);});
+  }
+  return items;
+}
+function renderList(){
+  var items=filtered();
+  if(items.length===0){
+    $('list-gz').innerHTML='<div class="item" style="cursor:default;color:var(--muted)">没有匹配的地点，换个关键词试试</div>';
+    return;
+  }
+  $('list-gz').innerHTML=items.map(function(l){
+    var c=CATS[l.cat];
+    var d=distTo(l);
+    var distHtml=(d!==null&&nearMode)?('<span class="dist">'+(d<1000?Math.round(d)+' 米':(d/1000).toFixed(1)+' km')+'</span>'):'';
+    return '<div class="item'+(selected===l.id?' sel':'')+'" data-id="'+l.id+'">'+
+      '<div class="ico" style="background:'+c.color+'">'+c.icon+'</div>'+
+      '<div><div class="nm">'+l.name+'</div><div class="ct">'+c.label+' · 点击定位</div></div>'+distHtml+'</div>';
+  }).join('');
+  $('list-gz').querySelectorAll('.item[data-id]').forEach(function(el){
+    el.addEventListener('click',function(){select(el.getAttribute('data-id'));});
+  });
+}
+function renderDetail(){
+  if(!selected){
+    $('detail-gz').innerHTML='<h3>📍 选择地点</h3><p>点击上方搜索框或左侧列表，卫星图会自动定位并展示建筑介绍；点击「推荐路线」可开始逐站导览；点击「📍 定位」可查看离你最近的地点。</p>';
+    return;
+  }
+  var l=landById(selected);
+  if(!l)return;
+  var c=CATS[l.cat];
+  var img=l.photo?('<img class="pthumb" src="'+l.photo+'" alt="'+l.name+'">'):'';
+  $('detail-gz').innerHTML='<h3>'+l.name+' <span class="cat-tag" style="background:'+c.color+'">'+c.icon+' '+c.label+'</span></h3>'+
+    img+'<p>'+l.desc+'</p><div class="tip">💡 '+l.tip+'</div>';
+}
+function renderChips(){
+  var counts={};
+  LANDS.forEach(function(l){counts[l.cat]=(counts[l.cat]||0)+1;});
+  var s='<span class="chip'+(cat==='all'?' on':'')+'" data-cat="all">全部 '+LANDS.length+'</span>';
+  Object.keys(CATS).forEach(function(k){
+    s+='<span class="chip'+(cat===k?' on':'')+'" data-cat="'+k+'">'+CATS[k].icon+' '+CATS[k].label+' '+(counts[k]||0)+'</span>';
+  });
+  s+='<span class="chip special'+(nearMode?' on':'')+'" data-cat="__near">📍 离我最近</span>';
+  $('chips-gz').innerHTML=s;
+  $('chips-gz').querySelectorAll('.chip').forEach(function(el){
+    el.addEventListener('click',function(){
+      var c=el.getAttribute('data-cat');
+      if(c==='__near'){
+        if(!userPos){locate();return;}
+        nearMode=!nearMode;
+        if(nearMode&&selected&&userPos){
+          var near=nearestLandmark();
+          if(near)select(near.id);
+        }
+        renderChips();renderList();
+      }else{
+        setCat(c);
+      }
+    });
+  });
+}
+function renderQuick(){
+  var counts={};
+  LANDS.forEach(function(l){counts[l.cat]=(counts[l.cat]||0)+1;});
+  var s='<span class="qchip'+(cat==='all'?' on':'')+'" data-cat="all">🏷️ 全部地点</span>';
+  Object.keys(CATS).forEach(function(k){
+    s+='<span class="qchip'+(cat===k?' on':'')+'" data-cat="'+k+'">'+CATS[k].icon+' '+CATS[k].label+' '+(counts[k]||0)+'</span>';
+  });
+  $('quick-chips').innerHTML=s;
+  $('quick-chips').querySelectorAll('.qchip').forEach(function(el){
+    el.addEventListener('click',function(){
+      setCat(el.getAttribute('data-cat'));
+      $('map').scrollIntoView({behavior:'smooth'});
+      var first=filtered()[0];
+      if(first)select(first.id);
+    });
+  });
+}
+function renderLegend(){
+  var s='';
+  Object.keys(CATS).forEach(function(k){
+    var v=CATS[k];
+    s+='<span><span style="display:inline-block;width:9px;height:9px;border-radius:3px;background:'+v.color+'"></span> '+v.icon+' '+v.label+'</span>';
+  });
+  s+='<span style="color:#1d4ed8">📍 我的位置</span><span style="color:#f59e0b">┅ 周边道路</span><span style="color:#c8102e">┅ 校区示意</span>';
+  $('legend-gz').innerHTML=s;
+}
+function setCat(c){
+  cat=c;
+  renderChips();renderQuick();renderList();
+}
+function setQuery(val){
+  q=(val||'').trim();
+  $('global-search').value=val||'';
+  $('search-gz').value=val||'';
+  renderList();
+}
+/* ---------- 定位 ---------- */
+function nearestLandmark(){
+  if(!userPos)return null;
+  var best=null,bd=Infinity;
+  LANDS.forEach(function(l){
+    var d=haversine(userPos,ll(l.dx,l.dy));
+    if(d<bd){bd=d;best=l;}
+  });
+  return best;
+}
+function locate(){
+  if(!navigator.geolocation){toast('当前浏览器不支持定位');return;}
+  toast('正在定位…');
+  navigator.geolocation.getCurrentPosition(function(pos){
+    userPos=[pos.coords.latitude,pos.coords.longitude];
+    if(userDot)map.removeLayer(userDot);
+    userDot=L.marker(userPos,{icon:L.divIcon({className:'',html:'<div class="user-dot"></div>',iconSize:[24,24],iconAnchor:[12,12]})}).addTo(map);
+    map.flyTo(userPos,17,{duration:.8});
+    var near=nearestLandmark();
+    toast('已定位 ✅ 距你最近：'+(near?near.name:'？')+(near?'（约 '+Math.round(haversine(userPos,ll(near.dx,near.dy)))+' 米）':''));
+    if(nearMode){
+      nearMode=false;renderChips();renderList();
+    }
+  },function(err){
+    toast('定位失败：请在浏览器设置中允许定位权限');
+  },{enableHighAccuracy:true,timeout:8000,maximumAge:30000});
+}
+/* ---------- 搜索联想 ---------- */
+function searchLocations(val){
+  var ql=val.toLowerCase();
+  if(!ql)return[];
+  var out=[];
+  LANDS.forEach(function(l){
+    var hay=(l.name+l.desc+l.tip+CATS[l.cat].label).toLowerCase();
+    if(hay.indexOf(ql)>-1){
+      var ni=l.name.toLowerCase().indexOf(ql);
+      var score=(ni===0)?0:(ni>-1?1:2);
+      out.push({l:l,s:score});
+    }
+  });
+  out.sort(function(a,b){return a.s-b.s;});
+  return out.map(function(x){return x.l;});
+}
+function renderSuggest(val){
+  var el=$('search-suggest');
+  if(!val){el.style.display='none';return;}
+  var list=searchLocations(val);
+  if(list.length===0){
+    el.innerHTML='<div class="sempty">没有找到“'+val+'”相关地点，试试：图书馆 / 餐厅 / 宿舍 / 操场</div>';
+    el.style.display='block';return;
+  }
+  el.innerHTML=list.slice(0,8).map(function(l){
+    var c=CATS[l.cat];
+    return '<div class="srow" data-id="'+l.id+'"><div class="sico" style="background:'+c.color+'">'+c.icon+'</div>'+
+      '<div><div class="sname">'+l.name+'</div><div class="scat">'+c.label+' · 点击定位</div></div></div>';
+  }).join('')+
+  '<div class="sempty" style="border-top:1px solid var(--line)">共 '+list.length+' 个匹配 · 点击上方结果即可定位</div>';
+  el.style.display='block';
+  el.querySelectorAll('.srow').forEach(function(r){
+    r.addEventListener('click',function(){chooseSuggest(r.getAttribute('data-id'));});
+  });
+}
+function chooseSuggest(id){
+  $('search-suggest').style.display='none';
+  setQuery('');
+  select(id);
+  $('map').scrollIntoView({behavior:'smooth'});
+}
+$('global-search').addEventListener('input',function(e){setQuery(e.target.value);renderSuggest(e.target.value);});
+$('global-search').addEventListener('keydown',function(e){
+  if(e.key==='Enter'){
+    var list=searchLocations($('global-search').value);
+    if(list.length){e.preventDefault();chooseSuggest(list[0].id);}
+  }
+});
+$('global-search').addEventListener('blur',function(){setTimeout(function(){$('search-suggest').style.display='none';},180);});
+$('search-gz').addEventListener('input',function(e){setQuery(e.target.value);});
+/* ---------- 路线 ---------- */
+function routeStats(r){
+  var pts=r.steps.map(function(s){var l=landById(s);return l?ll(l.dx,l.dy):null;}).filter(Boolean);
+  var d=0;
+  for(var i=1;i<pts.length;i++)d+=haversine(pts[i-1],pts[i]);
+  var km=d/1000;
+  return {km:km,min:Math.max(1,Math.round(km/4*60))};
+}
+function renderRoutes(){
+  $('routes-gz').innerHTML=ROUTES.map(function(r){
+    var st=routeStats(r);
+    var preview=r.steps.slice(0,6).map(function(s,i){
+      var l=landById(s);
+      return l?'<li>'+(i+1)+'. '+l.name+'</li>':'';
+    }).join('');
+    var more=r.steps.length>6?'<li style="list-style:none;color:var(--muted)">… 共 '+r.steps.length+' 站</li>':'';
+    return '<div class="route'+(route&&route.id===r.id?' on':'')+'" data-rid="'+r.id+'">'+
+      '<div class="rt">'+r.name+'</div>'+
+      '<div class="meta"><span>⏱ '+r.time+' · 共 '+r.steps.length+' 站</span><span class="d">全程约 '+st.km.toFixed(1)+' km · 步行约 '+st.min+' 分钟</span></div>'+
+      '<p>'+r.desc+'</p><ol>'+preview+more+'</ol></div>';
+  }).join('');
+  $('routes-gz').querySelectorAll('.route').forEach(function(el){
+    el.addEventListener('click',function(){
+      startRoute(ROUTES.find(function(r){return r.id===el.getAttribute('data-rid');}));
+    });
+  });
+}
+function renderRoutePanel(){
+  if(!route){
+    $('rp-gz').style.display='none';
+    return;
+  }
+  var st=routeStats(route);
+  $('rp-gz').style.display='block';
+  $('rpTitle-gz').textContent=route.name+' · '+(step+1)+' / '+route.steps.length;
+  $('stepBar-gz').innerHTML=route.steps.map(function(s,i){
+    var l=landById(s);
+    if(!l)return '';
+    var cls=i<step?'done':(i===step?'cur':'');
+    return '<span class="step-pill '+cls+'">'+(i+1)+' '+l.name+'</span>';
+  }).join('');
+  var l=landById(route.steps[step]);
+  if(l){
+    var c=CATS[l.cat];
+    var img=l.photo?('<img class="pthumb" src="'+l.photo+'" alt="'+l.name+'">'):'';
+    $('rpDetail-gz').innerHTML='<h3>第 '+(step+1)+' 站 · '+l.name+' <span class="cat-tag" style="background:'+c.color+'">'+c.icon+' '+c.label+'</span></h3>'+
+      img+'<p>'+l.desc+'</p><div class="tip">💡 '+l.tip+'</div>';
+  }
+  $('prev-gz').disabled=(step===0);
+  $('next-gz').textContent=(step===route.steps.length-1)?'✔ 完成导览':'下一步 →';
+}
+function drawRoute(){
+  routeLayer.clearLayers();
+  if(!route)return;
+  var pts=route.steps.map(function(s){var l=landById(s);return l?ll(l.dx,l.dy):null;}).filter(Boolean);
+  if(pts.length>1){
+    L.polyline(pts,{color:'#c8102e',weight:4,opacity:.9,dashArray:'9 12'}).addTo(routeLayer);
+  }
+  route.steps.forEach(function(s,i){
+    var l=landById(s);
+    if(!l)return;
+    L.marker(ll(l.dx,l.dy),{icon:L.divIcon({className:'',html:'<div class="rnum">'+(i+1)+'</div>',iconSize:[26,26],iconAnchor:[13,13]})}).addTo(routeLayer);
+  });
+  if(pts.length>1)map.fitBounds(L.latLngBounds(pts).pad(0.25),{animate:true});
+}
+function startRoute(r){
+  route=r;step=0;selected=r.steps[0];
+  drawRoute();buildMarkers();renderRoutes();renderRoutePanel();renderList();renderDetail();
+  var m=markers[selected];
+  if(m){map.panTo(m.getLatLng(),{animate:true});m.openPopup();}
+  if(window.innerWidth<980)$('map').scrollIntoView({behavior:'smooth',block:'start'});
+}
+function exitRoute(){
+  route=null;step=0;selected=null;
+  routeLayer.clearLayers();buildMarkers();renderRoutes();renderRoutePanel();renderList();renderDetail();
+}
+function goStep(delta){
+  if(!route)return;
+  var ni=step+delta;
+  if(ni<0||ni>=route.steps.length)return;
+  step=ni;selected=route.steps[step];
+  drawRoute();buildMarkers();renderRoutePanel();renderList();renderDetail();
+  var m=markers[selected];
+  if(m){map.panTo(m.getLatLng(),{animate:true});m.openPopup();}
+}
+$('prev-gz').addEventListener('click',function(){goStep(-1);});
+$('next-gz').addEventListener('click',function(){
+  if(!route)return;
+  if(step<route.steps.length-1)goStep(1);else exitRoute();
+});
+$('exit-gz').addEventListener('click',exitRoute);
+/* ---------- 地图工具按钮 ---------- */
+$('locate-btn').addEventListener('click',locate);
+$('reset-btn').addEventListener('click',function(){map.flyTo([CENTER.lat,CENTER.lng],16,{duration:.7});});
+$('full-btn').addEventListener('click',function(){
+  if(!document.fullscreenElement){
+    if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen();
+  }else{
+    if(document.exitFullscreen)document.exitFullscreen();
+  }
+});
+document.addEventListener('fullscreenchange',function(){setTimeout(function(){map.invalidateSize();},120);});
+/* ---------- Toast ---------- */
+var toastTimer=null;
+function toast(msg){
+  var t=$('toast');
+  t.textContent=msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(function(){t.classList.remove('show');},2600);
+}
+/* ---------- 弹窗通用 ---------- */
+function showModal(id){$(id).classList.add('show');}
+function hideModal(id){$(id).classList.remove('show');}
+document.querySelectorAll('.modal-backdrop').forEach(function(md){
+  md.addEventListener('click',function(e){if(e.target===md)md.classList.remove('show');});
+});
+/* ---------- 高德官方 API ---------- */
+var DEFAULT_AMAP_KEY='02059fef8b27fc848c9a726deeb7a8a9';
+var AMAP_KEY=(function(){try{return localStorage.getItem('amapKey')||DEFAULT_AMAP_KEY;}catch(e){return DEFAULT_AMAP_KEY;}})();
+function amapKeyState(){
+  var src=(function(){try{return localStorage.getItem('amapKey')||'';}catch(e){return '';}})();
+  $('amap-key-state').textContent=src?('当前使用已保存的 Key（'+src.slice(0,6)+'…），可在下方更换。'):('已内置默认 Key（'+DEFAULT_AMAP_KEY.slice(0,6)+'…），可直接使用高德官方地图；如需更换请粘贴新 Key 后保存。');
+}
+$('settings-btn').addEventListener('click',function(){showModal('settings-modal');$('amap-key-input').value=AMAP_KEY;amapKeyState();});
+$('amap-btn').addEventListener('click',function(){
+  if(!AMAP_KEY){showModal('settings-modal');amapKeyState();return;}
+  openAmapModal();
+});
+$('settings-close').addEventListener('click',function(){hideModal('settings-modal');});
+$('amap-close').addEventListener('click',function(){hideModal('amap-modal');});
+$('amap-save').addEventListener('click',function(){
+  var k=($('amap-key-input').value||'').trim();
+  if(!k){toast('请先粘贴高德 Web端 JS Key');return;}
+  AMAP_KEY=k;
+  try{localStorage.setItem('amapKey',k);}catch(e){}
+  hideModal('settings-modal');
+  toast('Key 已保存，正在加载高德官方地图…');
+  openAmapModal();
+});
+$('amap-clear').addEventListener('click',function(){
+  AMAP_KEY='';$('amap-key-input').value='';
+  try{localStorage.removeItem('amapKey');}catch(e){}
+  amapKeyState();toast('已清除高德 Key');
+});
+function loadAmapScript(cb){
+  if(window.AMap){cb();return;}
+  document.querySelectorAll('script[src*="webapi.amap.com"]').forEach(function(s){s.parentNode.removeChild(s);});
+  window.AMap=undefined;
+  var s=document.createElement('script');
+  s.src='https://webapi.amap.com/maps?v=2.0&key='+encodeURIComponent(AMAP_KEY);
+  s.onload=cb;
+  s.onerror=function(){toast('高德地图脚本加载失败，请检查 Key 是否正确');$('amap-state').textContent='脚本加载失败：请确认 Key 有效且服务平台为「Web端(JS API)」。';};
+  document.head.appendChild(s);
+}
+function openAmapModal(){
+  showModal('amap-modal');
+  $('amap-state').textContent='正在加载高德官方地图…';
+  loadAmapScript(function(){initAmapMap();});
+}
+function amapMarkerContent(l){
+  var c=CATS[l.cat];
+  return '<div style="background:'+c.color+';color:#fff;border-radius:999px;padding:4px 12px;font-size:12.5px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.35);border:1.5px solid #fff">'+c.icon+' '+l.name+'</div>';
+}
+function initAmapMap(){
+  try{
+    if(window.__amapMap)window.__amapMap.destroy();
+    var m=new AMap.Map('amap-container',{zoom:16,center:[CENTER.lng,CENTER.lat],mapStyle:'amap://styles/normal',viewMode:'2D'});
+    LANDS.forEach(function(l){
+      var p=[ll(l.dx,l.dy)[1],ll(l.dx,l.dy)[0]];
+      var mk=new AMap.Marker({position:p,title:l.name,content:amapMarkerContent(l),offset:new AMap.Pixel(0,-8)});
+      mk.on('click',function(){
+        var info=new AMap.InfoWindow({content:'<div style="padding:6px 8px;max-width:220px"><b>'+l.name+'</b><br><span style="font-size:12px;color:#555">'+l.desc+'</span></div>',offset:new AMap.Pixel(0,-6)});
+        info.open(m,p);
+      });
+      mk.setMap(m);
+    });
+    if(route){
+      var pts=route.steps.map(function(s){var l=landById(s);return l?[ll(l.dx,l.dy)[1],ll(l.dx,l.dy)[0]]:null;}).filter(Boolean);
+      if(pts.length>1){
+        new AMap.Polyline({path:pts,strokeColor:'#c8102e',strokeWeight:5,strokeStyle:'dashed',strokeOpacity:.9,map:m});
+      }
+    }
+    window.__amapMap=m;
+    $('amap-state').textContent='高德官方矢量地图已加载 ✅（地标位置为约略定位，可在高德中放大核对）';
+  }catch(e){
+    $('amap-state').textContent='初始化失败：'+e.message+'（请确认 Key 有效）';
+    toast('高德地图初始化失败');
+  }
+}
+/* ---------- 相册 ---------- */
+function renderGallery(){
+  $('gallery-gz').innerHTML=PHOTOS.map(function(p){
+    return '<div class="gphoto" data-src="'+p.src+'" data-cap="'+p.cap+'">'+
+      '<img loading="lazy" src="'+p.src+'" alt="'+p.cap+'">'+
+      '<span class="gzoom">🔍 查看大图</span>'+
+      (p.srcLabel?'<span class="gsrc">'+p.srcLabel+'</span>':'')+
+      '<span class="gcap">'+p.cap+'</span></div>';
+  }).join('');
+  $('gallery-gz').querySelectorAll('.gphoto').forEach(function(g){
+    g.addEventListener('click',function(){
+      openLightbox(g.getAttribute('data-src'),g.getAttribute('data-cap'));
+    });
+  });
+}
+function openLightbox(src,cap){
+  $('lightbox-img').src=src;
+  $('lightbox-cap').textContent=cap||'';
+  $('lightbox').style.display='flex';
+}
+$('lightbox').addEventListener('click',function(){$('lightbox').style.display='none';});
+document.addEventListener('keydown',function(e){
+  if(e.key==='Escape'){
+    $('lightbox').style.display='none';
+    hideModal('settings-modal');
+    hideModal('amap-modal');
+  }
+});
+var CTAG={new:['new','新增'],opt:['opt','优化'],fix:['fix','修复']};
+var VERSIONS=[
+  {ver:'v1.6.0',date:'2026-09-02',title:'iPhone 端完善（PWA）',changes:[
+    {t:'new',text:'iPhone 支持：主屏图标、启动图（splash）、全屏独立运行，Safari「添加到主屏幕」即用'},
+    {t:'opt',text:'提供 HTTPS 通道，iPhone 离线缓存（Service Worker）可用'}
+  ]},
+  {ver:'v1.5.0',date:'2026-09-02',title:'安卓 App「中石大学生助手」',changes:[
+    {t:'new',text:'发布安卓安装包 APK：应用名「中石大学生助手」、校徽图标、全屏运行、内置全部网页资源离线可用'},
+    {t:'opt',text:'支持 Android 7.0+（minSdk 21 / targetSdk 34），已签名可直接安装'}
+  ]},
+  {ver:'v1.4.0',date:'2026-09-02',title:'手机 App 化（PWA）+ 底部导航',changes:[
+    {t:'new',text:'支持安装到手机主屏幕：全屏运行、独立图标、离线缓存（Service Worker）'},
+    {t:'new',text:'手机端新增底部导航栏（地图/路线/相册/日志），操作更接近原生 App'},
+    {t:'opt',text:'网页版完全保留，桌面与手机自适应'}
+  ]},
+  {ver:'v1.3.0',date:'2026-09-02',title:'新增更新日志板块',changes:[
+    {t:'new',text:'页面新增「更新日志」板块：时间线展示版本历史，按 新增/优化/修复 分类并显示提交号'},
+    {t:'opt',text:'锚点导航新增「更新日志」入口，滚动自动高亮'}
+  ]},
+  {ver:'v1.2.0',date:'2026-09-02',title:'视觉改版：暗色主题 + 毛玻璃',changes:[
+    {t:'new',text:'暗色主题（深色底、亮色文字、红色点缀）'},
+    {t:'new',text:'毛玻璃（Glassmorphism）风格：卡片/导航/弹窗/下拉/图例/地图控件统一半透明模糊'},
+    {t:'opt',text:'页首与全页背景改为「求是图书馆」照片，手机端居中'}
+  ],commit:'e893d8f'},
+  {ver:'v1.1.1',date:'2026-09-02',title:'手机访问修复',changes:[
+    {t:'fix',text:'修复本地预览服务停止导致手机无法访问'},
+    {t:'new',text:'「启动手机预览.bat」一键脚本：自动放行防火墙 TCP 8000、启动服务、打印手机地址'},
+    {t:'opt',text:'记录手机无法访问排障方法（公用网络 + 防火墙未放行）'}
+  ],commit:'c0ef233'},
+  {ver:'v1.1.0',date:'2026-09-02',title:'背景图更新',changes:[
+    {t:'opt',text:'页首背景改用《中石大》文件夹「创造太阳」照片（4096×3072）'}
+  ],commit:'8e87168'},
+  {ver:'v1.0.0',date:'2026-09-01',title:'首个完整版本',changes:[
+    {t:'new',text:'古镇口西区单校区交互式导览：卫星/街道地图、16 地标、搜索联想、分类筛选、定位离我最近'},
+    {t:'new',text:'3 条推荐路线（虚线 + 编号逐站导览，含距离与步行时间）'},
+    {t:'new',text:'实景相册 + 灯箱、官方校徽、高德官方地图（内置 Key）'},
+    {t:'opt',text:'手机端自适应布局'}
+  ],commit:'539cf4b'}
+];
+function renderChangelog(){
+  $('changelog-list').innerHTML=VERSIONS.map(function(v){
+    var ch=v.changes.map(function(x){
+      var t=CTAG[x.t]||CTAG.opt;
+      return '<div class="clog-change"><span class="clog-tag '+t[0]+'">'+t[1]+'</span><span>'+x.text+'</span></div>';
+    }).join('');
+    return '<div class="clog-item"><div class="clog-card"><div class="clog-head">'+
+      '<span class="clog-ver">'+v.ver+'</span><span class="clog-date">'+v.date+'</span>'+
+      '<span class="clog-title">'+v.title+'</span>'+
+      (v.commit?'<span class="clog-commit">'+v.commit+'</span>':'<span class="clog-commit">本版</span>')+
+      '</div><div class="clog-changes">'+ch+'</div></div></div>';
+  }).join('');
+}
+
+/* ---------- 锚点导航（滚动高亮） ---------- */
+var tabs=document.querySelectorAll('.tab,.app-nav button');
+tabs.forEach(function(t){
+  t.addEventListener('click',function(){
+    $(''+t.getAttribute('data-target')).scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+function onScroll(){
+  var y=window.scrollY;
+  var pos=y+120;
+  var current='map';
+  ['map','routes','photos','changelog'].forEach(function(id){
+    var el=$(''+id);
+    if(el&&el.offsetTop<=pos)current=id;
+  });
+  var docH=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight);
+  if(y+window.innerHeight>=docH-10)current='changelog';
+  tabs.forEach(function(t){
+    t.classList.toggle('active',t.getAttribute('data-target')===current);
+  });
+}
+window.addEventListener('scroll',onScroll,{passive:true});
+window.addEventListener('resize',function(){
+  map.invalidateSize();
+  if(window.__amapMap)window.__amapMap.resize&&window.__amapMap.resize();
+});
+/* ---------- PWA / Service Worker ---------- */
+if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
+  window.addEventListener('load',function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+
+/* ---------- 初始化 ---------- */
+buildMarkers();drawContext();renderLegend();renderChips();renderQuick();renderRoutes();renderList();renderDetail();renderGallery();renderChangelog();amapKeyState();
+select('gz-library');
+</script>
+</body>
+</html>
