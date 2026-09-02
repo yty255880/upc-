@@ -16,6 +16,22 @@
 <link rel="apple-touch-startup-image" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3)" href="images/splash-1290x2796.png">
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2)" href="images/splash-750x1334.png">
 <link rel="apple-touch-startup-image" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3)" href="images/splash-1125x2436.png">
+<script>
+/* 自动更新：检测线上最新版，若本页过期则自动刷新（无需手动清缓存） */
+(function(){
+  var V='1.14.0';
+  try{
+    if(sessionStorage.getItem('pg_vreload')==='1') return;
+    fetch('site-version.json?t='+Date.now()).then(function(r){return r.json();}).then(function(j){
+      if(j&&j.version&&j.version!==V){
+        sessionStorage.setItem('pg_vreload','1');
+        location.replace(location.pathname.split('?')[0]+'?v='+j.version+location.hash);
+      }
+    }).catch(function(){});
+  }catch(e){}
+})();
+</script>
+
 <link rel="stylesheet" href="lib/leaflet.css">
 <style>
 :root{

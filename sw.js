@@ -1,5 +1,5 @@
 /* 校园导览 Service Worker - 离线缓存 */
-var CACHE = 'upc-guide-v1.14';
+var CACHE = 'upc-guide-v1.15';
 var ASSETS = [
   './',
   './index.html',
@@ -51,7 +51,7 @@ self.addEventListener('fetch', function (e) {
   if (req.mode === 'navigate') {
     // 网络优先：每次打开都拉取最新页面，离线时才回退缓存
     e.respondWith(
-      fetch(req).then(function (res) {
+      fetch(req, { cache: 'no-store' }).then(function (res) {
         if (res && res.status === 200) {
           var cp = res.clone();
           caches.open(CACHE).then(function (c) { c.put(req, cp); });
