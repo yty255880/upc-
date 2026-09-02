@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="images/icon-180.png">
 <script>
 /* 自动更新：检测线上最新版，旧页自动刷新（无需手动清缓存） */
-(function(){var V='1.15.0';try{if(sessionStorage.getItem('pg_vreload')==='1')return;fetch('site-version.json?t='+Date.now()).then(function(r){return r.json();}).then(function(j){if(j&&j.version&&j.version!==V){sessionStorage.setItem('pg_vreload','1');location.replace(location.pathname.split('?')[0]+'?v='+j.version+location.hash);}}).catch(function(){});}catch(e){}})();
+(function(){var V='1.19.0';try{if(sessionStorage.getItem('pg_vreload')==='1')return;fetch('site-version.json?t='+Date.now()).then(function(r){return r.json();}).then(function(j){if(j&&j.version&&j.version!==V){sessionStorage.setItem('pg_vreload','1');location.replace(location.pathname.split('?')[0]+'?v='+j.version+location.hash);}}).catch(function(){});}catch(e){}})();
 </script>
 <link rel="stylesheet" href="lib/leaflet.css">
 <style>
@@ -656,6 +656,47 @@ Object.keys(EASTCOPY).forEach(function(id){
   l.photos=(g.photos||[]).concat(l.photos||[]);
 });
 
+
+/* ===== 唐岛湾 / 东营 文案接入（官方来源） ===== */
+var TDCOPY={
+ 'chuangzao':{desc:'创造太阳是学校最具代表性的主题雕塑，坐落于唐岛湾校区中轴线光华大道上。2007年经著名雕塑家唐大禧修缮复制后落成于青岛校区，与东营校区1988年原作完全相同。雕塑以花岗岩和不锈钢制成，主体是创造太阳的“女大学生”——托举书本，代表开发能源与从事高等教育的人，她矗立于钻井平台之上，面海而坐、正对南门。',photos:['images/td-chuangzao.jpg']},
+ 'library':{desc:'图书馆（总馆/西馆）是学校的学习大咖：藏书丰富，从纸质书到电子期刊、科研著作到当代文学应有尽有；设阅览室、研读区、电子阅览室、咖啡厅等。它还是校园“方向标”——迷路时抬头找到图书馆，就找到了方向。',photos:['images/td-library.jpg']},
+ 'library2':{desc:'图书馆东馆（二期），开放时间约8:00-22:00，与总馆联动，自习环境好；校史馆即设于东馆北二楼大厅。',photos:[]},
+ 'hall':{desc:'讲堂群位于校园东北角，由东环、西环、东廊、西廊及南堂组成，整体呈弓形，是含107间教室、16900个座位的授课建筑群；还常承办社会实践、挑战杯成果展、手工艺品展等各类展览。',photos:['images/td-hall.jpg']},
+ 'nanjiao':{desc:'南教楼是主要教学楼，配备完备现代化教学设施：楼高5层，88个自然间、80间教室、约10700个座位；一楼阶梯教室“100号”常承办年级大会、团课、党课。',photos:['images/td-nanjiao.jpg']},
+ 'jichu':{desc:'基础实验楼位于图书馆东北侧、讲堂群西侧，二至四层设连廊（如过街天桥），地下1层、地上6层，集中各类实验室。'},
+ 'gongke':{desc:'工科实验楼群由五座实验楼组成：ABCD座位于逸夫实验楼西侧，均为7层、“一”字形排开，以悬空走廊相连，连续多层空中走廊构成富有节奏感的观海平台；E座位于南门东侧，采用内庭院式布局，绿色环保生态。多为院部办公、教师与研究生工作室和实验室。'},
+ 'wenli':{desc:'文理楼外表方正端庄，主要作为经济管理学院、文法学院、外国语学院、理学院、马克思主义学院和能源经济与政策研究院的行政办公、教师工作室与教学实验室。'},
+ 'museum':{desc:'校史馆设于图书馆东馆北二楼，建筑面积3490平方米，由前厅、序厅、序章、编年体展区、专题展区、愿景厅、艺术馆等组成，综合采用现代信息技术与视觉美学呈现校史。',photos:['images/td-museum.jpg']},
+ 'gym':{desc:'体育馆位于学校西北部，整体呈马鞍形，为网架结构及新型空间结构体系，分主馆与副馆：主馆承办各类赛事，副馆为训练馆。'},
+ 'track':{desc:'运动场包括田径场、网球场、篮球场、足球场、排球场及室外健身区；看台提供5100余坐席，还兼作乒乓球、武术、跆拳道等活动用房及交响乐团所在地。',photos:['images/td-track.jpg']},
+ 'activity':{desc:'大学生活动中心共4层：1层校园卡综合业务中心、大学生传媒中心、学生资助事务大厅、邮局、学生会等；2层研究生创新工作室；3层团委活动用房；4层学生协会与艺术团等用房。'},
+ 'dorm':{desc:'学校共有学生公寓19栋，以红色为主、绿白为辅的配色，温馨如家。'},
+ 'dorm2':{desc:'学校共有学生公寓19栋，红色为主调，绿白相间，生活设施齐全。'},
+ 'hospital':{desc:'校医院位于校区最西侧，坚定守护师生健康，日常就医与体检。'},
+ 'huicui':{desc:'荟萃苑餐厅因高端大气的高颜值与好风味被称为“皇家”网红餐厅。'},
+ 'yulan':{desc:'玉兰苑餐厅低调奢华有内涵、菜品极为丰富，跻身学生最爱餐厅之列。'},
+ 'tangdaowan':{desc:'唐岛湾餐厅“多才多艺”：内含民族餐厅照顾少数民族同学，三楼俱乐部可供开展丰富文艺与社团活动。'}
+};
+Object.keys(TDCOPY).forEach(function(id){
+  var l=CAMPUSES.td.lands.find(function(x){return x.id===id;});
+  if(!l)return;
+  var g=TDCOPY[id];
+  if(g.desc)l.desc=g.desc;
+  l.photos=(g.photos||[]).concat(l.photos||[]);
+});
+var DYCOPY={
+ 'dy-chuangzao':{desc:'创造太阳是学校标志性雕塑，东营与青岛各有一座、完全相同。东营校区作品由著名雕塑家唐大禧创作、校友捐建，1988年落成于太阳广场，是石大精神的最初象征。'},
+ 'dy-square':{desc:'东营科教园区中心广场，1988年落成的“创造太阳”雕塑原作矗立于此，是石大精神的原点。'}
+};
+Object.keys(DYCOPY).forEach(function(id){
+  var l=CAMPUSES.dy.lands.find(function(x){return x.id===id;});
+  if(!l)return;
+  var g=DYCOPY[id];
+  if(g.desc)l.desc=g.desc;
+  l.photos=(g.photos||[]).concat(l.photos||[]);
+});
+
 var EAST=[
  {name:'胜华大厦',icon:'🏢',tag:'综合',photo:'images/desk/胜华大厦.jpg',desc:'东区中央核心区地标：地上6层，建筑面积32966㎡，肌理如大海波纹，与前广场构成校园主轴。'},
  {name:'国工楼',icon:'🏭',tag:'科研',photo:'images/desk/国工楼.jpg',desc:'东南角科研楼，地上5层、总建筑面积27781㎡，层层跌落平台+下沉庭院。'},
@@ -721,6 +762,11 @@ var PHOTOS_EAST=[
 PHOTOS_EAST.forEach(function(d){PHOTOS_EAST_FULL.push({src:'images/desk/'+d[0],cap:'古镇口东区 · '+d[1],srcLabel:'桌面高清'});});
 
 var VERSIONS=[
+ {ver:'v1.19.0',date:'2026-09-02',title:'唐岛湾 / 东营 文案接入',changes:[
+    {t:'new',text:'唐岛湾校区官方文案接入：创造太阳/图书馆/讲堂群/南教楼/校史馆/工科楼群等地点介绍全面补全'},
+    {t:'new',text:'东营科教园区官方文案接入：太阳广场与创造太阳（1988 原作）介绍'},
+    {t:'opt',text:'唐岛湾/东营介绍参考学校官方公众号等公开资料整理'}
+  ]},
  {ver:'v1.18.0',date:'2026-09-02',title:'西区文案与高清照片接入',changes:[
     {t:'new',text:'桌面高清照片全部接入西区（每地标多图展示于弹窗/详情/相册）'},
     {t:'opt',text:'桌面文案全文写入对应地点介绍；二维码替换为学校官号/学生会'},
