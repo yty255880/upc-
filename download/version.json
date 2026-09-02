@@ -1,6 +1,6 @@
 {
-  "versionCode": 8,
-  "versionName": "1.13.0",
-  "url": "https://yty255880.github.io/upc-/download/中石大学生助手-v1.13.0.apk",
-  "note": "新增浅色/暗色主题切换（🌙/☀️ 按钮，选择自动保存）"
+  "versionCode": 9,
+  "versionName": "1.14.0",
+  "url": "https://yty255880.github.io/upc-/download/中石大学生助手-v1.14.0.apk",
+  "note": "App 联网优先加载最新内容；修复更新提示"
 }
