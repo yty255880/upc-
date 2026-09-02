@@ -236,6 +236,48 @@ footer a{color:#8fb7ff}
 .qr-info span{font-size:12px;color:var(--text2)}
 @media(max-width:768px){.qr-card{flex-direction:column;text-align:center}.qr-info span{display:block;margin-top:4px}}
 
+
+/* ===== 学院 ===== */
+.col-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:13px}
+.col-card{background:var(--glass2);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);transition:.18s}
+.col-card:hover{transform:translateY(-2px)}
+.col-banner{height:64px;display:flex;align-items:center;justify-content:center;font-size:30px;color:#fff}
+.col-body{padding:11px 13px}
+.col-body h4{font-size:14.5px;color:var(--text);line-height:1.4}
+.col-tags{display:flex;gap:5px;flex-wrap:wrap;margin:6px 0}
+.col-tag{font-size:10.5px;border-radius:999px;padding:1px 8px;font-weight:600}
+.col-tag.ug{background:rgba(0,212,255,.14);color:#0891b2}
+.col-tag.pg{background:rgba(124,58,237,.14);color:var(--neon2)}
+.col-tag.cp{background:rgba(255,45,120,.12);color:#d6246c}
+.col-body p{font-size:12px;color:var(--text2)}
+/* ===== 选课 ===== */
+.course-list{display:flex;flex-direction:column;gap:8px}
+.course{display:flex;align-items:center;gap:12px;background:var(--glass2);border:1px solid var(--line);border-radius:12px;padding:11px 13px;box-shadow:var(--shadow)}
+.course .c-ico{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,var(--neon1),var(--neon2));color:#fff;display:flex;align-items:center;justify-content:center;font-size:19px;flex:none}
+.course .c-name{font-size:14.5px;font-weight:700;color:var(--text)}
+.course .c-meta{font-size:11.5px;color:var(--text2)}
+.course .c-btn{margin-left:auto}
+.add-course{background:var(--glass2);border:1px dashed var(--line);border-radius:12px;padding:12px;margin-top:12px}
+.add-course input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:var(--glass2);color:var(--text);font-size:13px;margin:4px 0;font-family:inherit}
+.add-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 10px}
+/* ===== 个人中心 ===== */
+.profile-card{background:linear-gradient(160deg,rgba(255,45,120,.07),rgba(124,58,237,.07),rgba(0,212,255,.07));border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:var(--shadow);max-width:680px}
+.pf-top{display:flex;gap:14px;align-items:center}
+.pf-avatar{width:72px;height:72px;border-radius:50%;background:#fff;box-shadow:0 8px 22px rgba(124,58,237,.3);padding:4px}
+.nick{background:transparent;border:none;border-bottom:1.5px dashed var(--line);font-size:20px;font-weight:800;color:var(--text);width:100%;max-width:260px;outline:none;font-family:inherit;padding:2px 0}
+.nick:focus{border-color:var(--neon2)}
+.pf-id{font-size:12px;color:var(--text3);display:block;margin-top:2px}
+.pf-stats{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+.pf-stat{flex:1;min-width:90px;background:var(--glass2);border:1px solid var(--line);border-radius:12px;padding:9px;text-align:center}
+.pf-stat b{display:block;font-size:19px;background:linear-gradient(90deg,var(--neon1),var(--neon2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.pf-stat span{font-size:11px;color:var(--text2)}
+.pf-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.motto{display:flex;gap:14px;align-items:center;margin-top:16px;background:rgba(255,255,255,.5);border:1px solid var(--line);border-radius:12px;padding:12px;flex-wrap:wrap}
+html.dark .motto{background:rgba(255,255,255,.05)}
+.motto img{height:44px;background:#fff;border-radius:6px;padding:2px}
+.motto-text b{color:var(--text);font-size:15px;display:block}
+.motto-text span{display:block;font-size:12px;color:var(--text2)}
+
 </style>
 </head>
 <body>
@@ -261,11 +303,11 @@ footer a{color:#8fb7ff}
 
 <nav class="tabs">
   <div class="container tabs-inner">
-    <button class="tab active" data-target="map">🗺️ 地图导览</button>
-    <button class="tab" data-target="routes">🧭 推荐路线</button>
-    <button class="tab" data-target="photos">📷 实景相册</button>
-    <button class="tab" data-target="campuses">🏢 校区速览</button>
-    <button class="tab" data-target="changelog">📋 更新日志</button>
+    <button class="tab active" data-target="map">🗺️ 地图</button>
+    <button class="tab" data-target="colleges">🎓 学院</button>
+    <button class="tab" data-target="courses">📚 选课</button>
+    <button class="tab" data-target="profile">👤 我的</button>
+    <button class="tab" data-target="changelog">📋 日志</button>
   </div>
 </nav>
 
@@ -307,16 +349,54 @@ footer a{color:#8fb7ff}
 </section>
 
 <!-- ============ 推荐路线 ============ -->
-<section id="routes">
-  <div class="section-head"><h2>推荐路线</h2><p>点击路线卡片自动切换校区并在地图上逐站导览</p></div>
-  <div class="routes" id="routes-list"></div>
-  <div class="steps" id="rp" style="display:none">
-    <div class="step-bar" id="stepBar"></div>
-    <div class="detail" id="rpDetail"></div>
-    <div class="navbtns">
-      <button class="btn" id="prev">← 上一步</button>
-      <button class="btn primary" id="next">下一步 →</button>
-      <button class="btn ghost" id="exit">✕ 退出路线</button>
+
+<!-- ============ 学院院系 ============ -->
+<section id="colleges">
+  <div class="section-head"><h2>学院院系</h2><p>各学院简介 · 所在校区 · 本科生/研究生</p></div>
+  <div class="gfilter" id="col-filter">
+    <button class="chip on" data-f="all">全部</button>
+    <button class="chip" data-f="ug">🎓 本科生板块</button>
+    <button class="chip" data-f="pg">🎓 研究生板块</button>
+  </div>
+  <div class="col-grid" id="col-grid"></div>
+</section>
+
+<!-- ============ 选课与课程 ============ -->
+<section id="courses">
+  <div class="section-head"><h2>选课与我的课程</h2><p>选课中心 · 自主添加课程（保存在本机）</p></div>
+  <div class="gfilter" id="course-tabs">
+    <button class="chip on" data-v="catalog">📚 选课中心</button>
+    <button class="chip" data-v="mine">🗂️ 我的课程</button>
+  </div>
+  <div id="course-body"></div>
+</section>
+
+<!-- ============ 个人中心 ============ -->
+<section id="profile">
+  <div class="section-head"><h2>个人中心</h2><p>我的资料 · 我的课程 · 校训校风</p></div>
+  <div class="profile-card">
+    <div class="pf-top">
+      <img src="images/emblem.png" alt="校徽" class="pf-avatar">
+      <div class="pf-info">
+        <input id="nick-input" class="nick" maxlength="20" placeholder="请输入昵称">
+        <span class="pf-id">中石大学生助手 · 学号未绑定</span>
+      </div>
+    </div>
+    <div class="pf-stats">
+      <div class="pf-stat"><b id="pf-courses">0</b><span>我的课程</span></div>
+      <div class="pf-stat"><b>4</b><span>大校区</span></div>
+      <div class="pf-stat"><b>55+</b><span>地标</span></div>
+      <div class="pf-stat"><b id="pf-theme">浅色</b><span>当前主题</span></div>
+    </div>
+    <div class="pf-actions">
+      <button class="btn" data-goto="courses">📚 我的课程</button>
+      <button class="btn" data-goto="colleges">🎓 学院院系</button>
+      <button class="btn" id="pf-theme-btn">🌙 切换暗色</button>
+      <button class="btn" data-goto="follow">📱 关注我们</button>
+    </div>
+    <div class="motto">
+      <img src="images/xun.png" alt="校训：惟真惟实">
+      <div class="motto-text"><b>校训 · 惟真惟实</b><span>校风 · 勤奋严谨 求实创新</span><span>石大精神 · 家国同心 艰苦奋斗 惟真惟实 追求卓越</span></div>
     </div>
   </div>
 </section>
@@ -536,7 +616,12 @@ var PHOTOS_TD=[
 for(var i=1;i<=24;i++){PHOTOS_TD.push({src:'images/td-scene-'+(i<10?'0'+i:i)+'.jpg',cap:'唐岛湾 · 校园实景',srcLabel:'观海新闻'});}
 
 var VERSIONS=[
- {ver:'v1.15.0',date:'2026-09-02',title:'四校区大改版',changes:[
+ {ver:'v1.16.0',date:'2026-09-02',title:'学院/选课/个人中心',changes:[
+    {t:'new',text:'新增学院院系（本科生/研究生板块 + 校区标注）、选课中心与我的课程（自主添加）'},
+    {t:'new',text:'新增个人中心（昵称/课程统计/主题/校训校风）、公众号与学生会二维码'},
+    {t:'opt',text:'移除推荐路线板块；导航支持多条路线最短优先'}
+  ]},
+  {ver:'v1.15.0',date:'2026-09-02',title:'四校区大改版',changes:[
   {t:'new',text:'加入唐岛湾校区、古镇口东区、东营科教园区，大地图一键切换'},
   {t:'new',text:'新增校内导航：选起点/终点，自动规划距离与步行时间'},
   {t:'new',text:'霓虹浅色主题；古镇口西区/唐岛湾高清实景照片'},
@@ -607,7 +692,7 @@ var markerLayer=L.layerGroup().addTo(map);
 var routeLayer=L.layerGroup().addTo(map);
 var ctxLayer=L.layerGroup().addTo(map);
 var markers={};
-var selected=null, route=null, step=0, q='', cat='all', userPos=null, userDot=null, nearMode=false;
+var selected=null, q='', cat='all', userPos=null, userDot=null, nearMode=false;
 
 function landById(id){return LANDS.find(function(x){return x.id===id;});}
 function haversine(a,b){var R=6371000,toR=Math.PI/180,dlat=(b[0]-a[0])*toR,dlng=(b[1]-a[1])*toR,la1=a[0]*toR,la2=b[0]*toR,h=Math.sin(dlat/2)*Math.sin(dlat/2)+Math.cos(la1)*Math.cos(la2)*Math.sin(dlng/2)*Math.sin(dlng/2);return 2*R*Math.asin(Math.sqrt(h));}
@@ -671,12 +756,11 @@ function renderCampusSwitch(){
 function switchCampus(k){
   if(k===cur)return;
   cur=k; CENTER=CAMPUSES[k].center; LANDS=CAMPUSES[k].lands; ROUTES=CAMPUSES[k].routes;
-  route=null;step=0;selected=null;q='';cat='all';nearMode=false;
+  selected=null;q='';cat='all';nearMode=false;
   map.setView([CENTER.lat,CENTER.lng],CAMPUSES[k].zoom);
   routeLayer.clearLayers();
   drawContext();buildMarkers();
-  renderCampusSwitch();renderChips();renderQuick();renderList();renderDetail();renderRoutes();renderRoutePanel();fillNavOptions();
-  $('rp').style.display='none';
+  renderCampusSwitch();renderChips();renderQuick();renderList();renderDetail();fillNavOptions();
   toast('已切换到 '+CAMPUSES[k].name);
 }
 /* ---------- 列表 / 筛选 ---------- */
@@ -759,39 +843,6 @@ $('global-search').addEventListener('input',function(e){setQuery(e.target.value)
 $('global-search').addEventListener('keydown',function(e){if(e.key==='Enter'){var l=searchLocations($('global-search').value);if(l.length){e.preventDefault();setQuery('');select(l[0].id);}}});
 $('global-search').addEventListener('blur',function(){setTimeout(function(){$('search-suggest').style.display='none';},180);});
 $('search-gz').addEventListener('input',function(e){setQuery(e.target.value);});
-/* ---------- 路线 ---------- */
-function routeStats(r){var pts=r.steps.map(function(s){var l=landById(s);return l?ll(l.dx,l.dy):null;}).filter(Boolean);var d=0;for(var i=1;i<pts.length;i++)d+=haversine(pts[i-1],pts[i]);return {km:d/1000,min:Math.max(1,Math.round(d/1000/4*60))};}
-function renderRoutes(){
-  $('routes-list').innerHTML=ROUTES.map(function(r){
-    var st=routeStats(r);
-    var prev=r.steps.slice(0,5).map(function(s,i){var l=landById(s);return l?'<li>'+(i+1)+'. '+l.name+'</li>':'';}).join('');
-    var more=r.steps.length>5?'<li style="list-style:none;color:var(--text3)">… 共 '+r.steps.length+' 站</li>':'';
-    return '<div class="route'+(route&&route.id===r.id?' on':'')+'" data-rid="'+r.id+'"><div class="rt">'+CAMPUSES[cur].icon+' '+r.name+'</div><div class="meta"><span>⏱ '+r.time+'</span><span class="d">约 '+st.km.toFixed(1)+' km · 步行 '+st.min+' 分钟</span></div><p>'+r.desc+'</p><ol>'+prev+more+'</ol></div>';
-  }).join('');
-  $('routes-list').querySelectorAll('.route').forEach(function(el){el.addEventListener('click',function(){startRoute(ROUTES.find(function(r){return r.id===el.getAttribute('data-rid');}));});});
-}
-function renderRoutePanel(){
-  if(!route){$('rp').style.display='none';return;}
-  var st=routeStats(route);$('rp').style.display='block';
-  $('stepBar').innerHTML=route.steps.map(function(s,i){var l=landById(s);if(!l)return '';var cls=i<step?'done':(i===step?'cur':'');return '<span class="step-pill '+cls+'">'+(i+1)+' '+l.name+'</span>';}).join('');
-  var l=landById(route.steps[step]);if(l){var c=CATS[l.cat];$('rpDetail').innerHTML='<h3>第 '+(step+1)+' 站 · '+(l.icon||c.icon)+' '+l.name+' <span class="cat-tag" style="background:'+c.color+'">'+c.label+'</span></h3><p>'+l.desc+'</p>'+(l.tip?'<div class="tip">💡 '+l.tip+'</div>':'')+'<div class="tip">🚶 全程约 '+st.km.toFixed(1)+' km · 步行约 '+st.min+' 分钟</div>';}
-  $('prev').disabled=(step===0);
-  $('next').textContent=(step===route.steps.length-1)?'✔ 完成':'下一步 →';
-}
-function drawRoute(){
-  routeLayer.clearLayers();
-  if(!route)return;
-  var pts=route.steps.map(function(s){var l=landById(s);return l?ll(l.dx,l.dy):null;}).filter(Boolean);
-  if(pts.length>1)L.polyline(pts,{color:'#ff2d78',weight:4,opacity:.9,dashArray:'9 12'}).addTo(routeLayer);
-  route.steps.forEach(function(s,i){var l=landById(s);if(!l)return;L.marker(ll(l.dx,l.dy),{icon:L.divIcon({className:'',html:'<div class="rnum">'+(i+1)+'</div>',iconSize:[26,26],iconAnchor:[13,13]})}).addTo(routeLayer);});
-  if(pts.length>1)map.fitBounds(L.latLngBounds(pts).pad(0.25));
-}
-function startRoute(r){route=r;step=0;selected=r.steps[0];drawRoute();buildMarkers();renderRoutes();renderRoutePanel();renderList();renderDetail();if(window.innerWidth<900)$('map').scrollIntoView({behavior:'smooth'});}
-function exitRoute(){route=null;step=0;selected=null;routeLayer.clearLayers();buildMarkers();renderRoutes();renderRoutePanel();renderList();renderDetail();}
-function goStep(d){if(!route)return;var ni=step+d;if(ni<0||ni>=route.steps.length)return;step=ni;selected=route.steps[step];drawRoute();buildMarkers();renderRoutePanel();renderList();renderDetail();}
-$('prev').addEventListener('click',function(){goStep(-1);});
-$('next').addEventListener('click',function(){if(!route)return;if(step<route.steps.length-1)goStep(1);else exitRoute();});
-$('exit').addEventListener('click',exitRoute);
 /* ---------- 校内导航 ---------- */
 function fillNavOptions(){
   $('nav-from').innerHTML='<option value="">起点…</option>'+LANDS.map(function(l){return '<option value="'+l.id+'">'+(l.icon||'')+' '+l.name+'</option>';}).join('');
@@ -911,7 +962,6 @@ function initAmap(){
       mk.on('click',function(){var info=new AMap.InfoWindow({content:'<div style="padding:6px 8px;max-width:220px"><b>'+(l.icon||c.icon)+' '+l.name+'</b><br><span style="font-size:12px;color:#555">'+l.desc+'</span></div>'});info.open(m,p);});
       mk.setMap(m);
     });
-    if(route){var pts=route.steps.map(function(s){var l=landById(s);return l?[ll(l.dx,l.dy)[1],ll(l.dx,l.dy)[0]]:null;}).filter(Boolean);if(pts.length>1)new AMap.Polyline({path:pts,strokeColor:'#ff2d78',strokeWeight:5,strokeStyle:'dashed',strokeOpacity:.9,map:m});}
     window.__amapMap=m;$('amap-state').textContent='高德官方矢量地图已加载 ✅（'+CAMPUSES[cur].name+'，地标为约略定位）';
   }catch(e){$('amap-state').textContent='初始化失败：'+e.message;}
 }
@@ -928,20 +978,116 @@ var navBtns=document.querySelectorAll('.tab,.app-nav button');
 navBtns.forEach(function(t){t.addEventListener('click',function(){$(t.getAttribute('data-target')).scrollIntoView({behavior:'smooth',block:'start'});});});
 function onScroll(){
   var y=window.scrollY,pos=y+110,current='map';
-  ['map','routes','photos','campuses','changelog'].forEach(function(id){var el=$(id);if(el&&el.offsetTop<=pos)current=id;});
+  ['map','colleges','courses','profile','photos','campuses','follow','changelog'].forEach(function(id){var el=$(id);if(el&&el.offsetTop<=pos)current=id;});
   var docH=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight);
   if(y+window.innerHeight>=docH-10)current='changelog';
   navBtns.forEach(function(t){t.classList.toggle('active',t.getAttribute('data-target')===current);});
 }
 window.addEventListener('scroll',onScroll,{passive:true});
 window.addEventListener('resize',function(){map.invalidateSize();if(window.__amapMap&&window.__amapMap.resize)window.__amapMap.resize();});
+
+/* ================= 学院院系 ================= */
+var COLLEGES=[
+ {id:'pe',name:'石油工程学院',abbr:'石工',campus:'唐岛湾校区',ug:1,pg:1,icon:'🛢️',color:'#c8102e',intro:'石油与天然气工程学科实力雄厚，油气井/油气田开发工程国家重点学科。'},
+ {id:'geo',name:'地球科学与技术学院',abbr:'地科',campus:'唐岛湾校区',ug:1,pg:1,icon:'🌍',color:'#7c3aed',intro:'地质学与地球物理，服务油气勘探开发。'},
+ {id:'chem',name:'化学化工学院',abbr:'化工',campus:'古镇口校区',ug:1,pg:1,icon:'🧪',color:'#ff2d78',intro:'高端化工人才培养与科研平台，坐落古镇口新校区。'},
+ {id:'mech',name:'机电工程学院',abbr:'机电',campus:'古镇口校区',ug:1,pg:1,icon:'⚙️',color:'#0891b2',intro:'高端装备制造，机械工程与自动化。'},
+ {id:'pipe',name:'储运与建筑工程学院',abbr:'储建',campus:'唐岛湾校区',ug:1,pg:1,icon:'🏗️',color:'#d97706',intro:'油气储运工程特色鲜明，含土木建筑。'},
+ {id:'mat',name:'材料科学与工程学院',abbr:'材料',campus:'古镇口校区',ug:1,pg:1,icon:'🔬',color:'#059669',intro:'新材料研发平台与人才培养。'},
+ {id:'newenergy',name:'新能源学院',abbr:'新能源',campus:'古镇口校区',ug:1,pg:1,icon:'⚡',color:'#f59e0b',intro:'新能源（风电/光伏/氢能等）方向。'},
+ {id:'ocean',name:'海洋与空间信息学院',abbr:'海洋',campus:'古镇口校区',ug:1,pg:1,icon:'🌊',color:'#0ea5e9',intro:'海洋油气、海洋工程与空间信息。'},
+ {id:'cs',name:'计算机科学与技术学院',abbr:'计科',campus:'唐岛湾校区',ug:1,pg:1,icon:'💻',color:'#6d28d9',intro:'计算机科学与技术、软件与智能信息。'},
+ {id:'auto',name:'控制科学与工程学院',abbr:'控制',campus:'唐岛湾校区',ug:1,pg:1,icon:'🎛️',color:'#0d9488',intro:'自动化与控制工程。'},
+ {id:'sem',name:'经济管理学院',abbr:'经管',campus:'唐岛湾校区',ug:1,pg:1,icon:'💼',color:'#475569',intro:'经济、管理类学科与 MBA。'},
+ {id:'math',name:'理学院',abbr:'理学',campus:'唐岛湾校区',ug:1,pg:1,icon:'📐',color:'#9333ea',intro:'数学、物理等基础学科。'},
+ {id:'law',name:'文法学院',abbr:'文法',campus:'唐岛湾校区',ug:1,pg:1,icon:'⚖️',color:'#b45309',intro:'法学、汉语言文学等。'},
+ {id:'foreign',name:'外国语学院',abbr:'外语',campus:'唐岛湾校区',ug:1,pg:1,icon:'🗣️',color:'#db2777',intro:'英语、俄语等语言教学。'},
+ {id:'marx',name:'马克思主义学院',abbr:'马院',campus:'唐岛湾校区',ug:0,pg:1,icon:'📖',color:'#be123c',intro:'思想政治理论课教学与研究生培养。'}
+];
+var colFilter='all';
+function renderColleges(){
+  var grid=$('col-grid');
+  grid.innerHTML=COLLEGES.filter(function(cl){return colFilter==='all'||(colFilter==='ug'?cl.ug:cl.pg);}).map(function(cl){
+    var tags='';
+    if(cl.ug)tags+='<span class="col-tag ug">本科</span>';
+    if(cl.pg)tags+='<span class="col-tag pg">研究生</span>';
+    tags+='<span class="col-tag cp">📍 '+cl.campus+'</span>';
+    return '<div class="col-card"><div class="col-banner" style="background:linear-gradient(135deg,'+cl.color+',#7c3aed)">'+cl.icon+'</div><div class="col-body"><h4>'+cl.name+'</h4><div class="col-tags">'+tags+'</div><p>'+cl.intro+'</p></div></div>';
+  }).join('')||'<div style="color:var(--text2)">暂无学院</div>';
+}
+$('col-filter').querySelectorAll('.chip').forEach(function(ch){
+  ch.addEventListener('click',function(){colFilter=ch.getAttribute('data-f');$('col-filter').querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});ch.classList.add('on');renderColleges();});
+});
+/* ================= 选课 & 我的课程 ================= */
+var CATALOG=[
+ {id:'c1',name:'高等数学（上）',type:'公共基础课',icon:'🧮'},
+ {id:'c2',name:'线性代数',type:'公共基础课',icon:'📊'},
+ {id:'c3',name:'大学物理（上）',type:'公共基础课',icon:'🔭'},
+ {id:'c4',name:'概率论与数理统计',type:'公共基础课',icon:'🎲'},
+ {id:'c5',name:'C语言程序设计',type:'计算机课',icon:'💻'},
+ {id:'c6',name:'Python 程序设计',type:'计算机课',icon:'🐍'},
+ {id:'c7',name:'大学英语',type:'语言课',icon:'🗣️'},
+ {id:'c8',name:'工程制图',type:'专业基础课',icon:'📐'},
+ {id:'c9',name:'思想道德与法治',type:'思政课',icon:'📖'},
+ {id:'c10',name:'中国近现代史纲要',type:'思政课',icon:'🏛️'},
+ {id:'c11',name:'大学体育',type:'体育课',icon:'🏀'},
+ {id:'c12',name:'军事理论',type:'公共课',icon:'🎖️'}
+];
+function loadCourses(){try{return JSON.parse(localStorage.getItem('myCourses')||'[]');}catch(e){return [];}}
+function saveCourses(list){try{localStorage.setItem('myCourses',JSON.stringify(list));}catch(e){}}
+function courseView(){var t=$('course-tabs');return t?t.querySelector('.chip.on').getAttribute('data-v'):'catalog';}
+function renderCourseUI(){
+  var body=$('course-body');
+  if(courseView()==='catalog'){
+    var list=loadCourses();
+    body.innerHTML='<div class="course-list">'+CATALOG.map(function(x){
+      var picked=list.some(function(m){return m.cid===x.id;});
+      return '<div class="course"><div class="c-ico">'+x.icon+'</div><div><div class="c-name">'+x.name+'</div><div class="c-meta">'+x.type+' · 公共课示例</div></div><button class="btn '+(picked?'':'primary')+' c-btn" data-cid="'+x.id+'">'+(picked?'✓ 已选':'＋ 选课')+'</button></div>';
+    }).join('')+'</div>';
+    body.querySelectorAll('.c-btn').forEach(function(bt){
+      bt.addEventListener('click',function(){
+        var list=loadCourses(),cid=bt.getAttribute('data-cid'),x=CATALOG.find(function(t){return t.id===cid;});
+        if(list.some(function(m){return m.cid===cid;})){list=list.filter(function(m){return m.cid!==cid;});}
+        else{list.unshift({cid:cid,name:x.name,type:x.type,teacher:'—',place:'—',time:'—'});}
+        saveCourses(list);renderCourseUI();renderProfile();
+      });
+    });
+  }else{
+    var list=loadCourses();
+    body.innerHTML='<div class="course-list">'+(list.length?list.map(function(m,i){
+      return '<div class="course"><div class="c-ico">📘</div><div><div class="c-name">'+m.name+'</div><div class="c-meta">'+(m.type||'自建')+' · '+m.teacher+' · '+m.place+' · '+m.time+'</div></div><button class="btn c-del" data-i="'+i+'">删除</button></div>';
+    }).join(''):'<div style="color:var(--text2);padding:10px">还没有课程，去「选课中心」选课，或下方自主添加</div>')+'</div>';
+    body.insertAdjacentHTML('beforeend','<div class="add-course"><h4 style="font-size:13px;color:var(--text);margin-bottom:6px">➕ 自主添加课程</h4><div class="add-grid"><input id="ac-name" placeholder="课程名称，如：数据结构"><input id="ac-teacher" placeholder="教师"><input id="ac-place" placeholder="地点，如：求是图书馆·观海平台"><input id="ac-time" placeholder="时间，如：周一 8:00"></div><button class="btn primary" id="ac-add" style="margin-top:8px">保存到我的课程</button></div>');
+    body.querySelectorAll('.c-del').forEach(function(bt){bt.addEventListener('click',function(){var list=loadCourses();list.splice(+bt.getAttribute('data-i'),1);saveCourses(list);renderCourseUI();renderProfile();});});
+    $('ac-add').addEventListener('click',function(){
+      var name=($('ac-name').value||'').trim();
+      if(!name){toast('请输入课程名称');return;}
+      var list=loadCourses();
+      list.unshift({cid:'m'+Date.now(),name:name,type:'自主添加',teacher:($('ac-teacher').value||'').trim(),place:($('ac-place').value||'').trim(),time:($('ac-time').value||'').trim()});
+      saveCourses(list);toast('已添加到我的课程');renderCourseUI();renderProfile();
+    });
+  }
+}
+$('course-tabs').querySelectorAll('.chip').forEach(function(ch){ch.addEventListener('click',function(){$('course-tabs').querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});ch.classList.add('on');renderCourseUI();});});
+/* ================= 个人中心 ================= */
+function renderProfile(){
+  var nick='';try{nick=localStorage.getItem('nick')||'yty';}catch(e){nick='yty';}
+  $('nick-input').value=nick;
+  $('pf-courses').textContent=loadCourses().length;
+  var dark=document.documentElement.classList.contains('dark');
+  $('pf-theme').textContent=dark?'暗色':'浅色';
+}
+$('nick-input').addEventListener('change',function(){try{localStorage.setItem('nick',this.value.trim()||'yty');}catch(e){}toast('昵称已保存');});
+$('pf-theme-btn').addEventListener('click',function(){var tb=document.getElementById('theme-btn');if(tb)tb.click();setTimeout(renderProfile,120);});
+document.querySelectorAll('.pf-actions [data-goto]').forEach(function(bt){bt.addEventListener('click',function(){$(bt.getAttribute('data-goto')).scrollIntoView({behavior:'smooth'});});});
+
 /* ---------- PWA ---------- */
 if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
   window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
 }
 /* ---------- 初始化 ---------- */
 $('hero-stats').innerHTML='<span class="stat"><b>4</b>大校区</span><span class="stat"><b>55+</b>地标</span><span class="stat"><b>2026</b>新校区启用</span><span class="stat"><b>向海</b>望山</span>';
-renderCampusSwitch();drawContext();buildMarkers();renderChips();renderQuick();renderList();renderDetail();renderRoutes();renderRoutePanel();fillNavOptions();renderGallery();renderChangelog();amapKeyState();onScroll();
+renderCampusSwitch();drawContext();buildMarkers();renderChips();renderQuick();renderList();renderDetail();fillNavOptions();renderGallery();renderChangelog();amapKeyState();renderColleges();renderCourseUI();renderProfile();onScroll();
 </script>
 </body>
 </html>
