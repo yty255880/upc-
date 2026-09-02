@@ -411,11 +411,11 @@ footer p{margin:3px 0}
     <div class="app-info">
       <img src="images/emblem.png" alt="校徽">
       <div>
-        <h3>中石大学生助手 <span class="app-ver">v1.9.0</span></h3>
+        <h3>中石大学生助手 <span class="app-ver">v1.10.0</span></h3>
         <p class="app-meta">包名 com.zsd.student.assistant · 约 3.1 MB · 已签名可直接安装</p>
       </div>
     </div>
-    <a class="btn primary app-dl" href="download/中石大学生助手-v1.9.0.apk" download>⬇️ 下载 APK 安装包</a>
+    <a class="btn primary app-dl" href="download/中石大学生助手-v1.10.0.apk" download>⬇️ 下载 APK 安装包</a>
     <ol class="app-steps">
       <li>点上方按钮下载 APK 安装包</li>
       <li>打开“下载/文件管理”里下载完成的 .apk 文件</li>
@@ -433,7 +433,7 @@ footer p{margin:3px 0}
     <p>古镇口校区：青岛西海岸新区 · 西区（三沙路以西 / 宅科路以南 / 山川路以东）</p>
     <p>地图数据 © OpenStreetMap / Esri / 高德地图 · 照片版权归原作者与媒体所有</p>
     <p>📱 iPhone：Safari 打开后点「分享 → 添加到主屏幕」即可 App 式使用（全屏 + 图标 + 离线）；安卓可安装「中石大学生助手」APK。</p>
-    <p>📲 安卓 App 下载：<a href="download/中石大学生助手-v1.9.0.apk" style="color:#8fb7ff" download>中石大学生助手-v1.9.0.apk</a></p>
+    <p>📲 安卓 App 下载：<a href="download/中石大学生助手-v1.10.0.apk" style="color:#8fb7ff" download>中石大学生助手-v1.10.0.apk</a></p>
   </div>
 </footer>
 
@@ -1026,6 +1026,10 @@ document.addEventListener('keydown',function(e){
 });
 var CTAG={new:['new','新增'],opt:['opt','优化'],fix:['fix','修复']};
 var VERSIONS=[
+  {ver:'v1.10.0',date:'2026-09-02',title:'安卓 App 应用内检查更新',changes:[
+    {t:'new',text:'App 启动时自动检查新版本，发现新版弹窗提示、一键去网站下载覆盖安装'},
+    {t:'opt',text:'覆盖安装保留数据（同一签名密钥）'}
+  ]},
   {ver:'v1.9.0',date:'2026-09-02',title:'安卓 App 在线下载',changes:[
     {t:'new',text:'网站新增「📲 安卓 App」下载板块，手机可直接下载安装 APK'},
     {t:'opt',text:'APK 同步最新页面（v1.9.0），校徽图标、全屏、离线可用'}
