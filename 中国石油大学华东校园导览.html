@@ -277,6 +277,17 @@ footer p{margin:3px 0}
   #toast{bottom:calc(84px + env(safe-area-inset-bottom))}
 }
 
+/* ===== 安卓 App 下载 ===== */
+.app-card{background:var(--glass);border:1px solid var(--line);border-radius:var(--radius);padding:20px;backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));box-shadow:var(--shadow)}
+.app-info{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.app-info img{width:72px;height:72px;border-radius:16px;box-shadow:0 8px 22px rgba(0,0,0,.35);background:#fff;padding:4px}
+.app-info h3{font-size:20px;color:#fff;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.app-ver{background:linear-gradient(135deg,var(--accent-deep),#ff8a5c);color:#fff;font-size:12px;border-radius:999px;padding:2px 10px;font-weight:800}
+.app-meta{font-size:12.5px;color:var(--text2);margin-top:2px}
+.app-dl{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-size:15px;padding:13px 26px;text-decoration:none}
+.app-steps{margin:14px 0 0 20px;font-size:13px;color:var(--text2)}
+.app-steps li{margin:3px 0}
+
 </style>
 </head>
 <body>
@@ -390,6 +401,30 @@ footer p{margin:3px 0}
   <div class="changelog" id="changelog-list"></div>
 </section>
 
+<!-- ============ 安卓 App 下载 ============ -->
+<section id="app">
+  <div class="section-head">
+    <h2>📲 安卓 App「中石大学生助手」</h2>
+    <p>Android 7.0+ · 校徽图标 · 全屏运行 · 内置全部内容离线可用</p>
+  </div>
+  <div class="app-card">
+    <div class="app-info">
+      <img src="images/emblem.png" alt="校徽">
+      <div>
+        <h3>中石大学生助手 <span class="app-ver">v1.9.0</span></h3>
+        <p class="app-meta">包名 com.zsd.student.assistant · 约 3.1 MB · 已签名可直接安装</p>
+      </div>
+    </div>
+    <a class="btn primary app-dl" href="download/中石大学生助手-v1.9.0.apk" download>⬇️ 下载 APK 安装包</a>
+    <ol class="app-steps">
+      <li>点上方按钮下载 APK 安装包</li>
+      <li>打开“下载/文件管理”里下载完成的 .apk 文件</li>
+      <li>若提示“未知来源”，点「设置 → 允许此来源安装」</li>
+      <li>安装完成，桌面出现校徽图标「中石大学生助手」，点开即用（离线可用）</li>
+    </ol>
+  </div>
+</section>
+
 </main>
 
 <footer>
@@ -398,6 +433,7 @@ footer p{margin:3px 0}
     <p>古镇口校区：青岛西海岸新区 · 西区（三沙路以西 / 宅科路以南 / 山川路以东）</p>
     <p>地图数据 © OpenStreetMap / Esri / 高德地图 · 照片版权归原作者与媒体所有</p>
     <p>📱 iPhone：Safari 打开后点「分享 → 添加到主屏幕」即可 App 式使用（全屏 + 图标 + 离线）；安卓可安装「中石大学生助手」APK。</p>
+    <p>📲 安卓 App 下载：<a href="download/中石大学生助手-v1.9.0.apk" style="color:#8fb7ff" download>中石大学生助手-v1.9.0.apk</a></p>
   </div>
 </footer>
 
@@ -990,6 +1026,10 @@ document.addEventListener('keydown',function(e){
 });
 var CTAG={new:['new','新增'],opt:['opt','优化'],fix:['fix','修复']};
 var VERSIONS=[
+  {ver:'v1.9.0',date:'2026-09-02',title:'安卓 App 在线下载',changes:[
+    {t:'new',text:'网站新增「📲 安卓 App」下载板块，手机可直接下载安装 APK'},
+    {t:'opt',text:'APK 同步最新页面（v1.9.0），校徽图标、全屏、离线可用'}
+  ]},
   {ver:'v1.8.0',date:'2026-09-02',title:'GitHub Pages 正式上线',changes:[
     {t:'new',text:'部署上线：https://yty255880.github.io/upc-/（免费永久 HTTPS）'},
     {t:'opt',text:'电脑关机后手机仍可访问；iPhone 添加到主屏幕 / 安卓安装 PWA，离线可用'}
