@@ -288,6 +288,92 @@ footer p{margin:3px 0}
 .app-steps{margin:14px 0 0 20px;font-size:13px;color:var(--text2)}
 .app-steps li{margin:3px 0}
 
+/* ===== 纯白主题（覆盖暗色） ===== */
+:root{--accent:#e0383f;--accent-deep:#c8102e;--gold:#f2a900;--text:#1f2937;--text2:#4b5563;--text3:#9aa3b2;--bg:#ffffff;--glass:#ffffff;--glass2:#f7f8fb;--glass3:#ffffff;--line:#e8ebf0;--shadow:0 6px 20px rgba(17,24,39,.06);--shadow-lg:0 16px 40px rgba(17,24,39,.12);--blur:0px}
+body{background:#ffffff;color:var(--text)}
+.page-bg{display:none}
+.hero{background:linear-gradient(180deg,#ffffff 0%,#fdf3f0 100%);color:var(--text)}
+.hero-bg{display:none}
+.hero::before{display:none}
+.hero h1{color:var(--accent-deep);text-shadow:none}
+.hero .sub{color:#c0554f}
+.hero .lead{color:#6b7280}
+.hero-search input{background:#fff;border:1.5px solid #f0d9cf;color:var(--text);box-shadow:0 8px 20px rgba(200,16,46,.06)}
+.hero-search .mag{color:#c0554f}
+.suggest{background:#fff;border:1px solid var(--line);box-shadow:0 16px 40px rgba(17,24,39,.14)}
+.suggest .srow:hover{background:#fdf2f3}
+.suggest .sname{color:var(--text)}
+.suggest .scat{color:var(--text2)}
+.quick .qchip{background:#fff;border:1px solid #f0d9cf;color:var(--accent-deep)}
+.quick .qchip:hover{background:#fff;border-color:var(--accent)}
+.quick .qchip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.stat{background:#fff;border:1px solid var(--line);color:var(--text)}
+.stat b{color:var(--accent-deep)}
+.tabs{background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);box-shadow:0 2px 10px rgba(17,24,39,.04)}
+.tab{background:#fff;border:1px solid var(--line);color:var(--text2)}
+.tab:hover{color:var(--accent);border-color:var(--accent)}
+.tab.active{background:linear-gradient(135deg,var(--accent-deep),#ff6b57);border-color:transparent;color:#fff}
+.section-head h2{color:var(--accent-deep)}
+.section-head p{color:var(--text2)}
+.banner{background:#fffdf7;border:1px solid #f1e3c8;color:#8a5a1d}
+.banner.blue{background:#f7faff;border-color:#dbe7fb;color:#44608f}
+.map-card,.side,.route,.steps,.card,.app-card{background:#fff;border:1px solid var(--line);backdrop-filter:none;-webkit-backdrop-filter:none;box-shadow:var(--shadow)}
+.mbtn{background:#fff;border:1px solid var(--line);color:var(--text)}
+.mbtn:hover{border-color:var(--accent);color:var(--accent)}
+.legend span{background:#f7f8fa;border:1px solid var(--line);color:var(--text2)}
+.note{background:#fff8e6;border-color:#f3e3b2;color:#8a5a1d}
+.search{background:#fff;border:1.5px solid var(--line);color:var(--text)}
+.search::placeholder{color:var(--text3)}
+.search:focus{border-color:var(--accent)}
+.chip{background:#fff;border:1px solid var(--line);color:var(--text2)}
+.chip.on{background:var(--accent);border-color:transparent;color:#fff}
+.chip.special{background:#eff6ff;border-color:#bfdbfe;color:#1d4ed8}
+.chip.special.on{background:#1d4ed8;border-color:transparent;color:#fff}
+.item{background:#fff;border:1px solid var(--line)}
+.item:hover{background:#fbfbfd}
+.item.sel{background:#fdf2f3;border-color:var(--accent)}
+.item .nm{color:var(--text)}
+.item .ct{color:var(--text2)}
+.detail{border-color:var(--line)}
+.detail h3{color:var(--text)}
+.detail p{color:var(--text2)}
+.detail .tip{background:#f7f8fc;border-left-color:var(--gold);color:var(--text2)}
+.route .rt{color:var(--text)}
+.route p,.route ol,.step-pill{color:var(--text2)}
+.step-pill{background:#fff}
+.step-pill.cur{background:var(--accent);color:#fff}
+.btn{background:#fff;border:1px solid var(--line);color:var(--text)}
+.btn.primary{background:var(--accent);border-color:transparent;color:#fff}
+.modal{background:#fff;color:var(--text)}
+.modal h3{color:var(--accent-deep)}
+.modal p,.modal ol{color:var(--text2)}
+.modal input{background:#fff;border:1.5px solid var(--line);color:var(--text)}
+.amap-key-state{background:#f7f8fc;color:var(--text2)}
+#toast{background:rgba(31,41,55,.92);color:#fff}
+footer{background:#f7f8fa;border-top:1px solid var(--line);color:#7a828e}
+.gphoto{background:#fff;border:1px solid var(--line)}
+.app-info h3{color:var(--text)}
+.app-meta,.app-steps{color:var(--text2)}
+.clog-card{background:#fff;border:1px solid var(--line);backdrop-filter:none;box-shadow:var(--shadow)}
+.clog-title{color:var(--text)}
+.clog-ver{background:linear-gradient(135deg,var(--accent-deep),#ff8a5c)}
+.clog-change{color:var(--text2)}
+.clog-tag.new{background:rgba(70,190,110,.14);color:#15803d;border-color:rgba(70,190,110,.35)}
+.clog-tag.opt{background:rgba(90,140,255,.12);color:#1d4ed8;border-color:rgba(90,140,255,.35)}
+.clog-tag.fix{background:rgba(255,160,70,.14);color:#c2410c;border-color:rgba(255,160,70,.35)}
+.ctx-label{background:rgba(255,255,255,.96);color:#374151;border:1px solid var(--line)}
+.leaflet-popup-content-wrapper{background:#fff;color:var(--text)}
+.pp h4{color:var(--accent-deep)}
+.pp p,.pp .tip{color:var(--text2)}
+.leaflet-control-zoom a,.leaflet-control-layers{background:#fff!important;color:#374151!important;border-color:var(--line)!important}
+.leaflet-control-layers-expanded{background:#fff!important;color:#374151}
+.leaflet-control-attribution{background:rgba(255,255,255,.8)!important;color:#9aa3b2!important}
+.leaflet-control-attribution a{color:#3b82f6!important}
+.leaflet-control-scale-line{background:rgba(255,255,255,.85)!important;color:#6b7280!important;border-color:#cbd5e1!important}
+.app-nav{background:rgba(255,255,255,.94);border-top:1px solid var(--line)}
+.app-nav button{color:var(--text3)}
+.app-nav button.active{color:var(--accent)}
+
 </style>
 </head>
 <body>
@@ -318,7 +404,7 @@ footer p{margin:3px 0}
       <div class="stat"><b>向东看海</b>向西望山</div>
       <div class="stat"><b>16 个</b>导览地标</div>
     </div>
-    <span class="caption-pill">📚 背景：求是图书馆 · 西区地标</span>
+    <span class="caption-pill">🎨 纯白主题 · 地标卡通图标</span>
   </div>
 </header>
 
@@ -504,22 +590,22 @@ function haversine(a,b){
 function landById(id){return LANDS.find(function(x){return x.id===id;});}
 
 var LANDS=[
-  {id:'gz-northgate',name:'北门',cat:'traffic',dx:0,dy:-330,desc:'西区北侧主入口，紧邻宅科路，是进出校园与接驳公交的主要通道。',tip:'新生报到季北门人流较大，注意听从交通引导。'},
-  {id:'gz-library',name:'求是图书馆',cat:'study',dx:0,dy:-150,photo:'images/gz-library.jpg',desc:'西区地标：建筑面积约 4.9 万㎡、6 层、约 3500 个阅览座位。外墙采用铝板幕墙＋玻璃幕墙，折叠型竖向分隔“像一本书徐徐展开”；室内东西打通视线通廊，向东看海、向西望山，三层设有观海平台。',tip:'观海平台是拍照绝佳机位；中庭弧线垂拔贯通到顶、屋面有采光窗，采光极佳。'},
-  {id:'gz-plaza',name:'中央广场',cat:'view',dx:0,dy:-40,desc:'图书馆与卓越教学楼之间的开敞广场，集会、社团活动与日常休憩的空间。',tip:'傍晚常有同学在此散步、滑板、练轮滑。'},
-  {id:'gz-teaching',name:'卓越教学楼',cat:'study',dx:0,dy:60,photo:'images/gz-teaching.jpg',desc:'学校规模最大的教学楼：建筑面积约 7 万㎡、教室 204 间、总座位约 1.64 万。教室类型包括弧型教室、全景教室、研讨型教室、大阶梯教室、美育教室与多媒体机房等，全楼配备风机盘管加新风空调。',tip:'教室类型多，上课前先看清楼号、楼层与教室类型，避免跑错。'},
-  {id:'gz-weizhen',name:'惟真楼',cat:'study',dx:-260,dy:-10,photo:'images/gz-weizhen-weishi.jpg',desc:'院系实验科研楼之一，承担实验教学与科研任务；与惟实楼以连廊相接，建筑体块方正、穿插感强。',tip:'进入实验室须遵守安全规范。'},
-  {id:'gz-weishi',name:'惟实楼',cat:'study',dx:-260,dy:110,photo:'images/gz-weizhen-weishi.jpg',desc:'实验科研楼群，与惟真楼共同构成西区科研实验区。',tip:'与惟真楼相邻，实验课多集中于此区域。'},
-  {id:'gz-gym',name:'风雨操场（体育馆）',cat:'sport',dx:260,dy:-170,photo:'images/gz-gym.jpg',desc:'室内运动场建筑面积约 1.2 万㎡，分南北两个运动大厅：南厅含 4 个篮球场、10 个羽毛球场地、12 个乒乓球场地，北厅含 2 个排球场、10 个羽毛球场地、8 个乒乓球场地。',tip:'风雨无阻的锻炼去处，球类活动需提前预约场地。'},
-  {id:'gz-track',name:'红旗操场',cat:'sport',dx:260,dy:0,desc:'开阔专业的标准运动场，红色跑道环绕绿茵场，是体育课、运动会与日常锻炼的主场地。',tip:'晚间亮灯，适合夜跑；运动会期间人会很多。'},
-  {id:'gz-ling',name:'灵山湾餐厅',cat:'food',dx:260,dy:150,desc:'西区两大餐厅之一，靠近东侧宿舍区，菜品丰富。',tip:'早餐供应早，赶早课也能吃上热乎饭。'},
-  {id:'gz-zhu',name:'珠山餐厅',cat:'food',dx:0,dy:180,desc:'西区餐厅，紧邻宿舍与教学楼，取餐动线方便。',tip:'午晚餐高峰期可错峰 20 分钟。'},
-  {id:'gz-dorm14',name:'本科生宿舍（学1–学4）',cat:'life',dx:-180,dy:250,desc:'西区本科生宿舍楼群，学 1–学 4 楼。',tip:'西区本科生宿舍共 8 栋、总床位 9248 张，具体以学校分配为准。'},
-  {id:'gz-dorm58',name:'本科生宿舍（学5–学8）',cat:'life',dx:180,dy:250,desc:'西区本科生宿舍楼群，学 5–学 8 楼。',tip:'靠近东侧餐厅与操场，生活动线方便。'},
-  {id:'gz-grad',name:'研究生9号公寓',cat:'life',dx:0,dy:300,desc:'西区研究生公寓，配套齐全。',tip:'研究生入住，实行门禁管理。'},
-  {id:'gz-teacher',name:'教师公寓',cat:'life',dx:-280,dy:330,desc:'西区教师公寓，共 737 套，保障教职工住宿。',tip:'非开放区域，请勿打扰。'},
-  {id:'gz-hospital',name:'校医院',cat:'life',dx:-260,dy:390,photo:'images/gz-hospital.jpg',desc:'西区医疗服务点：建筑面积约 0.35 万㎡、共三层，设内科、外科、口腔科、影像科、检验科等科室及抢救室、观察室等。',tip:'急诊与值班电话见校医院公告。'},
-  {id:'gz-southgate',name:'南门',cat:'traffic',dx:0,dy:380,desc:'西区南侧出入口，紧邻学生生活区。',tip:'出入校园请携带校园卡或有效证件。'}
+  {id:'gz-northgate',name:'北门',cat:'traffic',icon:'🚪',dx:0,dy:-330,desc:'西区北侧主入口，紧邻宅科路，是进出校园与接驳公交的主要通道。',tip:'新生报到季北门人流较大，注意听从交通引导。'},
+  {id:'gz-library',name:'求是图书馆',cat:'study',icon:'📚',dx:0,dy:-150,photo:'images/gz-library.jpg',desc:'西区地标：建筑面积约 4.9 万㎡、6 层、约 3500 个阅览座位。外墙采用铝板幕墙＋玻璃幕墙，折叠型竖向分隔“像一本书徐徐展开”；室内东西打通视线通廊，向东看海、向西望山，三层设有观海平台。',tip:'观海平台是拍照绝佳机位；中庭弧线垂拔贯通到顶、屋面有采光窗，采光极佳。'},
+  {id:'gz-plaza',name:'中央广场',cat:'view',icon:'⛲',dx:0,dy:-40,desc:'图书馆与卓越教学楼之间的开敞广场，集会、社团活动与日常休憩的空间。',tip:'傍晚常有同学在此散步、滑板、练轮滑。'},
+  {id:'gz-teaching',name:'卓越教学楼',cat:'study',icon:'🏫',dx:0,dy:60,photo:'images/gz-teaching.jpg',desc:'学校规模最大的教学楼：建筑面积约 7 万㎡、教室 204 间、总座位约 1.64 万。教室类型包括弧型教室、全景教室、研讨型教室、大阶梯教室、美育教室与多媒体机房等，全楼配备风机盘管加新风空调。',tip:'教室类型多，上课前先看清楼号、楼层与教室类型，避免跑错。'},
+  {id:'gz-weizhen',name:'惟真楼',cat:'study',icon:'🔬',dx:-260,dy:-10,photo:'images/gz-weizhen-weishi.jpg',desc:'院系实验科研楼之一，承担实验教学与科研任务；与惟实楼以连廊相接，建筑体块方正、穿插感强。',tip:'进入实验室须遵守安全规范。'},
+  {id:'gz-weishi',name:'惟实楼',cat:'study',icon:'🧪',dx:-260,dy:110,photo:'images/gz-weizhen-weishi.jpg',desc:'实验科研楼群，与惟真楼共同构成西区科研实验区。',tip:'与惟真楼相邻，实验课多集中于此区域。'},
+  {id:'gz-gym',name:'风雨操场（体育馆）',cat:'sport',icon:'🏸',dx:260,dy:-170,photo:'images/gz-gym.jpg',desc:'室内运动场建筑面积约 1.2 万㎡，分南北两个运动大厅：南厅含 4 个篮球场、10 个羽毛球场地、12 个乒乓球场地，北厅含 2 个排球场、10 个羽毛球场地、8 个乒乓球场地。',tip:'风雨无阻的锻炼去处，球类活动需提前预约场地。'},
+  {id:'gz-track',name:'红旗操场',cat:'sport',icon:'🏀',dx:260,dy:0,desc:'开阔专业的标准运动场，红色跑道环绕绿茵场，是体育课、运动会与日常锻炼的主场地。',tip:'晚间亮灯，适合夜跑；运动会期间人会很多。'},
+  {id:'gz-ling',name:'灵山湾餐厅',cat:'food',icon:'🍜',dx:260,dy:150,desc:'西区两大餐厅之一，靠近东侧宿舍区，菜品丰富。',tip:'早餐供应早，赶早课也能吃上热乎饭。'},
+  {id:'gz-zhu',name:'珠山餐厅',cat:'food',icon:'🍚',dx:0,dy:180,desc:'西区餐厅，紧邻宿舍与教学楼，取餐动线方便。',tip:'午晚餐高峰期可错峰 20 分钟。'},
+  {id:'gz-dorm14',name:'本科生宿舍（学1–学4）',cat:'life',icon:'🛏️',dx:-180,dy:250,desc:'西区本科生宿舍楼群，学 1–学 4 楼。',tip:'西区本科生宿舍共 8 栋、总床位 9248 张，具体以学校分配为准。'},
+  {id:'gz-dorm58',name:'本科生宿舍（学5–学8）',cat:'life',icon:'🛏️',dx:180,dy:250,desc:'西区本科生宿舍楼群，学 5–学 8 楼。',tip:'靠近东侧餐厅与操场，生活动线方便。'},
+  {id:'gz-grad',name:'研究生9号公寓',cat:'life',icon:'🏠',dx:0,dy:300,desc:'西区研究生公寓，配套齐全。',tip:'研究生入住，实行门禁管理。'},
+  {id:'gz-teacher',name:'教师公寓',cat:'life',icon:'🏡',dx:-280,dy:330,desc:'西区教师公寓，共 737 套，保障教职工住宿。',tip:'非开放区域，请勿打扰。'},
+  {id:'gz-hospital',name:'校医院',cat:'life',icon:'🏥',dx:-260,dy:390,photo:'images/gz-hospital.jpg',desc:'西区医疗服务点：建筑面积约 0.35 万㎡、共三层，设内科、外科、口腔科、影像科、检验科等科室及抢救室、观察室等。',tip:'急诊与值班电话见校医院公告。'},
+  {id:'gz-southgate',name:'南门',cat:'traffic',icon:'🚪',dx:0,dy:380,desc:'西区南侧出入口，紧邻学生生活区。',tip:'出入校园请携带校园卡或有效证件。'}
 ];
 
 var ROUTES=[
@@ -580,7 +666,7 @@ drawContext();
 /* ---------- 图钉与弹窗 ---------- */
 function pinHTML(l,sel){
   var c=CATS[l.cat];
-  return '<div class="pin'+(sel?' sel':'')+'"><span class="lbl">'+l.name+'</span><div class="dot" style="--c:'+c.color+'"><span>'+c.icon+'</span></div></div>';
+  return '<div class="pin'+(sel?' sel':'')+'"><span class="lbl">'+l.name+'</span><div class="dot" style="--c:'+c.color+'"><span>'+(l.icon||c.icon)+'</span></div></div>';
 }
 function iconFor(l,sel){
   return L.divIcon({className:'',html:pinHTML(l,sel),iconSize:[96,74],iconAnchor:[48,68],popupAnchor:[0,-64]});
@@ -588,7 +674,7 @@ function iconFor(l,sel){
 function popupHTML(l){
   var c=CATS[l.cat];
   var img=l.photo?('<img src="'+l.photo+'" alt="'+l.name+'">'):'<div style="height:6px"></div>';
-  return '<div class="pp">'+img+'<div class="bd"><h4>'+c.icon+' '+l.name+'</h4>'+
+  return '<div class="pp">'+img+'<div class="bd"><h4>'+(l.icon||c.icon)+' '+l.name+'</h4>'+
     '<span class="tag" style="background:'+c.color+'">'+c.label+'</span>'+
     '<p>'+l.desc+'</p><div class="tip">💡 '+l.tip+'</div></div></div>';
 }
@@ -648,7 +734,7 @@ function renderList(){
     var d=distTo(l);
     var distHtml=(d!==null&&nearMode)?('<span class="dist">'+(d<1000?Math.round(d)+' 米':(d/1000).toFixed(1)+' km')+'</span>'):'';
     return '<div class="item'+(selected===l.id?' sel':'')+'" data-id="'+l.id+'">'+
-      '<div class="ico" style="background:'+c.color+'">'+c.icon+'</div>'+
+      '<div class="ico" style="background:'+c.color+'">'+(l.icon||c.icon)+'</div>'+
       '<div><div class="nm">'+l.name+'</div><div class="ct">'+c.label+' · 点击定位</div></div>'+distHtml+'</div>';
   }).join('');
   $('list-gz').querySelectorAll('.item[data-id]').forEach(function(el){
@@ -664,7 +750,7 @@ function renderDetail(){
   if(!l)return;
   var c=CATS[l.cat];
   var img=l.photo?('<img class="pthumb" src="'+l.photo+'" alt="'+l.name+'">'):'';
-  $('detail-gz').innerHTML='<h3>'+l.name+' <span class="cat-tag" style="background:'+c.color+'">'+c.icon+' '+c.label+'</span></h3>'+
+  $('detail-gz').innerHTML='<h3>'+l.name+' <span class="cat-tag" style="background:'+c.color+'">'+(l.icon||c.icon)+' '+c.label+'</span></h3>'+
     img+'<p>'+l.desc+'</p><div class="tip">💡 '+l.tip+'</div>';
 }
 function renderChips(){
@@ -782,7 +868,7 @@ function renderSuggest(val){
   }
   el.innerHTML=list.slice(0,8).map(function(l){
     var c=CATS[l.cat];
-    return '<div class="srow" data-id="'+l.id+'"><div class="sico" style="background:'+c.color+'">'+c.icon+'</div>'+
+    return '<div class="srow" data-id="'+l.id+'"><div class="sico" style="background:'+c.color+'">'+(l.icon||c.icon)+'</div>'+
       '<div><div class="sname">'+l.name+'</div><div class="scat">'+c.label+' · 点击定位</div></div></div>';
   }).join('')+
   '<div class="sempty" style="border-top:1px solid var(--line)">共 '+list.length+' 个匹配 · 点击上方结果即可定位</div>';
@@ -851,7 +937,7 @@ function renderRoutePanel(){
   if(l){
     var c=CATS[l.cat];
     var img=l.photo?('<img class="pthumb" src="'+l.photo+'" alt="'+l.name+'">'):'';
-    $('rpDetail-gz').innerHTML='<h3>第 '+(step+1)+' 站 · '+l.name+' <span class="cat-tag" style="background:'+c.color+'">'+c.icon+' '+c.label+'</span></h3>'+
+    $('rpDetail-gz').innerHTML='<h3>第 '+(step+1)+' 站 · '+l.name+' <span class="cat-tag" style="background:'+c.color+'">'+(l.icon||c.icon)+' '+c.label+'</span></h3>'+
       img+'<p>'+l.desc+'</p><div class="tip">💡 '+l.tip+'</div>';
   }
   $('prev-gz').disabled=(step===0);
@@ -968,7 +1054,7 @@ function openAmapModal(){
 }
 function amapMarkerContent(l){
   var c=CATS[l.cat];
-  return '<div style="background:'+c.color+';color:#fff;border-radius:999px;padding:4px 12px;font-size:12.5px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.35);border:1.5px solid #fff">'+c.icon+' '+l.name+'</div>';
+  return '<div style="background:'+c.color+';color:#fff;border-radius:999px;padding:4px 12px;font-size:12.5px;white-space:nowrap;box-shadow:0 3px 10px rgba(0,0,0,.35);border:1.5px solid #fff">'+(l.icon||c.icon)+' '+l.name+'</div>';
 }
 function initAmapMap(){
   try{
@@ -1026,6 +1112,10 @@ document.addEventListener('keydown',function(e){
 });
 var CTAG={new:['new','新增'],opt:['opt','优化'],fix:['fix','修复']};
 var VERSIONS=[
+  {ver:'v1.11.0',date:'2026-09-02',title:'纯白主题 + 地标卡通图标',changes:[
+    {t:'opt',text:'背景改为纯白清爽主题（移除暗色与图片背景）'},
+    {t:'new',text:'各地标使用卡通图标：操场🏀、餐厅🍜、图书馆📚、教学楼🏫等'}
+  ]},
   {ver:'v1.10.0',date:'2026-09-02',title:'安卓 App 应用内检查更新',changes:[
     {t:'new',text:'App 启动时自动检查新版本，发现新版弹窗提示、一键去网站下载覆盖安装'},
     {t:'opt',text:'覆盖安装保留数据（同一签名密钥）'}
