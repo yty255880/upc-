@@ -278,6 +278,23 @@ html.dark .motto{background:rgba(255,255,255,.05)}
 .motto-text b{color:var(--text);font-size:15px;display:block}
 .motto-text span{display:block;font-size:12px;color:var(--text2)}
 
+
+/* ===== 课程表 ===== */
+.tt{display:grid;grid-template-columns:70px repeat(7,1fr);gap:4px;background:transparent;overflow-x:auto;min-width:640px}
+.tt-hd,.tt-label,.tt-cell{background:var(--glass2);border:1px solid var(--line);border-radius:7px;padding:6px;font-size:11.5px}
+.tt-hd{font-weight:800;color:var(--text);text-align:center}
+.tt-label{font-weight:700;color:var(--text2);text-align:center;font-size:10.5px;line-height:1.5}
+.tt-cell{min-height:52px}
+.tt-cell .ttc{background:linear-gradient(135deg,var(--neon1),var(--neon2));color:#fff;border-radius:6px;padding:3px 5px;font-size:10.5px;line-height:1.3;margin-bottom:2px}
+.tt-cell .ttc b{display:block}
+.tt-wrap{background:var(--glass);border:1px solid var(--line);border-radius:12px;padding:10px;box-shadow:var(--shadow);margin-bottom:10px;overflow-x:auto}
+.add-grid{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:9px;background:var(--glass2);color:var(--text);font-size:13px;margin:4px 0;font-family:inherit}
+/* ===== 头像上传 ===== */
+.pf-avatar-wrap{position:relative;flex:none}
+.pf-avatar{width:84px;height:84px;border-radius:50%;object-fit:cover;background:#fff;box-shadow:0 8px 22px rgba(124,58,237,.3);padding:3px;cursor:pointer;display:block}
+.pf-avatar-edit{position:absolute;left:50%;bottom:-6px;transform:translateX(-50%);background:rgba(20,18,40,.8);color:#fff;font-size:10px;border-radius:999px;padding:1px 8px;white-space:nowrap;pointer-events:none}
+
 </style>
 </head>
 <body>
@@ -376,7 +393,11 @@ html.dark .motto{background:rgba(255,255,255,.05)}
   <div class="section-head"><h2>个人中心</h2><p>我的资料 · 我的课程 · 校训校风</p></div>
   <div class="profile-card">
     <div class="pf-top">
-      <img src="images/emblem.png" alt="校徽" class="pf-avatar">
+      <div class="pf-avatar-wrap">
+        <img id="pf-avatar" src="images/emblem.png" alt="我的头像" class="pf-avatar" title="点击更换头像">
+        <span class="pf-avatar-edit">📷 上传头像</span>
+        <input type="file" id="pf-avatar-file" accept="image/*" style="display:none">
+      </div>
       <div class="pf-info">
         <input id="nick-input" class="nick" maxlength="20" placeholder="请输入昵称">
         <span class="pf-id">中石大学生助手 · 学号未绑定</span>
@@ -616,7 +637,11 @@ var PHOTOS_TD=[
 for(var i=1;i<=24;i++){PHOTOS_TD.push({src:'images/td-scene-'+(i<10?'0'+i:i)+'.jpg',cap:'唐岛湾 · 校园实景',srcLabel:'观海新闻'});}
 
 var VERSIONS=[
- {ver:'v1.16.0',date:'2026-09-02',title:'学院/选课/个人中心',changes:[
+ {ver:'v1.17.0',date:'2026-09-02',title:'真实课表 + 头像上传',changes:[
+    {t:'opt',text:'我的课程改为真实课表视图（周一到周日 × 节次），选课带排课时间'},
+    {t:'new',text:'个人中心支持上传本地图片更换头像'}
+  ]},
+  {ver:'v1.16.0',date:'2026-09-02',title:'学院/选课/个人中心',changes:[
     {t:'new',text:'新增学院院系（本科生/研究生板块 + 校区标注）、选课中心与我的课程（自主添加）'},
     {t:'new',text:'新增个人中心（昵称/课程统计/主题/校训校风）、公众号与学生会二维码'},
     {t:'opt',text:'移除推荐路线板块；导航支持多条路线最短优先'}
@@ -1018,53 +1043,82 @@ function renderColleges(){
 $('col-filter').querySelectorAll('.chip').forEach(function(ch){
   ch.addEventListener('click',function(){colFilter=ch.getAttribute('data-f');$('col-filter').querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});ch.classList.add('on');renderColleges();});
 });
-/* ================= 选课 & 我的课程 ================= */
+/* ================= 选课 & 我的课程（课表） ================= */
+var DAYS=['周一','周二','周三','周四','周五','周六','周日'];
+var SLOTS=[
+ {b:1,s:1,e:2,label:'第1-2节',t:'08:00-09:40'},
+ {b:2,s:3,e:4,label:'第3-4节',t:'10:00-11:40'},
+ {b:3,s:5,e:6,label:'第5-6节',t:'14:00-15:40'},
+ {b:4,s:7,e:8,label:'第7-8节',t:'16:00-17:40'},
+ {b:5,s:9,e:10,label:'第9-10节',t:'19:00-20:40'},
+ {b:6,s:11,e:12,label:'第11-12节',t:'20:50-22:20'}
+];
 var CATALOG=[
- {id:'c1',name:'高等数学（上）',type:'公共基础课',icon:'🧮'},
- {id:'c2',name:'线性代数',type:'公共基础课',icon:'📊'},
- {id:'c3',name:'大学物理（上）',type:'公共基础课',icon:'🔭'},
- {id:'c4',name:'概率论与数理统计',type:'公共基础课',icon:'🎲'},
- {id:'c5',name:'C语言程序设计',type:'计算机课',icon:'💻'},
- {id:'c6',name:'Python 程序设计',type:'计算机课',icon:'🐍'},
- {id:'c7',name:'大学英语',type:'语言课',icon:'🗣️'},
- {id:'c8',name:'工程制图',type:'专业基础课',icon:'📐'},
- {id:'c9',name:'思想道德与法治',type:'思政课',icon:'📖'},
- {id:'c10',name:'中国近现代史纲要',type:'思政课',icon:'🏛️'},
- {id:'c11',name:'大学体育',type:'体育课',icon:'🏀'},
- {id:'c12',name:'军事理论',type:'公共课',icon:'🎖️'}
+ {id:'c1',name:'高等数学（上）',type:'公共基础课',icon:'🧮',d:1,s:1,e:2,teacher:'张老师',place:'南教楼101'},
+ {id:'c2',name:'线性代数',type:'公共基础课',icon:'📊',d:2,s:3,e:4,teacher:'李老师',place:'讲堂群202'},
+ {id:'c3',name:'大学物理（上）',type:'公共基础课',icon:'🔭',d:3,s:1,e:2,teacher:'王老师',place:'卓越教学楼B105'},
+ {id:'c4',name:'概率论与数理统计',type:'公共基础课',icon:'🎲',d:4,s:5,e:6,teacher:'赵老师',place:'南教楼203'},
+ {id:'c5',name:'C语言程序设计',type:'计算机课',icon:'💻',d:1,s:5,e:6,teacher:'刘老师',place:'基础实验楼302'},
+ {id:'c6',name:'Python 程序设计',type:'计算机课',icon:'🐍',d:3,s:7,e:8,teacher:'陈老师',place:'讲堂群305'},
+ {id:'c7',name:'大学英语',type:'语言课',icon:'🗣️',d:2,s:1,e:2,teacher:'外语学院',place:'文理楼301'},
+ {id:'c8',name:'工程制图',type:'专业基础课',icon:'📐',d:5,s:3,e:4,teacher:'周老师',place:'工科楼C201'},
+ {id:'c9',name:'思想道德与法治',type:'思政课',icon:'📖',d:4,s:7,e:8,teacher:'马院',place:'讲堂群101'},
+ {id:'c10',name:'中国近现代史纲要',type:'思政课',icon:'🏛️',d:5,s:5,e:6,teacher:'马院',place:'南教楼105'},
+ {id:'c11',name:'大学体育',type:'体育课',icon:'🏀',d:3,s:5,e:6,teacher:'体育部',place:'红旗操场'},
+ {id:'c12',name:'军事理论',type:'公共课',icon:'🎖️',d:5,s:7,e:8,teacher:'武装部',place:'讲堂群105'}
 ];
 function loadCourses(){try{return JSON.parse(localStorage.getItem('myCourses')||'[]');}catch(e){return [];}}
 function saveCourses(list){try{localStorage.setItem('myCourses',JSON.stringify(list));}catch(e){}}
 function courseView(){var t=$('course-tabs');return t?t.querySelector('.chip.on').getAttribute('data-v'):'catalog';}
+function colorFor(name){var h=0;for(var i=0;i<name.length;i++)h=(h*31+name.charCodeAt(i))>>>0;var pal=['#ff2d78','#7c3aed','#0ea5e9','#10b981','#f59e0b','#ef4444','#06b6d4','#8b5cf6'];return pal[h%pal.length];}
+function coversSlot(c,b){return b>=Math.ceil(c.s/2)&&b<=Math.ceil(c.e/2);}
+function renderTimetable(list){
+  var head='<div class="tt-hd">节次/时间</div>';
+  for(var d=0;d<7;d++)head+='<div class="tt-hd">'+DAYS[d]+'</div>';
+  var rows='';
+  SLOTS.forEach(function(sl){
+    rows+='<div class="tt-label">'+sl.label+'<br><span style="opacity:.7">'+sl.t+'</span></div>';
+    for(var d=0;d<7;d++){
+      var items=[];
+      list.forEach(function(m,idx){if(+m.day===d+1&&coversSlot(m,sl.b))items.push({m:m,idx:idx});});
+      var cell=items.map(function(o){
+        return '<div class="ttc" data-i="'+o.idx+'" style="background:'+colorFor(o.m.name)+'"><b>'+(o.m.name.length>7?o.m.name.slice(0,7)+'…':o.m.name)+'</b>'+(o.m.place&&o.m.place!=='—'?o.m.place:'')+' · '+o.m.s+'-'+o.m.e+'节</div>';
+      }).join('');
+      rows+='<div class="tt-cell">'+cell+'</div>';
+    }
+  });
+  return '<div class="tt">'+head+rows+'</div>';
+}
 function renderCourseUI(){
   var body=$('course-body');
   if(courseView()==='catalog'){
     var list=loadCourses();
     body.innerHTML='<div class="course-list">'+CATALOG.map(function(x){
       var picked=list.some(function(m){return m.cid===x.id;});
-      return '<div class="course"><div class="c-ico">'+x.icon+'</div><div><div class="c-name">'+x.name+'</div><div class="c-meta">'+x.type+' · 公共课示例</div></div><button class="btn '+(picked?'':'primary')+' c-btn" data-cid="'+x.id+'">'+(picked?'✓ 已选':'＋ 选课')+'</button></div>';
-    }).join('')+'</div>';
+      return '<div class="course"><div class="c-ico">'+x.icon+'</div><div><div class="c-name">'+x.name+'</div><div class="c-meta">'+x.type+' · '+DAYS[x.d-1]+' 第'+x.s+'-'+x.e+'节 · '+x.place+' · '+x.teacher+'</div></div><button class="btn '+(picked?'':'primary')+' c-btn" data-cid="'+x.id+'">'+(picked?'✓ 已选':'＋ 选课')+'</button></div>';
+    }).join('')+'</div><div class="tip" style="font-size:12px;color:var(--text2);margin-top:8px">💡 选课后自动排入「我的课程」课表（示例公共课排课，可自行添加/调整）</div>';
     body.querySelectorAll('.c-btn').forEach(function(bt){
       bt.addEventListener('click',function(){
         var list=loadCourses(),cid=bt.getAttribute('data-cid'),x=CATALOG.find(function(t){return t.id===cid;});
         if(list.some(function(m){return m.cid===cid;})){list=list.filter(function(m){return m.cid!==cid;});}
-        else{list.unshift({cid:cid,name:x.name,type:x.type,teacher:'—',place:'—',time:'—'});}
+        else{list.push({cid:x.id,name:x.name,type:x.type,teacher:x.teacher,place:x.place,day:x.d,s:x.s,e:x.e});}
         saveCourses(list);renderCourseUI();renderProfile();
       });
     });
   }else{
     var list=loadCourses();
-    body.innerHTML='<div class="course-list">'+(list.length?list.map(function(m,i){
-      return '<div class="course"><div class="c-ico">📘</div><div><div class="c-name">'+m.name+'</div><div class="c-meta">'+(m.type||'自建')+' · '+m.teacher+' · '+m.place+' · '+m.time+'</div></div><button class="btn c-del" data-i="'+i+'">删除</button></div>';
-    }).join(''):'<div style="color:var(--text2);padding:10px">还没有课程，去「选课中心」选课，或下方自主添加</div>')+'</div>';
-    body.insertAdjacentHTML('beforeend','<div class="add-course"><h4 style="font-size:13px;color:var(--text);margin-bottom:6px">➕ 自主添加课程</h4><div class="add-grid"><input id="ac-name" placeholder="课程名称，如：数据结构"><input id="ac-teacher" placeholder="教师"><input id="ac-place" placeholder="地点，如：求是图书馆·观海平台"><input id="ac-time" placeholder="时间，如：周一 8:00"></div><button class="btn primary" id="ac-add" style="margin-top:8px">保存到我的课程</button></div>');
-    body.querySelectorAll('.c-del').forEach(function(bt){bt.addEventListener('click',function(){var list=loadCourses();list.splice(+bt.getAttribute('data-i'),1);saveCourses(list);renderCourseUI();renderProfile();});});
+    var wrap=list.length?'<div class="tt-wrap">'+renderTimetable(list)+'</div>':'<div style="color:var(--text2);padding:10px">还没有课程，去「选课中心」选课，或下方自主添加（点课表格子可删除该课）</div>';
+    var daysOpt='';for(var d=0;d<7;d++)daysOpt+='<option value="'+(d+1)+'">'+DAYS[d]+'</option>';
+    var slotOpt='';SLOTS.forEach(function(sl){slotOpt+='<option value="'+sl.s+'-'+sl.e+'">'+sl.label+' '+sl.t+'</option>';});
+    body.innerHTML=wrap+'<div class="add-course"><h4 style="font-size:13px;color:var(--text);margin-bottom:6px">➕ 自主添加课程</h4><div class="add-grid"><input id="ac-name" placeholder="课程名称，如：数据结构"><input id="ac-teacher" placeholder="教师"><input id="ac-place" placeholder="地点，如：求是图书馆"><select class="ac-sel" id="ac-day">'+daysOpt+'</select><select class="ac-sel" id="ac-slot">'+slotOpt+'</select></div><button class="btn primary" id="ac-add" style="margin-top:8px">保存到我的课程</button></div>';
+    body.querySelectorAll('.ttc[data-i]').forEach(function(el){el.addEventListener('click',function(){var list=loadCourses();list.splice(+el.getAttribute('data-i'),1);saveCourses(list);renderCourseUI();renderProfile();toast('已删除该课程');});});
     $('ac-add').addEventListener('click',function(){
       var name=($('ac-name').value||'').trim();
       if(!name){toast('请输入课程名称');return;}
+      var sp=($('ac-slot').value||'1-2').split('-');
       var list=loadCourses();
-      list.unshift({cid:'m'+Date.now(),name:name,type:'自主添加',teacher:($('ac-teacher').value||'').trim(),place:($('ac-place').value||'').trim(),time:($('ac-time').value||'').trim()});
-      saveCourses(list);toast('已添加到我的课程');renderCourseUI();renderProfile();
+      list.push({cid:'m'+Date.now(),name:name,type:'自主添加',teacher:($('ac-teacher').value||'').trim(),place:($('ac-place').value||'').trim(),day:+$('ac-day').value,s:+sp[0],e:+sp[1]});
+      saveCourses(list);toast('已添加到课表');renderCourseUI();renderProfile();
     });
   }
 }
@@ -1080,6 +1134,32 @@ function renderProfile(){
 $('nick-input').addEventListener('change',function(){try{localStorage.setItem('nick',this.value.trim()||'yty');}catch(e){}toast('昵称已保存');});
 $('pf-theme-btn').addEventListener('click',function(){var tb=document.getElementById('theme-btn');if(tb)tb.click();setTimeout(renderProfile,120);});
 document.querySelectorAll('.pf-actions [data-goto]').forEach(function(bt){bt.addEventListener('click',function(){$(bt.getAttribute('data-goto')).scrollIntoView({behavior:'smooth'});});});
+
+/* ================= 头像上传 ================= */
+(function(){
+  var av=$('pf-avatar'),file=$('pf-avatar-file');
+  try{var saved=localStorage.getItem('avatar');if(saved)av.src=saved;}catch(e){}
+  av.addEventListener('click',function(){file.click();});
+  file.addEventListener('change',function(){
+    var f=file.files&&file.files[0];
+    if(!f)return;
+    var rd=new FileReader();
+    rd.onload=function(){
+      var img=new Image();
+      img.onload=function(){
+        var size=256,cv=document.createElement('canvas');cv.width=size;cv.height=size;
+        var ctx=cv.getContext('2d');
+        var min=Math.min(img.width,img.height),sx=(img.width-min)/2,sy=(img.height-min)/2;
+        ctx.drawImage(img,sx,sy,min,min,0,0,size,size);
+        var data=cv.toDataURL('image/jpeg',0.85);
+        try{localStorage.setItem('avatar',data);}catch(e){toast('头像过大，保存失败');return;}
+        av.src=data;toast('头像已更新 ✅');
+      };
+      img.src=rd.result;
+    };
+    rd.readAsDataURL(f);
+  });
+})();
 
 /* ---------- PWA ---------- */
 if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
