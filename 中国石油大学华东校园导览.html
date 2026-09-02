@@ -227,6 +227,15 @@ footer a{color:#8fb7ff}
   .theme-btn{bottom:84px}
   .gphoto img{height:130px}
 }
+
+/* ===== 关注我们 ===== */
+.follow-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;max-width:640px}
+.qr-card{background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:16px;display:flex;gap:14px;align-items:center;box-shadow:var(--shadow);backdrop-filter:blur(8px)}
+.qr-card img{width:120px;height:120px;object-fit:contain;background:#fff;border-radius:8px;padding:6px;flex:none}
+.qr-info b{font-size:15px;color:var(--text);display:block}
+.qr-info span{font-size:12px;color:var(--text2)}
+@media(max-width:768px){.qr-card{flex-direction:column;text-align:center}.qr-info span{display:block;margin-top:4px}}
+
 </style>
 </head>
 <body>
@@ -331,6 +340,15 @@ footer a{color:#8fb7ff}
   <div class="section-head" style="margin-top:26px"><h2>东营科教园区</h2><p>石大精神的原点 · 创造太阳1988年原作</p></div>
   <div class="banner">🛢️ 1969 年学校整体迁至东营办学；如今为科教园区，保留教学科研与校友服务功能。</div>
   <div class="cards" id="dyList"></div>
+</section>
+
+<!-- ============ 关注我们 ============ -->
+<section id="follow">
+  <div class="section-head"><h2>关注我们</h2><p>学校官方公众号 · 校学生会</p></div>
+  <div class="follow-grid">
+    <div class="qr-card"><img src="images/qr-gzh.png" alt="中国石油大学华东公众号"><div class="qr-info"><b>中国石油大学华东</b><span>官方微信公众号 · 长按识别关注</span></div></div>
+    <div class="qr-card"><img src="images/qr-xsh.png" alt="中国石油大学华东学生会"><div class="qr-info"><b>中国石油大学华东学生会</b><span>校学生会 · 长按识别关注</span></div></div>
+  </div>
 </section>
 
 <!-- ============ 更新日志 ============ -->
@@ -779,22 +797,60 @@ function fillNavOptions(){
   $('nav-from').innerHTML='<option value="">起点…</option>'+LANDS.map(function(l){return '<option value="'+l.id+'">'+(l.icon||'')+' '+l.name+'</option>';}).join('');
   $('nav-to').innerHTML='<option value="">终点…</option>'+LANDS.map(function(l){return '<option value="'+l.id+'">'+(l.icon||'')+' '+l.name+'</option>';}).join('');
 }
+var navCands=[];
+function pathDist(ids){
+  var pts=ids.map(function(s){var l=landById(s);return l?ll(l.dx,l.dy):null;}).filter(Boolean);
+  var d=0;for(var i=1;i<pts.length;i++)d+=haversine(pts[i-1],pts[i]);
+  return {d:d,min:Math.max(1,Math.round(d/1000/4*60))};
+}
+function nearestLandmarkTo(latlng){
+  var best=null,bd=1e9;
+  LANDS.forEach(function(l){var d=haversine(latlng,ll(l.dx,l.dy));if(d<bd){bd=d;best=l;}});
+  return best;
+}
+function navCandidates(f,t){
+  var a=landById(f),b=landById(t);
+  var A=ll(a.dx,a.dy),B=ll(b.dx,b.dy);
+  var opts=[{ids:[f,t],via:''}];
+  var mid=[(A[0]+B[0])/2,(A[1]+B[1])/2];
+  var m=nearestLandmarkTo(mid);
+  if(m&&m.id!==f&&m.id!==t)opts.push({ids:[f,m.id,t],via:m.name});
+  var t1=[A[0]+(B[0]-A[0])/3,A[1]+(B[1]-A[1])/3],t2=[A[0]+(B[0]-A[0])*2/3,A[1]+(B[1]-A[1])*2/3];
+  var n1=nearestLandmarkTo(t1),n2=nearestLandmarkTo(t2);
+  if(n1&&n2&&n1.id!==n2.id&&n1.id!==f&&n1.id!==t&&n2.id!==f&&n2.id!==t)opts.push({ids:[f,n1.id,n2.id,t],via:n1.name+' → '+n2.name});
+  var seen={},uniq=[];
+  opts.forEach(function(o){var k=o.ids.join(',');if(!seen[k]){seen[k]=1;o.st=pathDist(o.ids);uniq.push(o);}});
+  uniq.sort(function(x,y){return x.st.d-y.st.d;});
+  return uniq;
+}
+function fmtM(m){return m<1000?Math.round(m)+' 米':(m/1000).toFixed(2)+' km';}
+function drawNavPath(ids){
+  routeLayer.clearLayers();
+  var pts=ids.map(function(s){var l=landById(s);return l?ll(l.dx,l.dy):null;}).filter(Boolean);
+  L.polyline(pts,{color:'#00d4ff',weight:5,opacity:.95,dashArray:'2 10'}).addTo(routeLayer);
+  var a=landById(ids[0]),b=landById(ids[ids.length-1]);
+  L.marker(ll(a.dx,a.dy),{icon:L.divIcon({className:'',html:'<div class="rnum" style="background:linear-gradient(135deg,#00d4ff,#7c3aed)">起</div>',iconSize:[26,26],iconAnchor:[13,13]})}).addTo(routeLayer);
+  L.marker(ll(b.dx,b.dy),{icon:L.divIcon({className:'',html:'<div class="rnum" style="background:linear-gradient(135deg,#ff2d78,#f59e0b)">终</div>',iconSize:[26,26],iconAnchor:[13,13]})}).addTo(routeLayer);
+  if(pts.length>1)map.fitBounds(L.latLngBounds(pts).pad(0.3));
+}
 $('nav-go').addEventListener('click',function(){
-  var f=$('nav-from').value,t=$('nav-to').value;
-  var res=$('nav-result');
+  var f=$('nav-from').value,t=$('nav-to').value,res=$('nav-result');
   if(!f||!t){res.style.display='block';res.innerHTML='<b>请选择起点和终点</b>';return;}
   if(f===t){res.style.display='block';res.innerHTML='起点和终点相同';return;}
   var a=landById(f),b=landById(t);
-  var d=haversine(ll(a.dx,a.dy),ll(b.dx,b.dy));
-  var min=Math.max(1,Math.round(d/1000/4*60));
-  routeLayer.clearLayers();
-  L.polyline([ll(a.dx,a.dy),ll(b.dx,b.dy)],{color:'#00d4ff',weight:5,opacity:.95,dashArray:'2 10'}).addTo(routeLayer);
-  L.marker(ll(a.dx,a.dy),{icon:L.divIcon({className:'',html:'<div class="rnum" style="background:linear-gradient(135deg,#00d4ff,#7c3aed)">起</div>',iconSize:[26,26],iconAnchor:[13,13]})}).addTo(routeLayer);
-  L.marker(ll(b.dx,b.dy),{icon:L.divIcon({className:'',html:'<div class="rnum" style="background:linear-gradient(135deg,#ff2d78,#f59e0b)">终</div>',iconSize:[26,26],iconAnchor:[13,13]})}).addTo(routeLayer);
-  map.fitBounds(L.latLngBounds([ll(a.dx,a.dy),ll(b.dx,b.dy)]).pad(0.3));
+  navCands=navCandidates(f,t);
   res.style.display='block';
-  res.innerHTML='🧭 <b>'+a.name+'</b> → <b>'+b.name+'</b>：直线约 <b>'+(d<1000?Math.round(d)+' 米':(d/1000).toFixed(2)+' km')+'</b> · 步行约 <b>'+min+' 分钟</b>（按直线估算，实际以路网为准）';
+  var html='🧭 <b>'+a.name+'</b> → <b>'+b.name+'</b>：为您找到 '+navCands.length+' 条路线（按距离排序）<br><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:6px">';
+  navCands.forEach(function(o,i){
+    var tag=i===0?'✅ 最短':('备选 '+(i+1));
+    html+='<button class="mbtn nav-opt'+(i===0?' primary':'')+'" data-i="'+i+'">'+tag+' · '+fmtM(o.st.d)+' · 步行 '+o.st.min+' 分钟'+(o.via?'<br><span style="font-size:11px;opacity:.8">途经：'+o.via+'</span>':'')+'</button>';
+  });
+  html+='</div>';
+  res.innerHTML=html;
+  res.querySelectorAll('.nav-opt').forEach(function(bt){bt.addEventListener('click',function(){var o=navCands[+bt.getAttribute('data-i')];drawNavPath(o.ids);});});
+  drawNavPath(navCands[0].ids);
 });
+
 /* ---------- 相册 ---------- */
 var photoFilter='gz';
 function renderGallery(){
