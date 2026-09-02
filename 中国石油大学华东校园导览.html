@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" data-theme="neon">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="images/icon-180.png">
 <script>
 /* 自动更新：检测线上最新版，旧页自动刷新（无需手动清缓存） */
-(function(){var V='1.20.0';try{if(sessionStorage.getItem('pg_vreload')==='1')return;fetch('site-version.json?t='+Date.now()).then(function(r){return r.json();}).then(function(j){if(j&&j.version&&j.version!==V){sessionStorage.setItem('pg_vreload','1');location.replace(location.pathname.split('?')[0]+'?v='+j.version+location.hash);}}).catch(function(){});}catch(e){}})();
+(function(){var V='2.0.0';try{if(sessionStorage.getItem('pg_vreload')==='1')return;fetch('site-version.json?t='+Date.now()).then(function(r){return r.json();}).then(function(j){if(j&&j.version&&j.version!==V){sessionStorage.setItem('pg_vreload','1');location.replace(location.pathname.split('?')[0]+'?v='+j.version+location.hash);}}).catch(function(){});}catch(e){}})();
 </script>
 <link rel="stylesheet" href="lib/leaflet.css">
 <style>
@@ -306,6 +306,84 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
 
 .card-photo{width:100%;height:130px;object-fit:cover;border-radius:8px;margin-bottom:8px}
 
+
+/* ===== v2.0 App 多页面 · 底部导航 ===== */
+.tabs{display:none!important}
+body{padding-bottom:76px}
+.app-nav{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:1500;background:var(--glass);backdrop-filter:blur(18px);border-top:1px solid var(--line);padding:6px 4px calc(8px + env(safe-area-inset-bottom));justify-content:space-around;box-shadow:0 -8px 30px rgba(0,0,0,.10)}
+.app-nav button{flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;border:none;background:transparent;color:var(--text3);font-size:10.5px;font-family:inherit;padding:4px 0;cursor:pointer;transition:.2s;border-radius:10px}
+.app-nav button .nav-ico{font-size:19px;line-height:1}
+.app-nav button .nav-tx{font-weight:600}
+.app-nav button.on{color:var(--neon1)}
+.app-nav button.on .nav-ico{transform:translateY(-1px) scale(1.08)}
+.page{display:none;animation:pgIn .26s ease}
+.page.on{display:block}
+@keyframes pgIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+main.container{max-width:1120px}
+.section-head h2{font-size:20px}
+
+/* ===== 通用 xcard 组件 ===== */
+.xgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin:6px 0 16px}
+.xcard{background:var(--glass2);border:1px solid var(--line);border-radius:14px;padding:14px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:7px;border-top:3px solid transparent;border-image:linear-gradient(90deg,var(--neon1),var(--neon3)) 1}
+.xcard .xtop{display:flex;align-items:center;gap:11px}
+.xcard .xbadge{width:46px;height:46px;flex:none;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:24px;color:#fff;background:linear-gradient(135deg,var(--neon1),var(--neon2));box-shadow:0 6px 14px rgba(0,0,0,.14)}
+.xcard h4{font-size:15px;color:var(--text);line-height:1.4}
+.xcard .xmeta{font-size:12px;color:var(--text2);line-height:1.65}
+.xcard .xbtns{display:flex;flex-wrap:wrap;gap:8px;margin-top:2px}
+.xcard .xbtn{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);background:var(--glass);color:var(--text);border-radius:999px;padding:6px 13px;font-size:12px;text-decoration:none;font-weight:600}
+.xcard .xbtn.go{background:linear-gradient(90deg,var(--neon1),var(--neon2));color:#fff;border-color:transparent;box-shadow:0 4px 10px rgba(0,0,0,.12)}
+.src-note{font-size:11px;color:var(--text3);margin:2px 0 8px}
+.lit-note{font-size:12px;color:var(--text2);margin:6px 0 2px}
+
+/* ===== 主题外观 ===== */
+.theme-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:14px}
+.theme-opt{border:1px solid var(--line);background:var(--glass2);border-radius:13px;padding:11px 8px;text-align:center;cursor:pointer;color:var(--text);transition:.15s}
+.theme-opt .t-ico{font-size:27px;display:block;margin-bottom:4px}
+.theme-opt .t-name{font-size:13px;font-weight:700}
+.theme-opt.on{border-color:var(--neon1);box-shadow:0 0 0 2px var(--neon1);background:linear-gradient(180deg,var(--glass2),rgba(255,255,255,.4))}
+.darkrow{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--glass2);border:1px solid var(--line);border-radius:13px;padding:13px 15px;margin-bottom:16px}
+.darkrow .dk-l{display:flex;align-items:center;gap:10px}
+.darkrow .dk-ico{font-size:24px}
+.darkrow b{color:var(--text);font-size:14px}
+.darkrow span{display:block;font-size:11.5px;color:var(--text2)}
+.switch{width:52px;height:29px;border-radius:999px;border:1px solid var(--line);background:var(--glass);position:relative;cursor:pointer;flex:none;transition:.2s}
+.switch::after{content:"";position:absolute;top:2.5px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:.2s}
+html.dark .switch{background:linear-gradient(90deg,var(--neon1),var(--neon3))}
+html.dark .switch::after{left:25px}
+
+/* ===== 主题配色（霓虹/卡通/简约/海浪/城市/校园 × 暗色） ===== */
+html[data-theme="neon"]{--neon1:#ff2d78;--neon2:#7c3aed;--neon3:#00d4ff;--gold:#ffd166;--text:#2a2440;--text2:#5a5470;--text3:#8a84a0;--bg:#f0eefe;--glass:rgba(255,255,255,.72);--glass2:#ffffff;--line:rgba(124,58,237,.18);--shadow:0 10px 34px rgba(60,30,120,.12)}
+html[data-theme="neon"].dark{--neon1:#ff5a8a;--neon2:#a78bfa;--neon3:#22d3ee;--gold:#ffd166;--text:#e9edf4;--text2:#a6aebb;--text3:#7d8794;--bg:#0b0d18;--glass:rgba(20,22,34,.72);--glass2:rgba(255,255,255,.1);--line:rgba(255,255,255,.14);--shadow:0 10px 34px rgba(0,0,0,.45)}
+html[data-theme="neon"] body{background:radial-gradient(1200px 600px at 12% -8%,rgba(255,45,120,.16),transparent 60%),radial-gradient(1000px 500px at 100% 0%,rgba(0,212,255,.14),transparent 55%),radial-gradient(900px 600px at 60% 110%,rgba(124,58,237,.16),transparent 60%),var(--bg)}
+html[data-theme="neon"].dark body{background:radial-gradient(1200px 600px at 12% -8%,rgba(255,45,120,.12),transparent 60%),radial-gradient(1000px 500px at 100% 0%,rgba(0,212,255,.10),transparent 55%),radial-gradient(900px 600px at 60% 110%,rgba(124,58,237,.12),transparent 60%),var(--bg)}
+
+html[data-theme="cartoon"]{--neon1:#ff7043;--neon2:#f9a825;--neon3:#26c6da;--gold:#ffd54f;--text:#43301f;--text2:#7a6248;--text3:#a3907c;--bg:#fff6ea;--glass:rgba(255,255,255,.78);--glass2:#ffffff;--line:rgba(255,112,67,.22);--shadow:0 8px 24px rgba(249,168,37,.16);--radius:18px}
+html[data-theme="cartoon"].dark{--neon1:#ff8a65;--neon2:#ffd54f;--neon3:#4dd0e1;--gold:#ffe082;--text:#f8efe3;--text2:#c9b8a5;--text3:#9a8873;--bg:#251d12;--glass:rgba(40,32,20,.75);--glass2:rgba(255,255,255,.1);--line:rgba(255,200,150,.18);--shadow:0 10px 30px rgba(0,0,0,.45)}
+html[data-theme="cartoon"] body{background:radial-gradient(1000px 500px at 10% -5%,rgba(255,112,67,.18),transparent 55%),radial-gradient(900px 500px at 100% 0%,rgba(38,198,218,.16),transparent 55%),radial-gradient(800px 500px at 60% 110%,rgba(249,168,37,.18),transparent 60%),var(--bg)}
+html[data-theme="cartoon"].dark body{background:radial-gradient(1000px 500px at 10% -5%,rgba(255,138,101,.10),transparent 55%),radial-gradient(900px 500px at 100% 0%,rgba(77,208,225,.08),transparent 55%),var(--bg)}
+
+html[data-theme="simple"]{--neon1:#2563eb;--neon2:#4f46e5;--neon3:#0ea5e9;--gold:#f59e0b;--text:#1e2430;--text2:#5b6472;--text3:#98a1af;--bg:#f5f6f8;--glass:rgba(255,255,255,.85);--glass2:#ffffff;--line:rgba(37,99,235,.14);--shadow:0 6px 18px rgba(30,40,70,.08);--radius:12px;--blur:8px}
+html[data-theme="simple"].dark{--neon1:#60a5fa;--neon2:#818cf8;--neon3:#38bdf8;--gold:#fbbf24;--text:#e6eaf2;--text2:#9aa4b4;--text3:#67707f;--bg:#11141b;--glass:rgba(255,255,255,.06);--glass2:rgba(255,255,255,.09);--line:rgba(255,255,255,.12);--shadow:0 8px 22px rgba(0,0,0,.4)}
+html[data-theme="simple"] body{background:var(--bg)}
+html[data-theme="simple"].dark body{background:var(--bg)}
+
+html[data-theme="wave"]{--neon1:#0891b2;--neon2:#0d9488;--neon3:#22d3ee;--gold:#fbbf24;--text:#134e4a;--text2:#4d7a76;--text3:#83a5a1;--bg:#ecfdfa;--glass:rgba(255,255,255,.78);--glass2:#ffffff;--line:rgba(8,145,178,.2);--shadow:0 10px 26px rgba(13,148,136,.14)}
+html[data-theme="wave"].dark{--neon1:#22d3ee;--neon2:#2dd4bf;--neon3:#67e8f9;--gold:#fcd34d;--text:#d7f5f2;--text2:#93c5c1;--text3:#5f8f8b;--bg:#062a2b;--glass:rgba(10,45,46,.72);--glass2:rgba(255,255,255,.08);--line:rgba(255,255,255,.14);--shadow:0 10px 28px rgba(0,0,0,.4)}
+html[data-theme="wave"] body{background:radial-gradient(1100px 500px at 8% -6%,rgba(34,211,238,.16),transparent 55%),radial-gradient(900px 500px at 100% 8%,rgba(13,148,136,.14),transparent 55%),var(--bg)}
+html[data-theme="wave"].dark body{background:radial-gradient(1100px 500px at 8% -6%,rgba(34,211,238,.10),transparent 55%),radial-gradient(900px 500px at 100% 8%,rgba(45,212,191,.08),transparent 55%),var(--bg)}
+
+html[data-theme="city"]{--neon1:#4f46e5;--neon2:#db2777;--neon3:#0ea5e9;--gold:#fbbf24;--text:#262b3d;--text2:#5d6378;--text3:#9499ad;--bg:#eef0f9;--glass:rgba(255,255,255,.8);--glass2:#ffffff;--line:rgba(79,70,229,.16);--shadow:0 12px 30px rgba(30,27,75,.14)}
+html[data-theme="city"].dark{--neon1:#818cf8;--neon2:#f472b6;--neon3:#38bdf8;--gold:#fbbf24;--text:#e9eaf6;--text2:#a3a7c0;--text3:#6f738d;--bg:#0c0e1c;--glass:rgba(22,24,46,.75);--glass2:rgba(255,255,255,.09);--line:rgba(255,255,255,.14);--shadow:0 10px 30px rgba(0,0,0,.5)}
+html[data-theme="city"] body{background:radial-gradient(1000px 500px at 100% -5%,rgba(219,39,119,.13),transparent 55%),radial-gradient(1100px 550px at -5% 100%,rgba(79,70,229,.16),transparent 60%),var(--bg)}
+html[data-theme="city"].dark body{background:radial-gradient(1000px 500px at 100% -5%,rgba(244,114,182,.09),transparent 55%),radial-gradient(1100px 550px at -5% 100%,rgba(129,140,248,.10),transparent 60%),var(--bg)}
+
+html[data-theme="campus"]{--neon1:#c2183b;--neon2:#1f5aa8;--neon3:#00a0a6;--gold:#f2b705;--text:#2b2a26;--text2:#6b6559;--text3:#a29a8a;--bg:#faf7f1;--glass:rgba(255,255,255,.82);--glass2:#ffffff;--line:rgba(194,24,59,.16);--shadow:0 8px 22px rgba(120,80,20,.12)}
+html[data-theme="campus"].dark{--neon1:#e0566e;--neon2:#5f8fd0;--neon3:#38b6ba;--gold:#f7c948;--text:#f2ede3;--text2:#bfb6a4;--text3:#8e8777;--bg:#1d1a14;--glass:rgba(40,36,26,.75);--glass2:rgba(255,255,255,.09);--line:rgba(255,255,255,.14);--shadow:0 10px 30px rgba(0,0,0,.45)}
+html[data-theme="campus"] body{background:linear-gradient(180deg,rgba(242,183,5,.06),transparent 30%),radial-gradient(1000px 500px at 10% -8%,rgba(194,24,59,.10),transparent 55%),var(--bg)}
+html[data-theme="campus"].dark body{background:radial-gradient(1000px 500px at 10% -8%,rgba(224,86,110,.08),transparent 55%),var(--bg)}
+
+@media(max-width:768px){.xgrid{grid-template-columns:1fr 1fr}.xcard .xbtns{flex-direction:column}.xcard .xbtn{justify-content:center}}
+@media(max-width:420px){.xgrid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -329,19 +407,10 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
   </div>
 </header>
 
-<nav class="tabs">
-  <div class="container tabs-inner">
-    <button class="tab active" data-target="map">🗺️ 地图</button>
-    <button class="tab" data-target="colleges">🎓 学院</button>
-    <button class="tab" data-target="courses">📚 选课</button>
-    <button class="tab" data-target="profile">👤 我的</button>
-    <button class="tab" data-target="changelog">📋 日志</button>
-  </div>
-</nav>
 
 <main class="container">
-
-<!-- ============ 地图导览（置顶大图） ============ -->
+<!-- 交通（地图+出行） -->
+<div class="page on" id="pg-traffic">
 <section id="map">
   <div class="section-head"><h2>地图导览</h2><p>一键切换校区 · 支持校内导航</p></div>
   <div class="map-card">
@@ -375,10 +444,19 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
     <div class="panel detail" id="detail"></div>
   </div>
 </section>
-
-<!-- ============ 推荐路线 ============ -->
-
-<!-- ============ 学院院系 ============ -->
+<section id="travel">
+  <div class="section-head"><h2>🏖️ 青岛热门景区路线</h2><p>从学校出发的周末出行方案（地铁/公交/自驾）</p></div>
+  <div class="xgrid" id="travel-list"></div>
+  <p class="src-note">※ 线路为小编整理的建议路线，地铁/公交班次请以高德/青岛地铁实时为准。</p>
+</section>
+<section id="transit">
+  <div class="section-head"><h2>🚌 四校区通行方案</h2><p>古镇口(西/东) · 唐岛湾 · 东营 往来攻略</p></div>
+  <div class="xgrid" id="transit-list"></div>
+  <p class="src-note">※ 信息来源：学校官网/古镇口校区综合办公室班车时刻表等，班次请以官方最新通知为准。<br>📄 参考：<a href="https://gzk.upc.edu.cn/18090/list1.htm" target="_blank" rel="noopener">古镇口校区综合办·班车时刻表</a> · <a href="https://csun.upc.edu.cn/2026/0825/c4439a498586/page.htm" target="_blank" rel="noopener">新生报到交通指南</a></p>
+</section>
+</div>
+<!-- 学习 -->
+<div class="page" id="pg-learn">
 <section id="colleges">
   <div class="section-head"><h2>学院院系</h2><p>各学院简介 · 所在校区 · 本科生/研究生</p></div>
   <div class="gfilter" id="col-filter">
@@ -388,8 +466,6 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
   </div>
   <div class="col-grid" id="col-grid"></div>
 </section>
-
-<!-- ============ 选课与课程 ============ -->
 <section id="courses">
   <div class="section-head"><h2>选课与我的课程</h2><p>选课中心 · 自主添加课程（保存在本机）</p></div>
   <div class="gfilter" id="course-tabs">
@@ -398,8 +474,63 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
   </div>
   <div id="course-body"></div>
 </section>
+<section id="bili">
+  <div class="section-head"><h2>📺 B站学习区</h2><p>名师精品课 · 一键直达B站</p></div>
+  <div class="xgrid" id="bili-list"></div>
+</section>
+<section id="lit">
+  <div class="section-head"><h2>📚 学术文献区</h2><p>论文检索 · 百科 · 开源代码 · 海外课堂</p></div>
+  <p class="lit-note">💡 建议使用校园网访问知网等学术库，可免费下载文献；GitHub / YouTube / X 需科学上网。</p>
+  <div class="xgrid" id="lit-grid"></div>
+</section>
+</div>
+<!-- 生活 -->
+<div class="page" id="pg-life">
+<section id="around">
+  <div class="section-head"><h2>🎬 周边生活指南</h2><p>校区附近影院 · 景区 · 台球娱乐（点击直达高德/小红书）</p></div>
+  <div class="gfilter" id="around-campus">
+    <button class="chip on" data-c="td">🌊 唐岛湾校区</button>
+    <button class="chip" data-c="gz">⛰️ 古镇口校区</button>
+    <button class="chip" data-c="dy">🛢️ 东营科教园区</button>
+  </div>
+  <div class="gfilter" id="around-cat">
+    <button class="chip on" data-k="all">全部</button>
+    <button class="chip" data-k="cinema">🎬 电影院</button>
+    <button class="chip" data-k="view">🏔️ 风景景区</button>
+    <button class="chip" data-k="fun">🎱 台球/娱乐</button>
+  </div>
+  <div class="xgrid" id="around-list"></div>
+  <p class="src-note">※ 信息来源：高德地图 POI 与小红书攻略整理，营业时间/票价以实际为准。</p>
+</section>
+<section id="photos">
+  <div class="section-head"><h2>实景相册</h2><p>古镇口西区与唐岛湾校区高清实景（点击看大图）</p></div>
+  <div class="gfilter" id="photo-filter">
+    <button class="chip on" data-f="gz">⛰️ 古镇口西区</button>
+    <button class="chip" data-f="td">🌊 唐岛湾校区</button>
+    <button class="chip" data-f="east">🏢 古镇口东区</button>
+    <button class="chip" data-f="all">全部</button>
+  </div>
+  <div class="gallery" id="gallery"></div>
+</section>
+<section id="campuses">
+  <div class="section-head"><h2>古镇口校区 · 东区</h2><p>2020 年启用 · 科研平台聚集区</p></div>
+  <div class="cards" id="gkEast"></div>
 
-<!-- ============ 个人中心 ============ -->
+  <div class="section-head" style="margin-top:26px"><h2>东营科教园区</h2><p>石大精神的原点 · 创造太阳1988年原作</p></div>
+  <div class="banner">🛢️ 1969 年学校整体迁至东营办学；如今为科教园区，保留教学科研与校友服务功能。</div>
+  <div class="cards" id="dyList"></div>
+</section>
+<section id="follow">
+  <div class="section-head"><h2>关注我们</h2><p>学校官方公众号 · 校学生会</p></div>
+  <div class="follow-grid">
+    <div class="qr-card"><img src="images/qr-gzh.png" alt="中国石油大学华东公众号"><div class="qr-info"><b>中国石油大学华东</b><span>官方微信公众号 · 长按识别关注</span></div></div>
+    <div class="qr-card"><img src="images/qr-xsh.png" alt="中国石油大学华东学生会"><div class="qr-info"><b>中国石油大学华东学生会</b><span>校学生会 · 长按识别关注</span></div></div>
+    <div class="qr-card"><img src="images/qr-web.png" alt="学校官网二维码"><div class="qr-info"><b>中国石油大学（华东）官网</b><span>扫描访问或点按钮一键跳转</span><a class="btn primary" style="display:inline-block;margin-top:8px;font-size:12.5px;padding:7px 14px;text-decoration:none" href="https://www.upc.edu.cn/" target="_blank" rel="noopener">🌐 一键跳转官网</a></div></div>
+  </div>
+</section>
+</div>
+<!-- 个人中心 -->
+<div class="page" id="pg-mine">
 <section id="profile">
   <div class="section-head"><h2>个人中心</h2><p>我的资料 · 我的课程 · 校训校风</p></div>
   <div class="profile-card">
@@ -432,40 +563,14 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
     </div>
   </div>
 </section>
-
-<!-- ============ 实景相册 ============ -->
-<section id="photos">
-  <div class="section-head"><h2>实景相册</h2><p>古镇口西区与唐岛湾校区高清实景（点击看大图）</p></div>
-  <div class="gfilter" id="photo-filter">
-    <button class="chip on" data-f="gz">⛰️ 古镇口西区</button>
-    <button class="chip" data-f="td">🌊 唐岛湾校区</button>
-    <button class="chip" data-f="east">🏢 古镇口东区</button>
-    <button class="chip" data-f="all">全部</button>
-  </div>
-  <div class="gallery" id="gallery"></div>
-</section>
-
-<!-- ============ 校区速览 ============ -->
-<section id="campuses">
-  <div class="section-head"><h2>古镇口校区 · 东区</h2><p>2020 年启用 · 科研平台聚集区</p></div>
-  <div class="cards" id="gkEast"></div>
-
-  <div class="section-head" style="margin-top:26px"><h2>东营科教园区</h2><p>石大精神的原点 · 创造太阳1988年原作</p></div>
-  <div class="banner">🛢️ 1969 年学校整体迁至东营办学；如今为科教园区，保留教学科研与校友服务功能。</div>
-  <div class="cards" id="dyList"></div>
-</section>
-
-<!-- ============ 关注我们 ============ -->
-<section id="follow">
-  <div class="section-head"><h2>关注我们</h2><p>学校官方公众号 · 校学生会</p></div>
-  <div class="follow-grid">
-    <div class="qr-card"><img src="images/qr-gzh.png" alt="中国石油大学华东公众号"><div class="qr-info"><b>中国石油大学华东</b><span>官方微信公众号 · 长按识别关注</span></div></div>
-    <div class="qr-card"><img src="images/qr-xsh.png" alt="中国石油大学华东学生会"><div class="qr-info"><b>中国石油大学华东学生会</b><span>校学生会 · 长按识别关注</span></div></div>
-    <div class="qr-card"><img src="images/qr-web.png" alt="学校官网二维码"><div class="qr-info"><b>中国石油大学（华东）官网</b><span>扫描访问或点按钮一键跳转</span><a class="btn primary" style="display:inline-block;margin-top:8px;font-size:12.5px;padding:7px 14px;text-decoration:none" href="https://www.upc.edu.cn/" target="_blank" rel="noopener">🌐 一键跳转官网</a></div></div>
+<section id="appearance">
+  <div class="section-head"><h2>🎨 主题外观</h2><p>6 套主题 · 可叠加暗色模式（自动记住选择）</p></div>
+  <div class="theme-grid" id="theme-grid"></div>
+  <div class="darkrow">
+    <div class="dk-l"><span class="dk-ico" id="dk-ico">🌙</span><div><b>暗色模式</b><span>降低夜间刺眼，可与上方任意主题叠加</span></div></div>
+    <div class="switch" id="dark-switch" role="switch"></div>
   </div>
 </section>
-
-<!-- ============ 手机 App 与网页版 ============ -->
 <section id="appdl">
   <div class="section-head"><h2>📲 手机 App 与网页版</h2><p>安卓安装 App · 也可扫码直接打开网页版</p></div>
   <div class="follow-grid" style="max-width:700px">
@@ -488,13 +593,11 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
     </div>
   </div>
 </section>
-
-<!-- ============ 更新日志 ============ -->
 <section id="changelog">
   <div class="section-head"><h2>更新日志</h2><p>记录每一次迭代</p></div>
   <div class="changelog" id="changelog-list"></div>
 </section>
-
+</div>
 </main>
 
 <footer>
@@ -530,8 +633,13 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
 
 <div id="toast"></div>
 <div id="lightbox"><img id="lightbox-img" alt=""><div class="cap" id="lightbox-cap"></div></div>
-<button class="theme-btn" id="theme-btn" title="切换主题">🌙</button>
 
+<nav class="app-nav" id="app-nav">
+  <button data-page="learn"><span class="nav-ico">🎓</span><span class="nav-tx">学习</span></button>
+  <button data-page="life"><span class="nav-ico">🍜</span><span class="nav-tx">生活</span></button>
+  <button data-page="traffic"><span class="nav-ico">🗺️</span><span class="nav-tx">交通</span></button>
+  <button data-page="mine"><span class="nav-ico">👤</span><span class="nav-tx">个人中心</span></button>
+</nav>
 <script src="lib/leaflet.js"></script>
 <script>
 var $=function(id){return document.getElementById(String(id).replace(/^#/,""));};
@@ -639,16 +747,16 @@ var CAMPUSES={
 
 /* ===== 桌面文案 + 高清照片（古镇口西区） ===== */
 var GZCOPY={
- 'gz-library':{desc:'求是图书馆建筑面积4.9万平方米，阅览座位约3500座，建筑6层。外墙整体铝板幕墙+玻璃幕墙，折叠型竖向分隔，像一本书徐徐展开；室内东西打通视线通廊，向东看海、向西望山，中庭垂拔空间弧线贯通到顶、屋面采光窗，三层有观海平台。一层展览展示区、阶梯学习区、密集书库；二层电子阅览区、特色阅览区、新书展示区；三层休读区、阅览区、悦享空间；四层五层休读区、阅览区、研讨区；六层行政办公与研讨、数字创意空间等。',tip:'观海平台是拍照绝佳机位。',photos:['images/desk/求是图书馆.jpg','images/desk/求是图书馆1.jpg']},
+ 'gz-library':{desc:'求是图书馆建筑面积4.9万平方米，阅览座位约3500座，建筑6层。外墙整体铝板幕墙+玻璃幕墙，折叠型竖向分隔，像一本书徐徐展开；室内东西打通视线通廊，向东看海、向西望山，中庭垂拔空间弧线贯通到顶、屋面采光窗，三层有观海平台。一层展览展示区、阶梯学习区、密集书库；二层电子阅览区、特色阅览区、新书展示区；三层休读区、阅览区、悦享空间；四层五层休读区、阅览区、研讨区；六层行政办公与研讨、数字创意空间等。',tip:'观海平台是拍照绝佳机位。',photos:['images/desk/求是图书馆1.jpg']},
  'gz-weizhen':{desc:'惟真楼建筑面积2.8万平方米，主要包括石油工业训练中心和机电工程学院，含教学科研实验室200多间及学院办公用房。其中石油工业训练中心1.7万平方米、机电工程学院1.1万平方米。建筑南侧5层、北侧7层；石油工业训练中心首层为2400平方米科研实验区，设单独出入口。',tip:'与惟实楼以廊架相连，惟真四层向东连惟实五层。',photos:['images/desk/惟真楼.jpg','images/desk/惟真楼1.jpg']},
- 'gz-weishi':{desc:'惟实楼建筑面积6.8万平方米，南侧6层、北侧U字形部分7层，主要包括化学化工学院、材料科学与工程学院、石大山能新能源学院、海洋与空间信息学院及公共教学空间，含教学实验室280多间，东侧为学院办公用房。惟真、惟实两楼间有廊架联系，体块方正、穿插感强，兼具理工严谨与建筑美育。',photos:['images/desk/惟实楼.jpg','images/desk/惟实楼1.jpg']},
+ 'gz-weishi':{desc:'惟实楼建筑面积6.8万平方米，南侧6层、北侧U字形部分7层，主要包括化学化工学院、材料科学与工程学院、石大山能新能源学院、海洋与空间信息学院及公共教学空间，含教学实验室280多间，东侧为学院办公用房。惟真、惟实两楼间有廊架联系，体块方正、穿插感强，兼具理工严谨与建筑美育。',photos:['images/desk/惟实楼.jpg']},
  'gz-teaching':{desc:'卓越教学楼建筑面积7万平方米（地上5.5万、地下1.5万），地上5层，总座位约1.64万、教室204间，全楼风机盘管+新风空调，是学校目前规模最大的教学楼。分A、B两栋错落衔接，A栋1、3层分别连通B栋3、5层，顶部层层退台，交通流线像莫比乌斯环般贯通循环，寓意孜孜不倦的求学精神。含弧型教室、全景教室、研讨型教室、美育教室、多媒体机房、大阶梯教室等；B栋东侧1-4层为教师办公室。',tip:'教室类型多，先看清楼号楼层再出发。',photos:['images/desk/卓越教学楼.jpg','images/desk/卓越教学楼1.jpg']},
  'gz-ling':{desc:'灵山湾餐厅建筑面积1.1万平方米，共四层，1-3层大厅总座位约1600个。除就餐外还含超市、打印、美容美发等服务功能；三层设教工餐厅与包间。就餐区宽敞明亮、看海景观好，主要服务研究生一号楼及部分教师。',photos:['images/desk/灵山湾餐厅.jpg','images/desk/灵山湾餐厅1.jpg']},
  'gz-zhu':{desc:'珠山餐厅总建筑面积2万平方米，餐厅约1.38万平方米、3层、3070座（一层888、二层1006、三层1176），内设风味餐厅，满足本科生就餐需求。另含4层活动中心0.6万平方米：千人大演艺厅、合唱舞蹈排练室、学生会、新媒体工作室、创客中心与心理咨询室。',tip:'紧邻宿舍与教学楼，动线方便。',photos:['images/desk/珠山餐厅.jpg','images/desk/珠山餐厅1.jpg']},
  'gz-track':{desc:'红旗操场分体育场与运动场。体育场造型流线动感，看台共2866人（普通2800、贵宾66）；室外为标准田径场，草坪与胶粒材质国内领先，可承办国内大学生田径及足球比赛，另有1块105m×68m人造草坪足球场，兼顾跳高跳远铅球等多项功能。',photos:['images/desk/红旗操场.jpg','images/desk/红旗操场1.jpg']},
  'gz-gym':{desc:'运动场建筑面积1.2万平方米，分南北两个运动大厅：南厅4个篮球场、10个羽毛球场地、12个乒乓球场地（PVC地面）；北厅2个排球场地、10个羽毛球场地、8个乒乓球场地（双层硬木地板）。另设瑜伽室、舞蹈室、体测室；屋面为篮球、五人制足球、排球、网球、轮滑场地。',tip:'风雨无阻的锻炼去处。',photos:['images/desk/运动场.jpg','images/desk/运动场1.jpg']},
- 'gz-dorm14':{desc:'本科生宿舍为1-8号楼，总建筑面积11万平方米、本科床位9248张。1-7号楼8层（8号楼因高差7层）；1、3、5、7号楼与2、4、6、8号楼两排相对，形成四组内庭院。宿舍四人间、上床下桌、单机空调，卫生间配两个洗手盆、一个淋浴、一个蹲便；每栋楼有修读活动室。',photos:['images/desk/本科生宿舍 (1).jpg']},
- 'gz-dorm58':{desc:'本科生宿舍区（学5-学8）为西区宿舍群一部分，总建筑面积11万平方米、床位9248张；四人间上床下桌，配空调与独立卫生间，宿舍区随地势东高西低，与教职工生活区衔接。',photos:['images/desk/本科生宿舍 (2).jpg']},
+ 'gz-dorm14':{desc:'本科生宿舍为1-8号楼，总建筑面积11万平方米、本科床位9248张。1-7号楼8层（8号楼因高差7层）；1、3、5、7号楼与2、4、6、8号楼两排相对，形成四组内庭院。宿舍四人间、上床下桌、单机空调，卫生间配两个洗手盆、一个淋浴、一个蹲便；每栋楼有修读活动室。',photos:[]},
+ 'gz-dorm58':{desc:'本科生宿舍区（学5-学8）为西区宿舍群一部分，总建筑面积11万平方米、床位9248张；四人间上床下桌，配空调与独立卫生间，宿舍区随地势东高西低，与教职工生活区衔接。',photos:[]},
  'gz-grad':{desc:'研究生9号公寓建筑面积2.4万平方米、床位1225张、建筑9层。一层为宿舍、自习室、研究生排练室、活动室、简易厨房；2-9层为宿舍。2人寝宽敞布局、独立卫浴，全屋定制成套家具、专属书架，采光通风好，每间装配空调，适合沉浸式科研学习。',photos:['images/desk/研究生9号公寓 (1).jpg','images/desk/研究生9号公寓 (2).jpg']},
  'gz-teacher':{desc:'教师公寓建筑面积8.8万平方米（地上6.6万、地下2.2万），共737套，分高低两区，车位460个。户型含180㎡（33户）、104㎡（304户）及供临时休息的50㎡户型（400户），服务高层次人才引进。',photos:['images/desk/教师公寓.jpg']},
  'gz-hospital':{desc:'校医院建筑面积0.35万平方米、共三层，设内科、外科、口腔科、影像科、检验科、理疗科、妇科、眼科、感染科等科室，配注射室、护理室、输液室、雾化治疗室、接种室、观察室、抢救室，满足在校师生就医需求。',photos:['images/desk/校医院.jpg']}
@@ -764,17 +872,17 @@ for(var i=1;i<=24;i++){PHOTOS_TD.push({src:'images/td-scene-'+(i<10?'0'+i:i)+'.j
 
 
 var DESK_GZ=[
- ['求是图书馆.jpg','求是图书馆'],['求是图书馆1.jpg','求是图书馆'],
+ ['求是图书馆1.jpg','求是图书馆'],
  ['卓越教学楼.jpg','卓越教学楼'],['卓越教学楼1.jpg','卓越教学楼'],
- ['惟真楼.jpg','惟真楼'],['惟真楼1.jpg','惟真楼'],['惟实楼.jpg','惟实楼'],['惟实楼1.jpg','惟实楼'],
+ ['惟真楼.jpg','惟真楼'],['惟真楼1.jpg','惟真楼'],['惟实楼.jpg','惟实楼'],
  ['灵山湾餐厅.jpg','灵山湾餐厅'],['灵山湾餐厅1.jpg','灵山湾餐厅'],['珠山餐厅.jpg','珠山餐厅'],['珠山餐厅1.jpg','珠山餐厅'],
  ['红旗操场.jpg','红旗操场'],['红旗操场1.jpg','红旗操场'],['运动场.jpg','风雨操场'],['运动场1.jpg','风雨操场'],
- ['本科生宿舍 (1).jpg','本科生宿舍'],['本科生宿舍 (2).jpg','本科生宿舍'],
+ 
  ['研究生9号公寓 (1).jpg','研究生9号公寓'],['研究生9号公寓 (2).jpg','研究生9号公寓'],
  ['教师公寓.jpg','教师公寓'],['校医院.jpg','校医院'],
  ['大门.jpg','古镇口校区大门'],['大门1.jpg','古镇口校区大门'],
  ['西区地图.jpg','古镇口西区 · 地图'],['东区地图.jpg','古镇口东区 · 地图'],
- ['DSC03309 (1).jpg','古镇口西区 · 实拍'],['DSC03309 (2).jpg','古镇口西区 · 实拍'],['DSC03309 (3).jpg','古镇口西区 · 实拍'],
+ 
  ['微信图片_20260902134314_142_1.jpg','古镇口西区 · 实拍']
 ];
 DESK_GZ.forEach(function(d){PHOTOS_GZ.push({src:'images/desk/'+d[0],cap:d[1],srcLabel:'桌面高清'});});
@@ -789,6 +897,13 @@ var PHOTOS_EAST=[
 PHOTOS_EAST.forEach(function(d){PHOTOS_EAST_FULL.push({src:'images/desk/'+d[0],cap:'古镇口东区 · '+d[1],srcLabel:'桌面高清'});});
 
 var VERSIONS=[
+ {ver:'v2.0.0',date:'2026-09-02',title:'App 多页面改版 · 学习 / 生活 / 交通 / 个人中心',changes:[
+    {t:'new',text:'底部四大页面：学习（学院/课表/B站学习区/学术文献区）、生活（周边影院·景区·台球/相册分类/关注）、交通（大地图·导航·青岛景区路线·四校区通行）、个人中心（资料/主题/App/日志）'},
+    {t:'new',text:'新增 6 套主题：霓虹（默认）/ 卡通 / 简约 / 海浪 / 城市 / 校园，可与暗色模式自由叠加'},
+    {t:'fix',text:'移除误传的个人照片与重复照片，照片按校区/用途归类整理'},
+    {t:'opt',text:'页面改为多页 App 结构，不再一滑到底'}
+  ]},
+
  {ver:'v1.20.0',date:'2026-09-02',title:'手机 App 与网页版板块',changes:[
     {t:'new',text:'新增「📲 手机 App 与网页版」板块：扫码进入网页版 + 安卓 APK 下载入口'},
     {t:'opt',text:'页脚下载链接更新为 v1.18.0 APK，附网页版扫码入口'}
@@ -928,6 +1043,7 @@ function buildMarkers(){
   });
 }
 function select(id){
+  showPage('traffic');
   selected=id;var l=landById(id);if(!l)return;
   buildMarkers();var m=markers[id];
   if(m){map.panTo(m.getLatLng(),{animate:true,duration:.4});m.openPopup();}
@@ -1175,26 +1291,62 @@ if(!window.__toolBound){window.__toolBound=1;
   var fb=$('full-btn');if(fb)fb.addEventListener('click',function(){if(!document.fullscreenElement){if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen();}else if(document.exitFullscreen)document.exitFullscreen();});
   document.addEventListener('fullscreenchange',function(){setTimeout(function(){map.invalidateSize();},120);});
 }
-/* ===== 主题（补齐） ===== */
-if(!window.__themeBound){window.__themeBound=1;
-  (function(){var root=document.documentElement,btn=$('theme-btn');
-    function apply(t){root.classList.toggle('dark',t==='dark');if(btn)btn.textContent=t==='dark'?'☀️':'🌙';try{localStorage.setItem('theme',t);}catch(e){}}
-    var saved='';try{saved=localStorage.getItem('theme')||'';}catch(e){}
-    apply(saved==='dark'?'dark':'light');
-    if(btn)btn.addEventListener('click',function(){apply(root.classList.contains('dark')?'light':'dark');});
-  })();
+/* ===== v2 页面引擎 ===== */
+var PAGE_KEYS=['learn','life','traffic','mine'];
+function showPage(k){
+  PAGE_KEYS.forEach(function(p){var el=$('pg-'+p);if(el)el.classList.toggle('on',p===k);});
+  var nav=$('app-nav');if(nav)nav.querySelectorAll('button').forEach(function(b){b.classList.toggle('on',b.getAttribute('data-page')===k);});
+  if(k==='traffic'&&window.map){setTimeout(function(){try{map.invalidateSize();}catch(e){}},80);}
+  if(k==='traffic'&&window.__amapMap&&window.__amapMap.resize){setTimeout(function(){try{window.__amapMap.resize();}catch(e){}},240);}
+  window.scrollTo(0,0);
 }
-/* ===== 锚点导航（补齐） ===== */
-var navBtns=document.querySelectorAll('.tab,.app-nav button');
-navBtns.forEach(function(t){t.addEventListener('click',function(){var el=$(t.getAttribute('data-target'));if(el)el.scrollIntoView({behavior:'smooth',block:'start'});});});
-function onScroll(){
-  var y=window.scrollY,pos=y+110,current='map';
-  ['map','colleges','courses','profile','photos','campuses','follow','changelog'].forEach(function(id){var el=$(id);if(el&&el.offsetTop<=pos)current=id;});
-  var docH=Math.max(document.documentElement.scrollHeight,document.body.scrollHeight);
-  if(y+window.innerHeight>=docH-10)current='changelog';
-  navBtns.forEach(function(t){t.classList.toggle('active',t.getAttribute('data-target')===current);});
+function bindAppNav(){
+  var nav=$('app-nav');if(!nav)return;
+  nav.querySelectorAll('button').forEach(function(b){b.addEventListener('click',function(){showPage(b.getAttribute('data-page'));});});
 }
-window.addEventListener('scroll',onScroll,{passive:true});
+function pageOfSection(id){
+  var map={learn:['colleges','courses','bili','lit'],life:['around','photos','campuses','follow'],traffic:['map','travel','transit'],mine:['profile','appearance','appdl','changelog']};
+  for(var k in map){if(map[k].indexOf(id)>-1)return k;}
+  return null;
+}
+/* ===== v2 主题引擎（霓虹/卡通/简约/海浪/城市/校园 × 暗色） ===== */
+var THEMES=[
+ {key:'neon',name:'霓虹',icon:'🌈'},
+ {key:'cartoon',name:'卡通',icon:'🎨'},
+ {key:'simple',name:'简约',icon:'⬜'},
+ {key:'wave',name:'海浪',icon:'🌊'},
+ {key:'city',name:'城市',icon:'🏙️'},
+ {key:'campus',name:'校园',icon:'🏫'}
+];
+var curTheme='neon',curDark=false;
+function loadThemePrefs(){try{curTheme=localStorage.getItem('thTheme')||'neon';curDark=localStorage.getItem('thDark')==='1';}catch(e){}}
+function saveThemePrefs(){try{localStorage.setItem('thTheme',curTheme);localStorage.setItem('thDark',curDark?'1':'0');}catch(e){}}
+function themeName(k){var x=THEMES.filter(function(t){return t.key===k;})[0];return x?x.name:k;}
+function pickTheme(k){curTheme=k;saveThemePrefs();applyTheme();toast('已切换「'+themeName(k)+'」主题');}
+function toggleDark(){curDark=!curDark;saveThemePrefs();applyTheme();}
+function renderThemeUI(){
+  var g=$('theme-grid');if(!g)return;
+  g.innerHTML=THEMES.map(function(t){return '<div class="theme-opt'+(curTheme===t.key?' on':'')+'" data-k="'+t.key+'"><span class="t-ico">'+t.icon+'</span><span class="t-name">'+t.name+'</span></div>';}).join('');
+  g.querySelectorAll('.theme-opt').forEach(function(el){el.addEventListener('click',function(){pickTheme(el.getAttribute('data-k'));});});
+  var ico=$('dk-ico');if(ico)ico.textContent=curDark?'🌞':'🌙';
+  var pb=$('pf-theme-btn');if(pb)pb.textContent=curDark?'☀️ 切换浅色':'🌙 切换暗色';
+  var pf=$('pf-theme');if(pf)pf.textContent=themeName(curTheme)+(curDark?' · 暗':' · 浅');
+}
+function applyTheme(){
+  var r=document.documentElement;
+  r.setAttribute('data-theme',curTheme);
+  r.classList.toggle('dark',curDark);
+  renderThemeUI();
+}
+(function(){
+  if(window.__appv2Bound)return;window.__appv2Bound=1;
+  loadThemePrefs();
+  var r=document.documentElement;
+  r.setAttribute('data-theme',curTheme);
+  r.classList.toggle('dark',curDark);
+  bindAppNav();
+  var ds=$('dark-switch');if(ds)ds.addEventListener('click',toggleDark);
+})();
 window.addEventListener('resize',function(){map.invalidateSize();if(window.__amapMap&&window.__amapMap.resize)window.__amapMap.resize();});
 
 /* ================= 学院院系 ================= */
@@ -1314,12 +1466,12 @@ function renderProfile(){
   var nick='';try{nick=localStorage.getItem('nick')||'yty';}catch(e){nick='yty';}
   $('nick-input').value=nick;
   $('pf-courses').textContent=loadCourses().length;
-  var dark=document.documentElement.classList.contains('dark');
-  $('pf-theme').textContent=dark?'暗色':'浅色';
+  $('pf-theme').textContent=themeName(curTheme)+(curDark?' · 暗':' · 浅');
+  var pb=$('pf-theme-btn');if(pb)pb.textContent=curDark?'☀️ 切换浅色':'🌙 切换暗色';
 }
 $('nick-input').addEventListener('change',function(){try{localStorage.setItem('nick',this.value.trim()||'yty');}catch(e){}toast('昵称已保存');});
-$('pf-theme-btn').addEventListener('click',function(){var tb=document.getElementById('theme-btn');if(tb)tb.click();setTimeout(renderProfile,120);});
-document.querySelectorAll('.pf-actions [data-goto]').forEach(function(bt){bt.addEventListener('click',function(){$(bt.getAttribute('data-goto')).scrollIntoView({behavior:'smooth'});});});
+$('pf-theme-btn').addEventListener('click',function(){toggleDark();});
+document.querySelectorAll('.pf-actions [data-goto]').forEach(function(bt){bt.addEventListener('click',function(){var id=bt.getAttribute('data-goto');var pg=pageOfSection(id);if(pg)showPage(pg);setTimeout(function(){var el=$(id);if(el)el.scrollIntoView({behavior:'smooth',block:'start'});},90);});});
 
 /* ================= 头像上传 ================= */
 (function(){
@@ -1351,9 +1503,109 @@ document.querySelectorAll('.pf-actions [data-goto]').forEach(function(bt){bt.add
 if('serviceWorker' in navigator && /^https?:$/.test(location.protocol)){
   window.addEventListener('load',function(){navigator.serviceWorker.register('sw.js').catch(function(){});});
 }
+
+/* ================= v2 学习区：B站 / 学术文献 ================= */
+var BILI=[
+ {icon:'📐',title:'高等数学 · 全程教学 2.0 版',teacher:'宋浩老师',meta:'全程精讲 · B站播放 1.1亿+ · 覆盖同济版教材 · 考研/期末适用',url:'https://www.bilibili.com/video/BV1CAxaeHEeH',up:'https://space.bilibili.com/66607740',upName:'宋浩老师官方'},
+ {icon:'🔢',title:'线性代数 · 全程教学 2.0 版（含同济版）',teacher:'宋浩老师',meta:'94集完整版 · 播放 4300万+ · 行列式到线性方程组全覆盖',url:'https://www.bilibili.com/video/BV1h7pteyEww',up:'https://space.bilibili.com/66607740',upName:'宋浩老师官方'},
+ {icon:'💻',title:'C语言零基础入门到精通',teacher:'黑马程序员',meta:'全套视频教程 · 计算机二级 / 专升本 / 考研 / 嵌入式通用',url:'https://www.bilibili.com/video/BV1Xa4y1k7LU'}
+];
+function renderBili(){
+  var el=$('bili-list');if(!el)return;
+  el.innerHTML=BILI.map(function(x){
+    return '<div class="xcard"><div class="xtop"><div class="xbadge">'+x.icon+'</div><div><h4>'+x.title+'</h4><div class="xmeta" style="font-weight:700">👨‍🏫 '+x.teacher+'</div></div></div><div class="xmeta">'+x.meta+'</div><div class="xbtns"><a class="xbtn go" href="'+x.url+'" target="_blank" rel="noopener">📺 一键直达B站</a>'+(x.up?'<a class="xbtn" href="'+x.up+'" target="_blank" rel="noopener">🎬 '+x.upName+'</a>':'')+'</div></div>';
+  }).join('');
+}
+var LIT=[
+ {icon:'📄',name:'中国知网 CNKI',desc:'中文学术论文 / 期刊 / 学位论文检索下载',url:'https://www.cnki.net/'},
+ {icon:'🌐',name:'维基百科',desc:'全球百科词条 · 中英文阅读',url:'https://zh.wikipedia.org/'},
+ {icon:'💾',name:'GitHub',desc:'开源代码与项目 · 看源码学习',url:'https://github.com/'},
+ {icon:'🎥',name:'YouTube',desc:'海外公开课 / 名校讲座视频',url:'https://www.youtube.com/'},
+ {icon:'🐦',name:'X / Twitter',desc:'关注学术大牛与前沿动态',url:'https://x.com/'}
+];
+function renderLit(){
+  var el=$('lit-grid');if(!el)return;
+  el.innerHTML=LIT.map(function(x){
+    return '<div class="xcard"><div class="xtop"><div class="xbadge">'+x.icon+'</div><div><h4>'+x.name+'</h4></div></div><div class="xmeta">'+x.desc+'</div><div class="xbtns"><a class="xbtn go" href="'+x.url+'" target="_blank" rel="noopener">↗ 快速打开</a></div></div>';
+  }).join('');
+}
+
+/* ================= v2 生活区：周边生活（高德/小红书） ================= */
+var AROUND={
+ td:[
+  {k:'cinema',icon:'🎬',name:'万达影城（东方影都融创茂店）',near:'约20-25分钟车程',desc:'滨海大道1777号融创茂3层 · 东方影都商圈',amap:'黄岛 万达影城 融创茂',xhs:'东方影都 看电影'},
+  {k:'cinema',icon:'🎬',name:'万达影城（西海岸万达广场店）',near:'约15分钟车程',desc:'黄河中路180号西海岸万达广场4层',amap:'黄岛 西海岸万达广场 万达影城',xhs:'黄岛 电影院'},
+  {k:'cinema',icon:'🎬',name:'成龙影院（海上嘉年华）',near:'约10分钟车程',desc:'漓江西路海上嘉年华 · 近琴岛之眼',amap:'海上嘉年华 成龙影院',xhs:'琴岛之眼 电影'},
+  {k:'view',icon:'🏖️',name:'唐岛湾滨海公园 · 琴岛之眼',near:'校门口 · 步行/骑行可达',desc:'海滨木栈道 + 摩天轮，日落超出片',amap:'唐岛湾滨海公园',xhs:'唐岛湾公园 攻略'},
+  {k:'view',icon:'🏖️',name:'金沙滩景区（啤酒节主会场）',near:'约15-20分钟车程',desc:'沙质细软、适合看海踏浪',amap:'青岛 金沙滩',xhs:'金沙滩 青岛 攻略'},
+  {k:'view',icon:'🏖️',name:'银沙滩 · 鱼鸣嘴',near:'约20分钟车程/骑行',desc:'环岛路小众海岸线，人少景美',amap:'银沙滩 鱼鸣嘴',xhs:'鱼鸣嘴 银沙滩'},
+  {k:'fun',icon:'🎱',name:'谈小娱24h自助台球（石油大学店）',near:'近校',desc:'长江路康大财富中心808室 · 24小时自助',amap:'谈小娱 台球 石油大学',xhs:'黄岛 台球'},
+  {k:'fun',icon:'🎱',name:'拾光台球俱乐部',near:'约10分钟车程',desc:'峨眉山路1398号3号楼',amap:'拾光台球 黄岛',xhs:'黄岛 台球厅'},
+  {k:'fun',icon:'🎮',name:'Max电竞·棋牌·台球（香江路店）',near:'约10分钟车程',desc:'香江路运海城4F · 电竞 + 台球',amap:'Max电竞 台球 香江路',xhs:'黄岛 电竞 台球'}
+ ],
+ gz:[
+  {k:'cinema',icon:'🎬',name:'吾悦广场 / 海上嘉年华商圈影院',near:'约25-35分钟车程',desc:'古镇口周边影院较少，可去吾悦广场、海上嘉年华、东方影都商圈观影',amap:'黄岛 电影院',xhs:'黄岛 电影院 推荐'},
+  {k:'view',icon:'⛰️',name:'大珠山风景名胜区',near:'约10-15分钟车程',desc:'珠山秀谷 + 石门寺 · 春季杜鹃花海 · 古胶州八景“双珠嵌云”',amap:'大珠山风景名胜区',xhs:'大珠山 杜鹃 攻略'},
+  {k:'view',icon:'🏖️',name:'海军公园',near:'步行 / 短途',desc:'古镇口军事主题滨海公园 · 退役舰艇火炮可近距离参观',amap:'古镇口 海军公园',xhs:'海军公园 青岛'},
+  {k:'view',icon:'🌉',name:'深蓝之光栈桥 · 灵山湾',near:'约10分钟车程',desc:'观海栈桥与灵山湾海岸线，日落好机位',amap:'深蓝之光 栈桥 青岛',xhs:'深蓝之光 栈桥'},
+  {k:'fun',icon:'🎱',name:'古镇口片区台球 / 电竞',near:'以高德实时为准',desc:'古镇口片区台球/电竞较少，可搜附近商圈',amap:'古镇口 台球',xhs:'西海岸 台球'},
+  {k:'fun',icon:'🚴',name:'校园运动 + 滨海骑行',near:'出校即达',desc:'校内有风雨操场/健身房；出校沿海军路骑行看海',amap:'古镇口 海军路',xhs:'青岛 西海岸 骑行'}
+ ],
+ dy:[
+  {k:'cinema',icon:'🎬',name:'东营市区影院（万达广场等）',near:'市内出行',desc:'东营万达广场等商圈有影院，以高德实时为准',amap:'东营 电影院',xhs:'东营 电影院'},
+  {k:'view',icon:'🏞️',name:'黄河口生态旅游区',near:'约1-1.5小时车程',desc:'黄河入海口 · 湿地观鸟 · 河海交汇奇观',amap:'黄河口生态旅游区',xhs:'黄河口 东营 攻略'},
+  {k:'view',icon:'🌳',name:'清风湖公园',near:'市内',desc:'东营城市公园 · 散步休闲',amap:'东营 清风湖公园',xhs:'东营 清风湖'},
+  {k:'view',icon:'🏛️',name:'东营园博园',near:'市内',desc:'园林博览园 · 四季皆宜',amap:'东营 园博园',xhs:'东营 园博园'},
+  {k:'fun',icon:'🎱',name:'东营台球 / 娱乐场所',near:'市内',desc:'按高德 / 小红书实时查找',amap:'东营 台球',xhs:'东营 台球'}
+ ]
+};
+var aroundCampus='td',aroundCat='all';
+function amapUri(kw){return 'https://uri.amap.com/search?keyword='+encodeURIComponent(kw);}
+function xhsUri(kw){return 'https://www.xiaohongshu.com/search_result?keyword='+encodeURIComponent(kw);}
+function renderAround(){
+  var list=AROUND[aroundCampus]||[];
+  if(aroundCat!=='all')list=list.filter(function(x){return x.k===aroundCat;});
+  var el=$('around-list');if(!el)return;
+  el.innerHTML=list.map(function(x){
+    return '<div class="xcard"><div class="xtop"><div class="xbadge">'+(x.icon||'📍')+'</div><div><h4>'+x.name+'</h4><div class="xmeta">'+x.near+'</div></div></div><div class="xmeta">'+x.desc+'</div><div class="xbtns"><a class="xbtn go" href="'+amapUri(x.amap)+'" target="_blank" rel="noopener">🗺️ 高德地图</a><a class="xbtn" href="'+xhsUri(x.xhs)+'" target="_blank" rel="noopener">📕 小红书攻略</a></div></div>';
+  }).join('')||'<div class="xmeta">该分类暂无内容</div>';
+}
+(function(){
+  var a=$('around-campus');if(a)a.querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',function(){aroundCampus=c.getAttribute('data-c');a.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');renderAround();});});
+  var b=$('around-cat');if(b)b.querySelectorAll('.chip').forEach(function(c){c.addEventListener('click',function(){aroundCat=c.getAttribute('data-k');b.querySelectorAll('.chip').forEach(function(x){x.classList.remove('on');});c.classList.add('on');renderAround();});});
+})();
+
+/* ================= v2 交通区：青岛景区路线 / 校区通行 ================= */
+var TRAVEL=[
+ {icon:'🏛️',name:'老城经典线 · 栈桥 → 五四广场',spots:'栈桥 · 天主教堂 · 中山路 · 信号山 · 八大关 · 五四广场',how:'从唐岛湾出发：地铁1号线（石油大学站）→ 青岛站，换乘3号线至五四广场；老城景点集中，步行+公交串联。',amap:'青岛 栈桥',xhs:'青岛 老城 一日游'},
+ {icon:'🌊',name:'西海岸滨海线',spots:'唐岛湾公园 · 琴岛之眼 · 金沙滩 · 银沙滩 · 鱼鸣嘴',how:'从唐岛湾校区出发基本是“家门口”，沿环岛路骑行/自驾最舒服；古镇口出发可先乘班车/K23到唐岛湾。',amap:'青岛 金沙滩',xhs:'青岛 西海岸 滨海 攻略'},
+ {icon:'⛰️',name:'崂山一日线',spots:'崂山（太清宫 / 仰口 / 巨峰 / 北九水）· 石老人',how:'地铁/公交至崂山游客中心换乘景区大巴，或自驾；全程留足 1 天。',amap:'崂山风景区',xhs:'青岛 崂山 一日游'},
+ {icon:'⛰️',name:'古镇口 · 大珠山半日线',spots:'大珠山（珠山秀谷）· 海军公园 · 深蓝之光栈桥',how:'离古镇口校区最近，约10-20分钟车程；春天看杜鹃，平时看海。',amap:'大珠山风景名胜区',xhs:'大珠山 海军公园'}
+];
+function renderTravel(){
+  var el=$('travel-list');if(!el)return;
+  el.innerHTML=TRAVEL.map(function(x){
+    return '<div class="xcard"><div class="xtop"><div class="xbadge">'+x.icon+'</div><div><h4>'+x.name+'</h4></div></div><div class="xmeta">📍 '+x.spots+'</div><div class="xmeta">🚌 '+x.how+'</div><div class="xbtns"><a class="xbtn go" href="'+amapUri(x.amap)+'" target="_blank" rel="noopener">🗺️ 高德地图</a><a class="xbtn" href="'+xhsUri(x.xhs)+'" target="_blank" rel="noopener">📕 小红书攻略</a></div></div>';
+  }).join('');
+}
+var TRANSIT=[
+ {icon:'🚶',name:'古镇口西区 ↔ 古镇口东区',how:'步行 / 骑行约10分钟，或乘校内摆渡 / K23',desc:'两园区同属古镇口校区、仅一路之隔；东区为科研平台聚集区。',url:'',urlName:''},
+ {icon:'🚌',name:'唐岛湾校区 ↔ 古镇口校区',how:'学校班车直达 + 公交 K23',desc:'班车由学校统一安排（古镇口校区综合办公布时刻表）；K23 连接珠江路与古镇口科教园区。',url:'https://gzk.upc.edu.cn/18090/list1.htm',urlName:'📄 班车时刻表'},
+ {icon:'🚇',name:'古镇口校区 → 青岛市区（青岛站）',how:'公交80路等 → 盛海路地铁站（13号线）→ 井冈山路换乘 1号线 → 青岛站',desc:'古镇口出门即有公交直达最近地铁站，全程约 1-1.5 小时。',url:'https://csun.upc.edu.cn/2026/0825/c4439a498586/page.htm',urlName:'📄 官方交通指南'},
+ {icon:'🚇',name:'唐岛湾校区 → 火车站 / 机场',how:'地铁1号线（石油大学站）→ 青岛站 / 青岛北站；机场：1号线 → 青岛北站换 8号线 → 胶东机场',desc:'唐岛湾西北门外即地铁1号线，进出市区最方便。',url:'https://csun.upc.edu.cn/2026/0825/c4439a498586/page.htm',urlName:'📄 官方交通指南'},
+ {icon:'🚄',name:'青岛 ↔ 东营科教园区',how:'高铁 / 长途汽车 / 自驾（约 3.5-4.5 小时）',desc:'东营为科教园区，两城间无日常校车；出行请以 12306 与学校通知为准。',url:'',urlName:''}
+];
+function renderTransit(){
+  var el=$('transit-list');if(!el)return;
+  el.innerHTML=TRANSIT.map(function(x){
+    return '<div class="xcard"><div class="xtop"><div class="xbadge">'+x.icon+'</div><div><h4>'+x.name+'</h4></div></div><div class="xmeta">🚌 '+x.how+'</div><div class="xmeta">'+x.desc+'</div><div class="xbtns"><a class="xbtn go" href="'+amapUri(x.name.replace(/[↔→（）、]/g,' '))+'地铁站 公交" target="_blank" rel="noopener">🗺️ 高德查路线</a>'+(x.url?'<a class="xbtn" href="'+x.url+'" target="_blank" rel="noopener">'+x.urlName+'</a>':'')+'</div></div>';
+  }).join('');
+}
+
 /* ---------- 初始化 ---------- */
 $('hero-stats').innerHTML='<span class="stat"><b>4</b>大校区</span><span class="stat"><b>55+</b>地标</span><span class="stat"><b>2026</b>新校区启用</span><span class="stat"><b>向海</b>望山</span>';
-renderCampusSwitch();drawContext();buildMarkers();renderChips();renderQuick();renderList();renderDetail();fillNavOptions();renderGallery();renderChangelog();amapKeyState();renderColleges();renderCourseUI();renderProfile();onScroll();
+renderCampusSwitch();drawContext();buildMarkers();renderChips();renderQuick();renderList();renderDetail();fillNavOptions();renderGallery();renderChangelog();amapKeyState();renderColleges();renderCourseUI();renderProfile();renderThemeUI();renderBili();renderLit();renderAround();renderTravel();renderTransit();showPage('traffic');
 </script>
+
 </body>
 </html>
