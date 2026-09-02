@@ -302,6 +302,8 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
 .clog-more{display:none}
 #clog-toggle{width:100%;margin-top:4px}
 
+.card-photo{width:100%;height:130px;object-fit:cover;border-radius:8px;margin-bottom:8px}
+
 </style>
 </head>
 <body>
@@ -435,6 +437,7 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
   <div class="gfilter" id="photo-filter">
     <button class="chip on" data-f="gz">⛰️ 古镇口西区</button>
     <button class="chip" data-f="td">🌊 唐岛湾校区</button>
+    <button class="chip" data-f="east">🏢 古镇口东区</button>
     <button class="chip" data-f="all">全部</button>
   </div>
   <div class="gallery" id="gallery"></div>
@@ -632,15 +635,36 @@ Object.keys(GZCOPY).forEach(function(id){
   l.photos=(g.photos||[]).concat(l.photos||[]);
 });
 
+
+/* ===== 桌面文案 + 高清照片（古镇口东区） ===== */
+var EASTCOPY={
+ 'east-huasheng':{desc:'胜华大厦位于古镇口校区东区东侧居中位置，东临海军路、西临融合路、南临国工楼、北临国重楼。地上六层、地下一层，规划用地2774平方米、建筑面积32966平方米。处于东区中央核心区，与前广场构成校园主轴，建筑形态灵动，肌理宛若大海波纹，是校园景观主体与学生活动主要场所。',photos:['images/desk/胜华大厦.jpg']},
+ 'east-guogong':{desc:'国工楼位于东区东南角，东临海军路、西侧新材料大厦、北侧胜华大厦、南临宅科路。地上五层、地下一层，总建筑面积27781.1平方米。与北侧国重楼交相呼应，层层跌落的平台与下沉式庭院丰富校园空间，提供多层次学术交流空间。',photos:['images/desk/国工楼.jpg']},
+ 'east-guozhong':{desc:'国重楼位于东区东北角，西临融合路、东临海军路、北侧大学十一路、南临胜华大厦。地上五层、地下一层，建筑面积26926平方米。与南侧国工楼交相呼应，形象对称而不呆板，层层跌落平台增添活泼气息。',photos:['images/desk/国重楼.jpg']},
+ 'east-xinneng':{desc:'石大山能新能源大厦位于东区中部偏北，北邻大学十一路、东邻融合路、西邻餐厅、南邻新材料大厦。地上五层、地下一层，总建筑面积33804平方米。规整楼梯位置划分单元式模块组合，功能与流线组织有序，体现理性设计的科学性。',photos:['images/desk/石大山能新能源大厦.jpg']},
+ 'east-cailiao':{desc:'新材料大厦位于东区南侧居中，东临国工楼、西侧研究生公寓、北侧新能源大厦、南临宅科路。地上五层、地下一层，建筑面积29748.29平方米。立面以陶板与玻璃幕墙结合、体块穿插，庄重而有仪式感。',photos:['images/desk/新材料大厦.jpg']},
+ 'east-wenti':{desc:'文体中心位于东区西侧居中，西临三沙路、北临研究生宿舍、南临研究生公寓。框架结构、地下一层，建筑面积3186.97平方米，地下层设室内篮球场、健身房、乒乓球室等活动空间。',photos:['images/desk/文体中心.jpg']},
+ 'east-guanhai':{desc:'观海苑餐厅位于古镇口校区北侧居中，东临新能源大厦、西临研究生公寓、北临大学十一路。地上两层、地下一层，建筑面积2200.82平方米。位于东区山海主轴中心，连接中央核心区与学生生活区，山庭水庭簇拥，就餐环境优美。',photos:['images/desk/观海苑餐厅.jpg']},
+ 'east-grad':{desc:'研究生公寓位于东区西南角，东临新材料大厦、西临三沙路、南临宅科路、北临文体中心。地上七层、地下一层，总建筑面积48100.96平方米。模数统一立面肌理，材料与虚实变化协调，外部严整、内部灵动。',photos:['images/desk/研究生1~8号公寓.jpg']}
+};
+Object.keys(EASTCOPY).forEach(function(id){
+  var l=CAMPUSES.east.lands.find(function(x){return x.id===id;});
+  if(!l)return;
+  var g=EASTCOPY[id];
+  if(g.desc)l.desc=g.desc;
+  if(g.tip)l.tip=g.tip;
+  l.photos=(g.photos||[]).concat(l.photos||[]);
+});
+
 var EAST=[
- {name:'胜华大厦',icon:'🏢',tag:'综合',desc:'东区综合建筑，教学与办公。'},
- {name:'国工楼',icon:'🏭',tag:'科研',desc:'国家级工程平台。'},
- {name:'国重楼',icon:'🧪',tag:'科研',desc:'国家重点实验室等平台。'},
- {name:'石大山能新能源大厦',icon:'⚡',tag:'科研',desc:'新能源研发平台。'},
- {name:'新材料大厦',icon:'🔬',tag:'科研',desc:'新材料研发平台。'},
- {name:'文体中心',icon:'🏟️',tag:'运动',desc:'东区文体活动场馆。'},
- {name:'观海苑餐厅',icon:'🍜',tag:'美食',desc:'东区食堂，面朝大海。'},
- {name:'研究生1-8号公寓',icon:'🏠',tag:'生活',desc:'东区研究生宿舍。'}
+ {name:'胜华大厦',icon:'🏢',tag:'综合',photo:'images/desk/胜华大厦.jpg',desc:'东区中央核心区地标：地上6层，建筑面积32966㎡，肌理如大海波纹，与前广场构成校园主轴。'},
+ {name:'国工楼',icon:'🏭',tag:'科研',photo:'images/desk/国工楼.jpg',desc:'东南角科研楼，地上5层、总建筑面积27781㎡，层层跌落平台+下沉庭院。'},
+ {name:'国重楼',icon:'🧪',tag:'科研',photo:'images/desk/国重楼.jpg',desc:'东北角科研楼，建筑面积26926㎡，与国工楼交相呼应。'},
+ {name:'石大山能新能源大厦',icon:'⚡',tag:'科研',photo:'images/desk/石大山能新能源大厦.jpg',desc:'中部偏北，总建筑面积33804㎡，单元式模块组合、流线清晰。'},
+ {name:'新材料大厦',icon:'🔬',tag:'科研',photo:'images/desk/新材料大厦.jpg',desc:'南侧居中，建筑面积29748㎡，陶板+玻璃幕墙、体块穿插。'},
+ {name:'文体中心',icon:'🏟️',tag:'运动',photo:'images/desk/文体中心.jpg',desc:'地下一层设室内篮球场、健身房、乒乓球室。'},
+ {name:'观海苑餐厅',icon:'🍜',tag:'美食',photo:'images/desk/观海苑餐厅.jpg',desc:'山海主轴中心，山庭水庭簇拥，就餐环境优美。'},
+ {name:'研究生1-8号公寓',icon:'🏠',tag:'生活',photo:'images/desk/研究生1~8号公寓.jpg',desc:'西南角，地上7层、总建筑面积48101㎡，模数统一立面。'}
 ];
 var DONGYING=[
  {name:'太阳广场',icon:'⭐',tag:'地标',desc:'中心广场，创造太阳雕塑原作。'},
@@ -686,6 +710,15 @@ var DESK_GZ=[
  ['微信图片_20260902134314_142_1.jpg','古镇口西区 · 实拍']
 ];
 DESK_GZ.forEach(function(d){PHOTOS_GZ.push({src:'images/desk/'+d[0],cap:d[1],srcLabel:'桌面高清'});});
+
+var PHOTOS_EAST_FULL=[];
+
+var PHOTOS_EAST=[
+ ['胜华大厦.jpg','胜华大厦'],['国工楼.jpg','国工楼'],['国重楼.jpg','国重楼'],
+ ['石大山能新能源大厦.jpg','石大山能新能源大厦'],['新材料大厦.jpg','新材料大厦'],
+ ['文体中心.jpg','文体中心'],['观海苑餐厅.jpg','观海苑餐厅'],['研究生1~8号公寓.jpg','研究生公寓']
+];
+PHOTOS_EAST.forEach(function(d){PHOTOS_EAST_FULL.push({src:'images/desk/'+d[0],cap:'古镇口东区 · '+d[1],srcLabel:'桌面高清'});});
 
 var VERSIONS=[
  {ver:'v1.18.0',date:'2026-09-02',title:'西区文案与高清照片接入',changes:[
@@ -987,7 +1020,7 @@ $('nav-go').addEventListener('click',function(){
 /* ---------- 相册 ---------- */
 var photoFilter='gz';
 function renderGallery(){
-  var list = photoFilter==='all' ? PHOTOS_GZ.concat(PHOTOS_TD) : (photoFilter==='td'?PHOTOS_TD:PHOTOS_GZ);
+  var list = photoFilter==='all'?PHOTOS_GZ.concat(PHOTOS_TD).concat(PHOTOS_EAST_FULL):(photoFilter==='td'?PHOTOS_TD:(photoFilter==='east'?PHOTOS_EAST_FULL:PHOTOS_GZ));
   $('gallery').innerHTML=list.map(function(p){
     return '<div class="gphoto" data-src="'+p.src+'" data-cap="'+p.cap+'"><img loading="lazy" src="'+p.src+'" alt="'+p.cap+'">'+(p.srcLabel?'<span class="gsrc">'+p.srcLabel+'</span>':'')+'<span class="gcap">'+p.cap+'</span></div>';
   }).join('');
@@ -998,7 +1031,7 @@ function openLightbox(src,cap){$('lightbox-img').src=src;$('lightbox-cap').textC
 $('lightbox').addEventListener('click',function(){$('lightbox').style.display='none';});
 document.addEventListener('keydown',function(e){if(e.key==='Escape'){$('lightbox').style.display='none';hideModal('settings-modal');hideModal('amap-modal');}});
 /* ---------- 卡片 / 更新日志 ---------- */
-function renderCards(elId,items){$(elId).innerHTML=items.map(function(c){return '<div class="card"><h4>'+c.icon+' '+c.name+'</h4><span class="tag">'+c.tag+'</span><p>'+c.desc+'</p></div>';}).join('');}
+function renderCards(elId,items){$(elId).innerHTML=items.map(function(c){return '<div class="card">'+(c.photo?'<img class="card-photo" src="'+c.photo+'" alt="">':'')+'<h4>'+c.icon+' '+c.name+'</h4><span class="tag">'+c.tag+'</span><p>'+c.desc+'</p></div>';}).join('');}
 renderCards('gkEast',EAST);renderCards('dyList',DONGYING);
 var CTAG={new:['new','新增'],opt:['opt','优化'],fix:['fix','修复']};
 function renderChangelog(){
