@@ -14,7 +14,7 @@
 <link rel="apple-touch-icon" href="images/icon-180.png">
 <script>
 /* 自动更新：检测线上最新版，旧页自动刷新（无需手动清缓存） */
-(function(){var V='1.19.0';try{if(sessionStorage.getItem('pg_vreload')==='1')return;fetch('site-version.json?t='+Date.now()).then(function(r){return r.json();}).then(function(j){if(j&&j.version&&j.version!==V){sessionStorage.setItem('pg_vreload','1');location.replace(location.pathname.split('?')[0]+'?v='+j.version+location.hash);}}).catch(function(){});}catch(e){}})();
+(function(){var V='1.20.0';try{if(sessionStorage.getItem('pg_vreload')==='1')return;fetch('site-version.json?t='+Date.now()).then(function(r){return r.json();}).then(function(j){if(j&&j.version&&j.version!==V){sessionStorage.setItem('pg_vreload','1');location.replace(location.pathname.split('?')[0]+'?v='+j.version+location.hash);}}).catch(function(){});}catch(e){}})();
 </script>
 <link rel="stylesheet" href="lib/leaflet.css">
 <style>
@@ -234,6 +234,8 @@ footer a{color:#8fb7ff}
 .qr-card img{width:120px;height:120px;object-fit:contain;background:#fff;border-radius:8px;padding:6px;flex:none}
 .qr-info b{font-size:15px;color:var(--text);display:block}
 .qr-info span{font-size:12px;color:var(--text2)}
+.app-badge{width:110px;height:110px;flex:none;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:44px;background:linear-gradient(135deg,var(--neon1),var(--neon3));color:#fff;box-shadow:var(--shadow)}
+.appdl-tip{display:block;margin-top:8px;font-size:11.5px;color:var(--text3)}
 @media(max-width:768px){.qr-card{flex-direction:column;text-align:center}.qr-info span{display:block;margin-top:4px}}
 
 
@@ -463,6 +465,30 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
   </div>
 </section>
 
+<!-- ============ 手机 App 与网页版 ============ -->
+<section id="appdl">
+  <div class="section-head"><h2>📲 手机 App 与网页版</h2><p>安卓安装 App · 也可扫码直接打开网页版</p></div>
+  <div class="follow-grid" style="max-width:700px">
+    <div class="qr-card">
+      <div class="app-badge">📱</div>
+      <div class="qr-info">
+        <b>中石大学生助手 · 安卓 App</b>
+        <span>免登录 · 全屏沉浸 · 内置离线缓存，打开自动同步网站最新内容</span>
+        <a class="btn primary" style="display:inline-block;margin-top:10px;font-size:13px;padding:9px 16px;text-decoration:none" href="download/中石大学生助手-v1.18.0.apk" download>⬇ 下载 APK · v1.18.0</a>
+        <span class="appdl-tip">iPhone：Safari 打开本页 → 分享 → 添加到主屏幕</span>
+      </div>
+    </div>
+    <div class="qr-card">
+      <img src="images/qr-webapp.png" alt="扫码进入网页版">
+      <div class="qr-info">
+        <b>扫码进入网页版</b>
+        <span>手机相机 / 微信扫一扫即可打开，无需安装</span>
+        <span class="appdl-tip">建议添加到主屏幕，使用体验更像 App</span>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- ============ 更新日志 ============ -->
 <section id="changelog">
   <div class="section-head"><h2>更新日志</h2><p>记录每一次迭代</p></div>
@@ -476,7 +502,8 @@ select.ac-sel{width:100%;padding:9px 10px;border:1px solid var(--line);border-ra
     <p>作者：<b style="color:#ff5a8a">yty</b> · 邮箱：<a href="mailto:17899178965@163.com">17899178965@163.com</a></p>
     <p>本导览为非官方制作，信息整理自学校官网与公开报道，仅供新生与访客参考，具体以学校实际安排为准。</p>
     <p>古镇口校区（西区/东区）· 唐岛湾校区 · 东营科教园区 | 地图数据 © OpenStreetMap / Esri / 高德 · 照片版权归原作者</p>
-    <p>📱 iPhone：Safari 添加到主屏幕；安卓：安装「中石大学生助手」APK（<a href="download/中石大学生助手-v1.15.0.apk" download>下载</a>）</p>
+    <p>📱 iPhone：Safari 打开本页 → 分享 → 添加到主屏幕；安卓：安装「中石大学生助手」APK（<a href="download/中石大学生助手-v1.18.0.apk" download>下载 v1.18.0</a>）</p>
+    <p>🔗 网页版：扫码进入见上方「📲 手机 App 与网页版」板块</p>
   </div>
 </footer>
 
@@ -762,6 +789,11 @@ var PHOTOS_EAST=[
 PHOTOS_EAST.forEach(function(d){PHOTOS_EAST_FULL.push({src:'images/desk/'+d[0],cap:'古镇口东区 · '+d[1],srcLabel:'桌面高清'});});
 
 var VERSIONS=[
+ {ver:'v1.20.0',date:'2026-09-02',title:'手机 App 与网页版板块',changes:[
+    {t:'new',text:'新增「📲 手机 App 与网页版」板块：扫码进入网页版 + 安卓 APK 下载入口'},
+    {t:'opt',text:'页脚下载链接更新为 v1.18.0 APK，附网页版扫码入口'}
+  ]},
+
  {ver:'v1.19.0',date:'2026-09-02',title:'唐岛湾 / 东营 文案接入',changes:[
     {t:'new',text:'唐岛湾校区官方文案接入：创造太阳/图书馆/讲堂群/南教楼/校史馆/工科楼群等地点介绍全面补全'},
     {t:'new',text:'东营科教园区官方文案接入：太阳广场与创造太阳（1988 原作）介绍'},
