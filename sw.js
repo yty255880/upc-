@@ -1,5 +1,5 @@
 /* 校园导览 Service Worker - 离线缓存 */
-var CACHE = 'upc-guide-v1.15';
+var CACHE = 'upc-guide-v1.19';
 var ASSETS = [
   './',
   './index.html',
